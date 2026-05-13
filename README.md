@@ -62,7 +62,7 @@ job-portal/
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/job-portal.git
+git clone https://github.com/ranjan-kumar07/Naukri-Dekho.git
 ```
 
 ## 2. Move Into Project
