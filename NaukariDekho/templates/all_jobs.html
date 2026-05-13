@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold display-5">
+            Latest Jobs
+        </h1>
+
+        <p class="text-muted fs-5">
+            Explore the newest opportunities and apply easily
+        </p>
+
+    </div>
+
+    <!-- Jobs Row -->
+    <div class="row g-4">
+
+        {% for job in jobs %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100 job-card">
+
+                <div class="card-body p-4 d-flex flex-column">
+
+                    <!-- Company -->
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="company-logo me-3">
+
+                            <i class="bi bi-building-fill text-primary"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="mb-0 fw-bold">
+                                {{ job.company }}
+                            </h6>
+
+                            <small class="text-muted">
+                                Hiring Now
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Job Title -->
+                    <h4 class="fw-bold mb-3">
+                        {{ job.title }}
+                    </h4>
+
+                    <!-- Limited Info -->
+                    <div class="mb-3">
+
+                        <p class="text-muted mb-2">
+
+                            <i class="bi bi-briefcase-fill text-primary me-2"></i>
+
+                            {{ job.role }}
+
+                        </p>
+
+                        <p class="text-muted mb-2">
+
+                            <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+
+                            {{ job.location }}
+
+                        </p>
+
+                        <p class="text-muted mb-0">
+
+                            <i class="bi bi-currency-rupee text-success me-2"></i>
+
+                            {{ job.salary }}
+
+                        </p>
+
+                    </div>
+
+                    <!-- Short Description -->
+                    <p class="text-secondary small mb-4">
+
+                        {{ job.description|truncatewords:15 }}
+
+                    </p>
+
+                    <!-- Buttons -->
+                    <div class="mt-auto">
+
+                        {% if not request.user.is_authenticated %}
+
+                        <a href="{% url 'login' %}"
+                           class="btn btn-outline-primary rounded-pill w-100">
+
+                            Login to Apply
+
+                        </a>
+
+                        {% elif role == 'user' %}
+
+                        <a href="{% url 'apply_job' job.id %}"
+                           class="btn btn-primary rounded-pill w-100">
+
+                            Apply Now
+
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="text-center py-5">
+
+                <i class="bi bi-briefcase display-1 text-muted"></i>
+
+                <h3 class="fw-bold mt-3 text-muted">
+                    No Jobs Available
+                </h3>
+
+                <p class="text-secondary">
+                    New jobs will appear here soon.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+.job-card{
+    transition: 0.3s ease;
+}
+
+.job-card:hover{
+    transform: translateY(-8px);
+}
+
+.company-logo{
+    width: 50px;
+    height: 50px;
+    background: #f1f5ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+</style>
+
+{% endblock %}

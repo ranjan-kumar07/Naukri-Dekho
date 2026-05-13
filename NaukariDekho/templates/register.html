@@ -1,0 +1,252 @@
+
+{% extends 'base.html' %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block messages %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop');
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .register-container{
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+    }
+
+    .register-card{
+        width: 100%;
+        max-width: 500px;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 25px;
+        padding: 40px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        color: white;
+    }
+
+    .register-title{
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+    }
+
+    .form-label{
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .form-control,
+    .form-select{
+        background: rgba(255,255,255,0.15) !important;
+        border: 1px solid rgba(255,255,255,0.25);
+        color: white !important;
+        border-radius: 12px;
+        padding: 12px;
+    }
+
+    .form-control::placeholder{
+        color: rgba(255,255,255,0.75);
+    }
+
+    .form-control:focus,
+    .form-select:focus{
+        box-shadow: none;
+        border-color: #0d6efd;
+        background: rgba(255,255,255,0.18) !important;
+    }
+
+    .form-select option{
+        color: black;
+    }
+
+    .register-btn{
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(to right, #0d6efd, #6610f2);
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .register-btn:hover{
+        transform: translateY(-2px);
+        opacity: 0.95;
+    }
+
+    .bottom-text{
+        text-align: center;
+        margin-top: 20px;
+        color: rgba(255,255,255,0.85);
+    }
+
+    .bottom-text a{
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .bottom-text a:hover{
+        text-decoration: underline;
+    }
+    .alert-danger{
+    background: rgba(255, 77, 77, 0.95);
+    color: white !important;
+    border: none;
+}
+
+.btn-close:focus{
+    box-shadow: none;
+}
+
+.alert{
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+</style>
+
+<div class="register-container">
+
+    <div class="register-card">
+
+        {% if messages %}
+
+    {% for message in messages %}
+
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            {{ message }}
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+        <h2 class="register-title">
+            Create Account
+        </h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {% if form.errors %}
+
+            <div class="alert alert-danger alert-dismissible fade show">
+
+                {% for field in form %}
+
+                    {% for error in field.errors %}
+
+                        <p class="mb-1">{{ error }}</p>
+
+                    {% endfor %}
+
+                {% endfor %}
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="alert">
+                </button>
+
+            </div>
+
+            {% endif %}
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        First Name
+                    </label>
+                    {{ form.first_name }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Last Name
+                    </label>
+                    {{ form.last_name }}
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Username
+                </label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Email Address
+                </label>
+                {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Password
+                </label>
+                {{ form.password }}
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">
+                    Register As
+                </label>
+                {{ form.role }}
+            </div>
+
+            <button type="submit" class="register-btn">
+                Register
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

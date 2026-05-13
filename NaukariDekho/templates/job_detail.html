@@ -1,0 +1,54 @@
+<h2>{{ job.title }}</h2>
+<p>{{ job.company }}</p>
+<p>{{ job.location }}</p>
+<p><strong>₹ {{ job.salary }}</strong></p>
+
+<hr>
+
+<h4>Description</h4>
+<p>{{ job.description }}</p>
+
+<hr>
+
+<!-- Apply Button -->
+
+{% if user.is_authenticated %}
+
+    {% if user.profile.role == 'user' %}
+        <button class="btn btn-success" onclick="showForm()">Apply Now</button>
+    {% else %}
+        <button class="btn btn-secondary" disabled>
+            Recruiter cannot apply
+        </button>
+    {% endif %}
+
+{% else %}
+
+    <a href="{% url 'login' %}" class="btn btn-warning">
+        Login to Apply
+    </a>
+
+{% endif %}
+
+<!-- Hidden Form -->
+<div id="applyForm" style="display:none;" class="mt-4">
+    <h4>Apply for this Job</h4>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input type="text" name="name" class="form-control mb-2" placeholder="Your Name">
+
+        <input type="email" name="email" class="form-control mb-2" placeholder="Your Email">
+
+        <input type="file" name="resume" class="form-control mb-2">
+
+        <button class="btn btn-primary">Submit Application</button>
+    </form>
+</div>
+
+<script>
+function showForm() {
+    document.getElementById("applyForm").style.display = "block";
+}
+</script>

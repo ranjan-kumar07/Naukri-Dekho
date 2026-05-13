@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8 col-md-10">
+
+            <!-- Header -->
+            <div class="text-center mb-5">
+
+                <div class="mb-3">
+
+                    <span class="badge bg-primary px-4 py-2 fs-6 rounded-pill shadow-sm">
+                        Recruiter Panel
+                    </span>
+
+                </div>
+
+                <h1 class="fw-bold display-5 mb-3">
+                    Create New Job
+                </h1>
+
+                <p class="text-muted fs-5">
+                    Publish professional opportunities for candidates
+                </p>
+
+            </div>
+
+            <!-- Main Card -->
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Top Banner -->
+                <div class="bg-primary text-white p-4">
+
+                    <h3 class="fw-bold mb-1">
+                        Job Information
+                    </h3>
+
+                    <p class="mb-0 opacity-75">
+                        Fill all details carefully before publishing
+                    </p>
+
+                </div>
+
+                <!-- Form -->
+                <div class="card-body p-5 bg-white">
+
+                    <form method="POST" novalidate>
+
+                        {% csrf_token %}
+
+                        <!-- Job Title -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-briefcase text-primary me-2"></i>
+                                Job Title
+
+                            </label>
+
+                            {{ form.title }}
+
+                            {% if form.title.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.title.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Job Role -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-user-tie text-primary me-2"></i>
+                                Job Role
+
+                            </label>
+
+                            {{ form.role }}
+
+                            {% if form.role.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.role.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Company -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-building text-primary me-2"></i>
+                                Company Name
+
+                            </label>
+
+                            {{ form.company }}
+
+                            {% if form.company.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.company.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Row -->
+                        <div class="row">
+
+                            <!-- Location -->
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+
+                                    <i class="fa-solid fa-location-dot text-primary me-2"></i>
+                                    Location
+
+                                </label>
+
+                                {{ form.location }}
+
+                                {% if form.location.errors %}
+                                    <div class="text-danger small mt-2">
+                                        {{ form.location.errors }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                            <!-- Salary -->
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+
+                                    <i class="fa-solid fa-indian-rupee-sign text-primary me-2"></i>
+                                    Salary
+
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text bg-light border-0">
+                                        ₹
+                                    </span>
+
+                                    {{ form.salary }}
+
+                                </div>
+
+                                <div class="form-text">
+                                    Enter monthly salary package
+                                </div>
+
+                                {% if form.salary.errors %}
+                                    <div class="text-danger small mt-2">
+                                        {{ form.salary.errors }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-file-lines text-primary me-2"></i>
+                                Job Description
+
+                            </label>
+
+                            {{ form.description }}
+
+                            <div class="form-text">
+                                Explain responsibilities, requirements and role details
+                            </div>
+
+                            {% if form.description.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.description.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+
+                          
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-3 mt-5">
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg px-5 rounded-3 shadow-sm">
+
+                                <i class="fa-solid fa-paper-plane me-2"></i>
+                                Publish Job
+
+                            </button>
+
+                            <a href="{% url 'recruiter_dashboard' %}"
+                               class="btn btn-outline-secondary btn-lg px-4 rounded-3">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    body{
+        background: #f4f7fc;
+    }
+
+    .card{
+        border-radius: 24px;
+    }
+
+    .form-control,
+    textarea{
+
+        border-radius: 14px !important;
+        padding: 14px 18px !important;
+        border: 1px solid #d6dbe4 !important;
+        font-size: 15px;
+        transition: all 0.3s ease;
+
+    }
+
+    textarea{
+        min-height: 150px;
+        resize: none;
+    }
+
+    .form-control:focus,
+    textarea:focus{
+
+        border-color: #0d6efd !important;
+        box-shadow: 0 0 0 0.2rem rgba(13,110,253,.15) !important;
+
+    }
+
+    .form-label{
+
+        margin-bottom: 10px;
+        color: #1f2937;
+        font-size: 15px;
+
+    }
+
+    .btn-primary{
+
+        background: linear-gradient(
+            135deg,
+            #0d6efd,
+            #0b5ed7
+        );
+
+        border: none;
+        transition: all 0.3s ease;
+
+    }
+
+    .btn-primary:hover{
+
+        transform: translateY(-2px);
+
+    }
+
+    .input-group-text{
+
+        border-radius: 14px 0 0 14px !important;
+        border: 1px solid #d6dbe4 !important;
+
+    }
+
+    .skill-badge{
+
+        background: #eef3ff;
+        color: #0d6efd;
+        padding: 10px 16px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid #dbe7ff;
+        transition: 0.3s ease;
+
+    }
+
+    .skill-badge:hover{
+
+        background: #0d6efd;
+        color: white;
+        cursor: pointer;
+
+    }
+
+    .text-danger ul{
+
+        margin: 0;
+        padding-left: 18px;
+
+    }
+
+    .form-text{
+        font-size: 13px;
+    }
+
+</style>
+
+{% endblock %}

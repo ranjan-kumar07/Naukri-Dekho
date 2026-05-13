@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        {% include 'recruiter/recruiter_sidebar.html' %}
+
+        <div class="col-lg-9 col-md-8 p-4">
+
+            <h2 class="fw-bold mb-4">
+                Posted Jobs
+            </h2>
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+                                <th>Title</th>
+                                <th>Role</th>
+                                <th>Location</th>
+                                <th>Applicants</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for job in jobs %}
+
+                            <tr>
+
+                                <td>{{ job.title }}</td>
+
+                                <td>{{ job.role }}</td>
+
+                                <td>{{ job.location }}</td>
+
+                                <td>
+                                    {{ job.application_set.count }}
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="4"
+                                    class="text-center">
+
+                                    No jobs found
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

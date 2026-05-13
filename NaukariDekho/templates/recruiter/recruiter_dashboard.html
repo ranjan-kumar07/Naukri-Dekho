@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid dashboard-container">
+
+    <div class="row">
+
+        <!-- Sidebar -->
+        {% include 'recruiter/recruiter_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="col-lg-9 col-md-8 p-4">
+
+            <!-- Header -->
+            <div class="mb-4">
+
+                <h2 class="fw-bold text-dark">
+                    Recruiter Dashboard
+                </h2>
+
+                <p class="text-muted">
+                    Manage jobs and track applicants easily.
+                </p>
+
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+
+                <!-- Total Jobs -->
+                <div class="col-md-4">
+
+                    <div class="card dashboard-card border-0 shadow-sm">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+
+                                    <p class="text-muted mb-1">
+                                        Total Jobs
+                                    </p>
+
+                                    <h2 class="fw-bold">
+                                        {{ jobs|length }}
+                                    </h2>
+
+                                </div>
+
+                                <i class="bi bi-briefcase-fill display-5 text-primary"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Applicants -->
+                <div class="col-md-4">
+
+                    <div class="card dashboard-card border-0 shadow-sm">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+
+                                    <p class="text-muted mb-1">
+                                        Applicants
+                                    </p>
+
+                                    <h2 class="fw-bold">
+                                        {{ applications|length }}
+                                    </h2>
+
+                                </div>
+
+                                <i class="bi bi-people-fill display-5 text-success"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Accepted -->
+                <div class="col-md-4">
+
+                    <div class="card dashboard-card border-0 shadow-sm">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+
+                                    <p class="text-muted mb-1">
+                                        Accepted
+                                    </p>
+
+                                    <h2 class="fw-bold">
+                                        {{ accepted_count }}
+                                    </h2>
+
+                                </div>
+
+                                <i class="bi bi-calendar-check-fill display-5 text-warning"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Jobs Table -->
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <h4 class="fw-bold mb-0">
+                            Posted Jobs
+                        </h4>
+
+                        <a href="{% url 'add_job' %}"
+                           class="btn btn-primary rounded-pill">
+
+                            + Add New Job
+
+                        </a>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>Job Title</th>
+                                    <th>Role</th>
+                                    <th>Location</th>
+                                    <th>Applicants</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for job in jobs %}
+
+                                <tr>
+
+                                    <td class="fw-semibold">
+                                        {{ job.title }}
+                                    </td>
+
+                                    <td>
+                                        {{ job.role }}
+                                    </td>
+
+                                    <td>
+                                        {{ job.location }}
+                                    </td>
+
+                                    <td>
+                                        {{ job.application_set.count }}
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="4"
+                                        class="text-center py-4">
+
+                                        No Jobs Posted Yet
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

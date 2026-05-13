@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <!-- Success Messages -->
+            {% if messages %}
+
+                {% for message in messages %}
+
+                <div class="alert alert-success alert-dismissible fade show shadow-sm rounded-3"
+                     role="alert">
+
+                    <i class="bi bi-check-circle-fill me-2"></i>
+
+                    {{ message }}
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+
+                    </button>
+
+                </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Header -->
+                <div class="bg-primary text-white p-4">
+
+                    <h2 class="fw-bold mb-1">
+                        Apply For Job
+                    </h2>
+
+                    <p class="mb-0 opacity-75">
+                        Complete your application carefully
+                    </p>
+
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-5">
+
+                    <!-- Job Info -->
+                    <div class="mb-5">
+
+                        <div class="d-flex align-items-center">
+
+                            <div class="job-icon me-3">
+
+                                <i class="bi bi-briefcase-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3 class="fw-bold mb-1">
+                                    {{ job.title }}
+                                </h3>
+
+                                <p class="text-muted mb-0">
+                                    {{ job.company }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-4">
+
+                            <div class="col-md-6 mb-3">
+
+                                <div class="info-box">
+
+                                    <small class="text-muted d-block">
+                                        Role
+                                    </small>
+
+                                    <span class="fw-semibold">
+                                        {{ job.role }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <div class="info-box">
+
+                                    <small class="text-muted d-block">
+                                        Location
+                                    </small>
+
+                                    <span class="fw-semibold">
+                                        {{ job.location }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Form -->
+                    <form method="POST"
+                          enctype="multipart/form-data"
+                          class="needs-validation"
+                          novalidate>
+
+                        {% csrf_token %}
+
+                        <!-- Resume -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Upload Resume
+                            </label>
+
+                            {{ form.resume }}
+
+                            <div class="invalid-feedback">
+
+                                Please upload your resume.
+
+                            </div>
+
+                        </div>
+
+                        <!-- Cover Letter -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Cover Letter
+                            </label>
+
+                            {{ form.cover_letter }}
+
+                            <div class="invalid-feedback">
+
+                                Please write a cover letter.
+
+                            </div>
+
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit"
+                                class="btn btn-primary w-100 rounded-pill py-3 fw-semibold">
+
+                            <i class="bi bi-send-fill me-2"></i>
+
+                            Submit Application
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Bootstrap Validation -->
+<script>
+
+(() => {
+
+    'use strict'
+
+    const forms = document.querySelectorAll('.needs-validation')
+
+    Array.from(forms).forEach(form => {
+
+        form.addEventListener('submit', event => {
+
+            if (!form.checkValidity()) {
+
+                event.preventDefault()
+                event.stopPropagation()
+
+            }
+
+            form.classList.add('was-validated')
+
+        }, false)
+
+    })
+
+})()
+
+</script>
+
+<style>
+
+.job-icon{
+    width: 70px;
+    height: 70px;
+    background: #eef3ff;
+    color: #0d6efd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.info-box{
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+input,
+textarea,
+select{
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #dcdcdc;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+}
+
+textarea{
+    min-height: 140px;
+}
+
+.card{
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+</style>
+
+{% endblock %}
