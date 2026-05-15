@@ -3,7 +3,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import JobForm
 from .models import Job, Application
 from django.contrib import messages
-
+from datetime import date
+from .forms import ApplicationForm
+from django.shortcuts import get_object_or_404
 
 def home(request):
 
@@ -92,7 +94,9 @@ def recruiter_dashboard(request):
 
 def jobs_list(request):
 
-    jobs = Job.objects.all().order_by('-created_at')
+    jobs = Job.objects.filter(
+        application_deadline__gte=date.today()
+    ).order_by('-created_at')
 
     context = {
         'jobs': jobs
@@ -107,8 +111,7 @@ def jobs_list(request):
 # job apply view
 
 
-from .forms import ApplicationForm
-from django.shortcuts import get_object_or_404
+
 
 @login_required
 def apply_job(request, job_id):
@@ -200,7 +203,9 @@ from accounts.models import Profile
 
 def all_jobs(request):
 
-    jobs = Job.objects.all()
+    jobs = Job.objects.filter(
+        application_deadline__gte=date.today()
+    )
 
     role = None
 
@@ -223,3 +228,80 @@ def all_jobs(request):
         'all_jobs.html',
         context
     )
+
+# job edit view
+
+@login_required
+def edit_job(request, job_id):
+
+    job = get_object_or_404(
+        Job,
+        id=job_id,
+        recruiter=request.user
+    )
+
+    if request.method == 'POST':
+
+        form = JobForm(
+            request.POST,
+            instance=job
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                'Job updated successfully.'
+            )
+
+            return redirect('posted_jobs')
+
+    else:
+
+        form = JobForm(instance=job)
+
+    context = {
+        'form': form,
+        'is_edit': True,
+    }
+
+    return render(
+        request,
+        'recruiter/edit_job.html',
+        context
+    )
+
+# job delete view
+@login_required
+def delete_job(request, job_id):
+
+    job = get_object_or_404(
+        Job,
+        id=job_id,
+        recruiter=request.user
+    )
+
+    job.delete()
+
+    messages.success(
+        request,
+        'Job deleted successfully.'
+    )
+
+    return redirect('posted_jobs')
+
+
+# users selected applications 
+@login_required
+def selected_applications(request):
+    # Fetch applications where the status is accepted/selected for this user
+    successful_apps = Application.objects.filter(
+        user=request.user, 
+        status='Selected' # <--- Match your model's status choices (e.g., 'Accepted')
+    ).select_related('job') # Optimizes database query for job details
+    
+    return render(request, 'user/selected_applications.html', {
+        'applications': successful_apps
+    })

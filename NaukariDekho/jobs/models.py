@@ -24,6 +24,11 @@ class Job(models.Model):
 
     description = models.TextField()
 
+    application_deadline = models.DateField(
+    null=True,
+    blank=True
+)
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )

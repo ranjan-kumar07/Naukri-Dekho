@@ -40,6 +40,18 @@ path(
     views.all_jobs,
     name='all_jobs'
 ),
+path(
+    'edit-job/<int:job_id>/',
+    views.edit_job,
+    name='edit_job'
+),
+
+path(
+    'delete-job/<int:job_id>/',
+    views.delete_job,
+    name='delete_job'
+),
+path('dashboard/selected/', views.selected_applications, name='selected_applications'),
 
 ]
 

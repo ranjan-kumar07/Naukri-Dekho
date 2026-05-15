@@ -28,26 +28,40 @@
 
                 <div class="card-body p-4 d-flex flex-column">
 
-                    <!-- Company -->
-                    <div class="d-flex align-items-center mb-3">
+                    <!-- Top -->
+                    <div class="d-flex justify-content-between align-items-start mb-3">
 
-                        <div class="company-logo me-3">
+                        <!-- Company -->
+                        <div class="d-flex align-items-center">
 
-                            <i class="bi bi-building-fill text-primary"></i>
+                            <div class="company-logo me-3">
+
+                                <i class="bi bi-building-fill text-primary"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h6 class="mb-0 fw-bold">
+                                    {{ job.company }}
+                                </h6>
+
+                                <small class="text-muted">
+                                    Hiring Now
+                                </small>
+
+                            </div>
 
                         </div>
 
-                        <div>
+                        <!-- Deadline Badge -->
+                        <span class="badge deadline-badge">
 
-                            <h6 class="mb-0 fw-bold">
-                                {{ job.company }}
-                            </h6>
+                            <i class="bi bi-calendar-event me-1"></i>
 
-                            <small class="text-muted">
-                                Hiring Now
-                            </small>
+                            {{ job.application_deadline|date:"d M Y" }}
 
-                        </div>
+                        </span>
 
                     </div>
 
@@ -56,7 +70,7 @@
                         {{ job.title }}
                     </h4>
 
-                    <!-- Limited Info -->
+                    <!-- Job Info -->
                     <div class="mb-3">
 
                         <p class="text-muted mb-2">
@@ -79,21 +93,37 @@
 
                             <i class="bi bi-currency-rupee text-success me-2"></i>
 
-                            {{ job.salary }}
+                            ₹ {{ job.salary }}
 
                         </p>
 
                     </div>
 
-                    <!-- Short Description -->
+                    <!-- Description -->
                     <p class="text-secondary small mb-4">
 
                         {{ job.description|truncatewords:15 }}
 
                     </p>
 
-                    <!-- Buttons -->
+                    <!-- Bottom -->
                     <div class="mt-auto">
+
+                        <!-- Apply Deadline -->
+                        <div class="deadline-box mb-3">
+
+                            <i class="bi bi-clock-history text-danger me-2"></i>
+
+                            <span>
+
+                                Apply Before:
+                                <strong>
+                                    {{ job.application_deadline|date:"d M Y" }}
+                                </strong>
+
+                            </span>
+
+                        </div>
 
                         {% if not request.user.is_authenticated %}
 
@@ -151,24 +181,78 @@
 
 <style>
 
-.job-card{
-    transition: 0.3s ease;
-}
+    body{
+        background: #f5f7fb;
+    }
 
-.job-card:hover{
-    transform: translateY(-8px);
-}
+    .job-card{
 
-.company-logo{
-    width: 50px;
-    height: 50px;
-    background: #f1f5ff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-}
+        transition: all 0.3s ease;
+        overflow: hidden;
+
+    }
+
+    .job-card:hover{
+
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.08) !important;
+
+    }
+
+    .company-logo{
+
+        width: 55px;
+        height: 55px;
+        background: #eef3ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+
+    }
+
+    .deadline-badge{
+
+        background: #fff1f2;
+        color: #dc3545;
+        border: 1px solid #ffd6db;
+        padding: 8px 12px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+
+    }
+
+    .deadline-box{
+
+        background: #fff8f0;
+        border: 1px solid #ffe2c2;
+        padding: 12px 15px;
+        border-radius: 14px;
+        font-size: 14px;
+        color: #5c3b00;
+
+    }
+
+    .btn-primary{
+
+        background: linear-gradient(
+            135deg,
+            #0d6efd,
+            #0b5ed7
+        );
+
+        border: none;
+        transition: 0.3s ease;
+
+    }
+
+    .btn-primary:hover{
+
+        transform: translateY(-2px);
+
+    }
 
 </style>
 

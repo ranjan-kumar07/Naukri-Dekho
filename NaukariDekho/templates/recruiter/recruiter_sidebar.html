@@ -1,103 +1,59 @@
 <div class="col-lg-3 col-md-4 sidebar p-0">
-
     <div class="sidebar-wrapper d-flex flex-column">
 
-        <!-- Recruiter -->
-        <div>
-
-            <div class="text-center sidebar-top">
-
+        <!-- Recruiter Profile Section -->
+        <div class="text-center sidebar-top">
+            <div class="profile-img-container">
                 <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
                      width="90"
-                     class="rounded-circle shadow profile-img">
-
-                <h4 class="fw-bold mt-3 text-white">
-                    {{ request.user.username }}
-                </h4>
-
-                <p class="text-light small">
-                    Recruiter Panel 👋
-                </p>
-
+                     class="rounded-circle profile-img" 
+                     alt="Profile Picture">
             </div>
-
-            <!-- Navigation -->
-            <ul class="nav flex-column px-3 mt-4">
-
-                <!-- Dashboard -->
-                <li class="nav-item mb-3">
-
-                    <a href="{% url 'recruiter_dashboard' %}"
-                       class="nav-link dashboard-link">
-
-                        <i class="bi bi-speedometer2 me-2"></i>
-
-                        Dashboard
-
-                    </a>
-
-                </li>
-
-                <!-- Posted Jobs -->
-<li class="nav-item mb-3">
-
-    <a href="{% url 'posted_jobs' %}"
-       class="nav-link dashboard-link">
-
-        <i class="bi bi-briefcase-fill me-2"></i>
-
-        Posted Jobs
-
-    </a>
-
-</li>
-
-                <!-- Add Job -->
-                <li class="nav-item mb-3">
-
-                    <a href="{% url 'add_job' %}"
-                       class="nav-link dashboard-link">
-
-                        <i class="bi bi-plus-circle-fill me-2"></i>
-
-                        Post New Job
-
-                    </a>
-
-                </li>
-
-                <!-- Applicants -->
-                <li class="nav-item mb-3">
-
-                    <a href="#"
-                       class="nav-link dashboard-link">
-
-                        <i class="bi bi-people-fill me-2"></i>
-
-                        Applicants
-
-                    </a>
-
-                </li>
-
-            </ul>
-
+            <h4 class="fw-bold mt-3 text-white user-greeting">
+                {{ request.user.username }}
+            </h4>
         </div>
 
-        <!-- Logout -->
+        <!-- Navigation Menu -->
+        <ul class="nav flex-column px-3 mt-2 sidebar-nav">
+            
+            <!-- Posted Jobs -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'posted_jobs' %}"
+                   class="nav-link dashboard-link {% if request.resolver_match.url_name == 'posted_jobs' %}active{% endif %}">
+                    <i class="bi bi-briefcase-fill"></i>
+                    <span>Posted Jobs</span>
+                </a>
+            </li>
+
+            <!-- Add Job -->
+            <li class="nav-item mb-2">
+                <a href="{% url 'add_job' %}"
+                   class="nav-link dashboard-link {% if request.resolver_match.url_name == 'add_job' %}active{% endif %}">
+                    <i class="bi bi-plus-circle-fill"></i>
+                    <span>Post New Job</span>
+                </a>
+            </li>
+
+            <!-- Applicants -->
+            <li class="nav-item mb-2">
+                <a href="#"
+                   class="nav-link dashboard-link {% if request.resolver_match.url_name == 'applicants' %}active{% endif %}">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Applicants</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- Logout Button -->
         <div class="p-3 mt-auto">
-
             <a href="{% url 'logout' %}"
-               class="btn btn-danger w-100 rounded-pill">
-
-                <i class="bi bi-box-arrow-right me-2"></i>
-
-                Logout
-
+               class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
             </a>
-
         </div>
 
     </div>
-
 </div>

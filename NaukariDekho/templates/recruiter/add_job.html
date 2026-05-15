@@ -1,333 +1,243 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div class="container py-5">
-
     <div class="row justify-content-center">
+        <div class="col-lg-9 col-md-11">
 
-        <div class="col-lg-8 col-md-10">
-
-            <!-- Header -->
-            <div class="text-center mb-5">
-
-                <div class="mb-3">
-
-                    <span class="badge bg-primary px-4 py-2 fs-6 rounded-pill shadow-sm">
-                        Recruiter Panel
-                    </span>
-
-                </div>
-
-                <h1 class="fw-bold display-5 mb-3">
-                    Create New Job
+            <!-- Clean Context-Aware Header -->
+            <div class="mb-4">
+                <h1 class="fw-bold text-dark-emphasis mb-1">
+                    {% if is_edit %}Update Job Listing{% else %}Create New Job{% endif %}
                 </h1>
-
-                <p class="text-muted fs-5">
-                    Publish professional opportunities for candidates
+                <p class="text-muted">
+                    {% if is_edit %}Modify the details below to update your job post.{% else %}Fill out the details below to publish a new career opportunity.{% endif %}
                 </p>
-
             </div>
 
-            <!-- Main Card -->
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            <!-- Main Form Card -->
+            <div class="card border-0 custom-job-card p-4 p-md-5">
+                <form method="POST" novalidate>
+                    {% csrf_token %}
 
-                <!-- Top Banner -->
-                <div class="bg-primary text-white p-4">
-
-                    <h3 class="fw-bold mb-1">
-                        Job Information
-                    </h3>
-
-                    <p class="mb-0 opacity-75">
-                        Fill all details carefully before publishing
-                    </p>
-
-                </div>
-
-                <!-- Form -->
-                <div class="card-body p-5 bg-white">
-
-                    <form method="POST" novalidate>
-
-                        {% csrf_token %}
-
+                    <div class="row g-4">
                         <!-- Job Title -->
-                        <div class="mb-4">
-
+                        <div class="col-md-6">
                             <label class="form-label fw-semibold">
-
-                                <i class="fa-solid fa-briefcase text-primary me-2"></i>
-                                Job Title
-
+                                <i class="fa-solid fa-briefcase text-primary-accent me-2"></i>Job Title
                             </label>
-
                             {{ form.title }}
-
                             {% if form.title.errors %}
-                                <div class="text-danger small mt-2">
-                                    {{ form.title.errors }}
-                                </div>
+                                <div class="text-danger small mt-2">{{ form.title.errors }}</div>
                             {% endif %}
-
                         </div>
 
                         <!-- Job Role -->
-                        <div class="mb-4">
-
+                        <div class="col-md-6">
                             <label class="form-label fw-semibold">
-
-                                <i class="fa-solid fa-user-tie text-primary me-2"></i>
-                                Job Role
-
+                                <i class="fa-solid fa-user-tie text-primary-accent me-2"></i>Job Role
                             </label>
-
                             {{ form.role }}
-
                             {% if form.role.errors %}
-                                <div class="text-danger small mt-2">
-                                    {{ form.role.errors }}
-                                </div>
+                                <div class="text-danger small mt-2">{{ form.role.errors }}</div>
                             {% endif %}
-
                         </div>
 
-                        <!-- Company -->
-                        <div class="mb-4">
-
+                        <!-- Company Name -->
+                        <div class="col-12">
                             <label class="form-label fw-semibold">
-
-                                <i class="fa-solid fa-building text-primary me-2"></i>
-                                Company Name
-
+                                <i class="fa-solid fa-building text-primary-accent me-2"></i>Company Name
                             </label>
-
                             {{ form.company }}
-
                             {% if form.company.errors %}
-                                <div class="text-danger small mt-2">
-                                    {{ form.company.errors }}
-                                </div>
+                                <div class="text-danger small mt-2">{{ form.company.errors }}</div>
                             {% endif %}
-
                         </div>
 
-                        <!-- Row -->
-                        <div class="row">
+                        <!-- Location -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fa-solid fa-location-dot text-primary-accent me-2"></i>Location
+                            </label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <div class="text-danger small mt-2">{{ form.location.errors }}</div>
+                            {% endif %}
+                        </div>
 
-                            <!-- Location -->
-                            <div class="col-md-6 mb-4">
-
-                                <label class="form-label fw-semibold">
-
-                                    <i class="fa-solid fa-location-dot text-primary me-2"></i>
-                                    Location
-
-                                </label>
-
-                                {{ form.location }}
-
-                                {% if form.location.errors %}
-                                    <div class="text-danger small mt-2">
-                                        {{ form.location.errors }}
-                                    </div>
-                                {% endif %}
-
+                        <!-- Salary -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fa-solid fa-indian-rupee-sign text-primary-accent me-2"></i>Salary
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">₹</span>
+                                {{ form.salary }}
                             </div>
+                            <div class="form-text text-muted-sm">Monthly package</div>
+                            {% if form.salary.errors %}
+                                <div class="text-danger small mt-2">{{ form.salary.errors }}</div>
+                            {% endif %}
+                        </div>
 
-                            <!-- Salary -->
-                            <div class="col-md-6 mb-4">
-
-                                <label class="form-label fw-semibold">
-
-                                    <i class="fa-solid fa-indian-rupee-sign text-primary me-2"></i>
-                                    Salary
-
-                                </label>
-
-                                <div class="input-group">
-
-                                    <span class="input-group-text bg-light border-0">
-                                        ₹
-                                    </span>
-
-                                    {{ form.salary }}
-
-                                </div>
-
-                                <div class="form-text">
-                                    Enter monthly salary package
-                                </div>
-
-                                {% if form.salary.errors %}
-                                    <div class="text-danger small mt-2">
-                                        {{ form.salary.errors }}
-                                    </div>
-                                {% endif %}
-
-                            </div>
-
+                        <!-- Application Deadline -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fa-solid fa-calendar-days text-primary-accent me-2"></i>Last Date to Apply
+                            </label>
+                            {{ form.application_deadline }}
+                            {% if form.application_deadline.errors %}
+                                <div class="text-danger small mt-2">{{ form.application_deadline.errors }}</div>
+                            {% endif %}
                         </div>
 
                         <!-- Description -->
-                        <div class="mb-4">
-
+                        <div class="col-12">
                             <label class="form-label fw-semibold">
-
-                                <i class="fa-solid fa-file-lines text-primary me-2"></i>
-                                Job Description
-
+                                <i class="fa-solid fa-file-lines text-primary-accent me-2"></i>Job Description
                             </label>
-
                             {{ form.description }}
-
-                            <div class="form-text">
-                                Explain responsibilities, requirements and role details
-                            </div>
-
+                            <div class="form-text text-muted-sm">Outline the core responsibilities, skills, and background required.</div>
                             {% if form.description.errors %}
-                                <div class="text-danger small mt-2">
-                                    {{ form.description.errors }}
-                                </div>
+                                <div class="text-danger small mt-2">{{ form.description.errors }}</div>
                             {% endif %}
-
                         </div>
+                    </div>
 
+                    <!-- Action Buttons -->
+                    <div class="d-flex align-items-center justify-content-end gap-3 mt-5 pt-3 border-top border-light-subtle">
+                        <a href="{% url 'recruiter_dashboard' %}" class="btn btn-cancel-custom px-4 py-2-5">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-submit-custom px-5 py-2-5 shadow-sm">
+                            {% if is_edit %}
+                                <i class="fa-solid fa-pen-to-square me-2"></i>Save Changes
+                            {% else %}
+                                <i class="fa-solid fa-paper-plane me-2"></i>Publish Job
+                            {% endif %}
+                        </button>
+                    </div>
 
-                          
-
-                        <!-- Buttons -->
-                        <div class="d-flex gap-3 mt-5">
-
-                            <button type="submit"
-                                    class="btn btn-primary btn-lg px-5 rounded-3 shadow-sm">
-
-                                <i class="fa-solid fa-paper-plane me-2"></i>
-                                Publish Job
-
-                            </button>
-
-                            <a href="{% url 'recruiter_dashboard' %}"
-                               class="btn btn-outline-secondary btn-lg px-4 rounded-3">
-
-                                Cancel
-
-                            </a>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
+                </form>
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 <style>
-
-    body{
-        background: #f4f7fc;
+    body {
+        background: #f8fafc;
     }
 
-    .card{
-        border-radius: 24px;
+    /* Card overhaul */
+    .custom-job-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.03) !important;
     }
 
+    .text-primary-accent {
+        color: #3b82f6;
+    }
+
+    /* Smooth, uniform Form controls */
     .form-control,
-    textarea{
-
-        border-radius: 14px !important;
-        padding: 14px 18px !important;
-        border: 1px solid #d6dbe4 !important;
-        font-size: 15px;
-        transition: all 0.3s ease;
-
+    textarea,
+    select {
+        border-radius: 12px !important;
+        padding: 12px 16px !important;
+        border: 1px solid #cbd5e1 !important;
+        font-size: 0.95rem;
+        color: #334155;
+        background-color: #ffffff;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    textarea{
-        min-height: 150px;
+    textarea {
+        min-height: 160px;
         resize: none;
     }
 
+    /* Input focus styling matching premium blue accent */
     .form-control:focus,
-    textarea:focus{
-
-        border-color: #0d6efd !important;
-        box-shadow: 0 0 0 0.2rem rgba(13,110,253,.15) !important;
-
+    textarea:focus,
+    select:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12) !important;
+        outline: 0;
     }
 
-    .form-label{
-
-        margin-bottom: 10px;
-        color: #1f2937;
-        font-size: 15px;
-
+    .form-label {
+        margin-bottom: 8px;
+        color: #334155;
+        font-size: 0.9rem;
+        letter-spacing: 0.2px;
     }
 
-    .btn-primary{
-
-        background: linear-gradient(
-            135deg,
-            #0d6efd,
-            #0b5ed7
-        );
-
-        border: none;
-        transition: all 0.3s ease;
-
+    .input-group-text {
+        border-radius: 12px 0 0 12px !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #64748b;
+        font-weight: 500;
     }
 
-    .btn-primary:hover{
-
-        transform: translateY(-2px);
-
+    .input-group > .form-control {
+        border-radius: 0 12px 12px 0 !important;
     }
 
-    .input-group-text{
-
-        border-radius: 14px 0 0 14px !important;
-        border: 1px solid #d6dbe4 !important;
-
+    .text-muted-sm {
+        font-size: 0.82rem;
+        color: #64748b;
+        margin-top: 6px;
     }
 
-    .skill-badge{
-
-        background: #eef3ff;
-        color: #0d6efd;
-        padding: 10px 16px;
-        border-radius: 30px;
-        font-size: 13px;
-        font-weight: 600;
-        border: 1px solid #dbe7ff;
-        transition: 0.3s ease;
-
-    }
-
-    .skill-badge:hover{
-
-        background: #0d6efd;
+    /* Premium Custom Buttons */
+    .btn-submit-custom {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
         color: white;
-        cursor: pointer;
-
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
     }
 
-    .text-danger ul{
+    .btn-submit-custom:hover {
+        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25) !important;
+    }
 
+    .btn-cancel-custom {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn-cancel-custom:hover {
+        background: #e2e8f0;
+        color: #334155;
+    }
+
+    .py-2-5 {
+        padding-top: 11px;
+        padding-bottom: 11px;
+    }
+
+    /* Error wrapper cleanups */
+    .text-danger {
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    .text-danger ul {
         margin: 0;
-        padding-left: 18px;
-
+        padding-left: 14px;
     }
-
-    .form-text{
-        font-size: 13px;
-    }
-
 </style>
-
 {% endblock %}
