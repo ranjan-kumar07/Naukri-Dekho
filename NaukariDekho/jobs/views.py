@@ -1,12 +1,23 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .forms import JobForm
-from .models import Job, Application
-from django.contrib import messages
-from datetime import date
-from .forms import ApplicationForm
-from django.shortcuts import get_object_or_404
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404
+)
 
+from django.contrib.auth.decorators import login_required
+
+from django.contrib import messages
+
+from datetime import date
+
+from .forms import JobForm, ApplicationForm
+
+from .models import Job, Application
+
+from accounts.models import Profile
+
+
+# Home View
 def home(request):
 
     return render(
@@ -14,12 +25,17 @@ def home(request):
         'home.html'
     )
 
+
+# Add Job View
 @login_required
 def add_job(request):
 
     if request.method == 'POST':
 
-        form = JobForm(request.POST)
+        form = JobForm(
+            request.POST,
+            request.FILES
+        )
 
         if form.is_valid():
 
@@ -34,7 +50,9 @@ def add_job(request):
                 'Job published successfully.'
             )
 
-            return redirect('recruiter_dashboard')
+            return redirect(
+                'recruiter_dashboard'
+            )
 
         else:
 
@@ -57,21 +75,32 @@ def add_job(request):
         context
     )
 
-# Recruiter Dashboard View
 
-
+# Recruiter Dashboard
+@login_required
 def recruiter_dashboard(request):
 
     jobs = Job.objects.filter(
         recruiter=request.user
-    )
+    ).order_by('-created_at')
 
     applications = Application.objects.filter(
         job__recruiter=request.user
-    )
+    ).select_related(
+        'user',
+        'job'
+    ).order_by('-applied_at')
 
     accepted_count = applications.filter(
         status='accepted'
+    ).count()
+
+    shortlisted_count = applications.filter(
+        status='shortlisted'
+    ).count()
+
+    reviewing_count = applications.filter(
+        status='reviewing'
     ).count()
 
     context = {
@@ -82,6 +111,9 @@ def recruiter_dashboard(request):
 
         'accepted_count': accepted_count,
 
+        'shortlisted_count': shortlisted_count,
+
+        'reviewing_count': reviewing_count,
     }
 
     return render(
@@ -90,8 +122,8 @@ def recruiter_dashboard(request):
         context
     )
 
-# user job list 
 
+# User Jobs List
 def jobs_list(request):
 
     jobs = Job.objects.filter(
@@ -108,11 +140,8 @@ def jobs_list(request):
         context
     )
 
-# job apply view
 
-
-
-
+# Apply Job View
 @login_required
 def apply_job(request, job_id):
 
@@ -121,7 +150,7 @@ def apply_job(request, job_id):
         id=job_id
     )
 
-    # Check if already applied
+    # Check duplicate application
     already_applied = Application.objects.filter(
         user=request.user,
         job=job
@@ -134,9 +163,9 @@ def apply_job(request, job_id):
             'You have already applied for this job.'
         )
 
-        return redirect('user_dashboard')
-
-    form = ApplicationForm()
+        return redirect(
+            'user_dashboard'
+        )
 
     if request.method == 'POST':
 
@@ -147,20 +176,27 @@ def apply_job(request, job_id):
 
         if form.is_valid():
 
-            application = form.save(commit=False)
+            application = form.save(
+                commit=False
+            )
 
             application.user = request.user
+
             application.job = job
+
+            # Default status
+            application.status = 'applied'
 
             application.save()
 
-            # Success Message
             messages.success(
                 request,
                 'Application submitted successfully!'
             )
 
-            return redirect('user_dashboard')
+            return redirect(
+                'user_dashboard'
+            )
 
         else:
 
@@ -169,11 +205,15 @@ def apply_job(request, job_id):
                 'Please correct the errors below.'
             )
 
+    else:
+
+        form = ApplicationForm()
+
     context = {
 
         'job': job,
-        'form': form
 
+        'form': form
     }
 
     return render(
@@ -182,12 +222,14 @@ def apply_job(request, job_id):
         context
     )
 
+
+# Posted Jobs View
 @login_required
 def posted_jobs(request):
 
     jobs = Job.objects.filter(
         recruiter=request.user
-    )
+    ).order_by('-created_at')
 
     context = {
         'jobs': jobs
@@ -199,13 +241,13 @@ def posted_jobs(request):
         context
     )
 
-from accounts.models import Profile
 
+# All Jobs View
 def all_jobs(request):
 
     jobs = Job.objects.filter(
         application_deadline__gte=date.today()
-    )
+    ).order_by('-created_at')
 
     role = None
 
@@ -216,10 +258,13 @@ def all_jobs(request):
         ).first()
 
         if profile:
+
             role = profile.role
 
     context = {
+
         'jobs': jobs,
+
         'role': role
     }
 
@@ -229,8 +274,8 @@ def all_jobs(request):
         context
     )
 
-# job edit view
 
+# Edit Job View
 @login_required
 def edit_job(request, job_id):
 
@@ -244,6 +289,7 @@ def edit_job(request, job_id):
 
         form = JobForm(
             request.POST,
+            request.FILES,
             instance=job
         )
 
@@ -256,14 +302,27 @@ def edit_job(request, job_id):
                 'Job updated successfully.'
             )
 
-            return redirect('posted_jobs')
+            return redirect(
+                'posted_jobs'
+            )
+
+        else:
+
+            messages.error(
+                request,
+                'Please correct the errors below.'
+            )
 
     else:
 
-        form = JobForm(instance=job)
+        form = JobForm(
+            instance=job
+        )
 
     context = {
+
         'form': form,
+
         'is_edit': True,
     }
 
@@ -273,7 +332,8 @@ def edit_job(request, job_id):
         context
     )
 
-# job delete view
+
+# Delete Job View
 @login_required
 def delete_job(request, job_id):
 
@@ -290,18 +350,70 @@ def delete_job(request, job_id):
         'Job deleted successfully.'
     )
 
-    return redirect('posted_jobs')
+    return redirect(
+        'posted_jobs'
+    )
 
 
-# users selected applications 
+# Selected Applications View
 @login_required
 def selected_applications(request):
-    # Fetch applications where the status is accepted/selected for this user
+
     successful_apps = Application.objects.filter(
-        user=request.user, 
-        status='Selected' # <--- Match your model's status choices (e.g., 'Accepted')
-    ).select_related('job') # Optimizes database query for job details
-    
-    return render(request, 'user/selected_applications.html', {
-        'applications': successful_apps
-    })
+        user=request.user,
+        status='accepted'
+    ).select_related(
+        'job'
+    ).order_by('-updated_at')
+
+    return render(
+        request,
+        'user/selected_applications.html',
+        {
+            'applications': successful_apps
+        }
+    )
+
+
+# Update Application Status
+@login_required
+def update_application_status(
+    request,
+    application_id,
+    status
+):
+
+    application = get_object_or_404(
+        Application,
+        id=application_id,
+        job__recruiter=request.user
+    )
+
+    valid_statuses = [
+        'reviewing',
+        'shortlisted',
+        'accepted',
+        'rejected'
+    ]
+
+    if status in valid_statuses:
+
+        application.status = status
+
+        application.save()
+
+        messages.success(
+            request,
+            f'Application status updated to {status}.'
+        )
+
+    else:
+
+        messages.error(
+            request,
+            'Invalid status.'
+        )
+
+    return redirect(
+        'recruiter_dashboard'
+    )

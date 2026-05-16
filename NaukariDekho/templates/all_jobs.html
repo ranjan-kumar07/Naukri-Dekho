@@ -28,38 +28,49 @@
 
                 <div class="card-body p-4 d-flex flex-column">
 
-                    <!-- Top -->
-                    <div class="d-flex justify-content-between align-items-start mb-3">
+                    <!-- Top Section -->
+                    <div class="d-flex justify-content-between align-items-start mb-4">
 
-                        <!-- Company -->
                         <div class="d-flex align-items-center">
 
+                            <!-- Company Logo -->
                             <div class="company-logo me-3">
 
-                                <i class="bi bi-building-fill text-primary"></i>
+                                {% if job.company_logo %}
+
+                                    <img src="{{ job.company_logo.url }}"
+                                         class="img-fluid rounded-circle"
+                                         alt="{{ job.company }}">
+
+                                {% else %}
+
+                                    <i class="bi bi-building-fill text-primary"></i>
+
+                                {% endif %}
 
                             </div>
 
+                            <!-- Company Info -->
                             <div>
 
-                                <h6 class="mb-0 fw-bold">
+                                <h6 class="mb-1 fw-bold">
                                     {{ job.company }}
                                 </h6>
 
                                 <small class="text-muted">
-                                    Hiring Now
+
+                                    {{ job.location }}
+
                                 </small>
 
                             </div>
 
                         </div>
 
-                        <!-- Deadline Badge -->
-                        <span class="badge deadline-badge">
+                        <!-- Job Type -->
+                        <span class="badge job-type-badge">
 
-                            <i class="bi bi-calendar-event me-1"></i>
-
-                            {{ job.application_deadline|date:"d M Y" }}
+                            {{ job.get_job_type_display }}
 
                         </span>
 
@@ -67,63 +78,99 @@
 
                     <!-- Job Title -->
                     <h4 class="fw-bold mb-3">
+
                         {{ job.title }}
+
                     </h4>
 
-                    <!-- Job Info -->
-                    <div class="mb-3">
+                    <!-- Role -->
+                    <p class="text-primary fw-semibold mb-3">
 
-                        <p class="text-muted mb-2">
+                        <i class="bi bi-briefcase-fill me-2"></i>
 
-                            <i class="bi bi-briefcase-fill text-primary me-2"></i>
+                        {{ job.role }}
 
-                            {{ job.role }}
+                    </p>
 
-                        </p>
+                    <!-- Salary -->
+                    <p class="salary-text mb-3">
 
-                        <p class="text-muted mb-2">
+                        ₹ {{ job.salary }} / month
 
-                            <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+                    </p>
 
-                            {{ job.location }}
+                    <!-- Skills -->
+                    <div class="skills-box mb-3">
 
-                        </p>
+                        <strong>
+                            Skills:
+                        </strong>
 
-                        <p class="text-muted mb-0">
-
-                            <i class="bi bi-currency-rupee text-success me-2"></i>
-
-                            ₹ {{ job.salary }}
-
-                        </p>
+                        {{ job.skills_required|truncatewords:8 }}
 
                     </div>
+
+                    <!-- Experience -->
+                    <p class="text-muted small mb-2">
+
+                        <i class="bi bi-person-workspace me-2"></i>
+
+                        Experience:
+                        {{ job.experience_required }}
+
+                    </p>
+
+                    <!-- Education -->
+                    {% if job.education_required %}
+
+                    <p class="text-muted small mb-3">
+
+                        <i class="bi bi-mortarboard-fill me-2"></i>
+
+                        {{ job.education_required }}
+
+                    </p>
+
+                    {% endif %}
 
                     <!-- Description -->
                     <p class="text-secondary small mb-4">
 
-                        {{ job.description|truncatewords:15 }}
+                        {{ job.description|truncatewords:18 }}
 
                     </p>
 
-                    <!-- Bottom -->
+                    <!-- Vacancies -->
+                    <div class="vacancy-box mb-3">
+
+                        <i class="bi bi-people-fill me-2"></i>
+
+                        Vacancies:
+                        <strong>
+
+                            {{ job.vacancies }}
+
+                        </strong>
+
+                    </div>
+
+                    <!-- Deadline -->
+                    <div class="deadline-box mb-4">
+
+                        <i class="bi bi-clock-history text-danger me-2"></i>
+
+                        Apply Before:
+
+                        <strong>
+
+                            {{ job.application_deadline|date:"d M Y" }}
+
+                        </strong>
+
+                    </div>
+
+                    <!-- Buttons -->
                     <div class="mt-auto">
-
-                        <!-- Apply Deadline -->
-                        <div class="deadline-box mb-3">
-
-                            <i class="bi bi-clock-history text-danger me-2"></i>
-
-                            <span>
-
-                                Apply Before:
-                                <strong>
-                                    {{ job.application_deadline|date:"d M Y" }}
-                                </strong>
-
-                            </span>
-
-                        </div>
 
                         {% if not request.user.is_authenticated %}
 
@@ -142,6 +189,15 @@
                             Apply Now
 
                         </a>
+
+                        {% else %}
+
+                        <button class="btn btn-secondary rounded-pill w-100"
+                                disabled>
+
+                            Recruiter Cannot Apply
+
+                        </button>
 
                         {% endif %}
 
@@ -162,11 +218,15 @@
                 <i class="bi bi-briefcase display-1 text-muted"></i>
 
                 <h3 class="fw-bold mt-3 text-muted">
+
                     No Jobs Available
+
                 </h3>
 
                 <p class="text-secondary">
+
                     New jobs will appear here soon.
+
                 </p>
 
             </div>
@@ -179,15 +239,18 @@
 
 </div>
 
+
 <style>
 
     body{
+
         background: #f5f7fb;
+
     }
 
     .job-card{
 
-        transition: all 0.3s ease;
+        transition: 0.3s ease;
         overflow: hidden;
 
     }
@@ -195,42 +258,104 @@
     .job-card:hover{
 
         transform: translateY(-8px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.08) !important;
+
+        box-shadow:
+            0 12px 30px rgba(0,0,0,0.08) !important;
 
     }
 
     .company-logo{
 
-        width: 55px;
-        height: 55px;
+        width: 60px;
+        height: 60px;
         background: #eef3ff;
         border-radius: 50%;
+        overflow: hidden;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
         font-size: 24px;
+
+        flex-shrink: 0;
 
     }
 
-    .deadline-badge{
+    .company-logo img{
 
-        background: #fff1f2;
-        color: #dc3545;
-        border: 1px solid #ffd6db;
-        padding: 8px 12px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+    }
+
+    .job-type-badge{
+
+        background: #e8f3ff;
+        color: #0d6efd;
+
+        padding: 8px 14px;
+
         border-radius: 30px;
+
         font-size: 12px;
         font-weight: 600;
+
+    }
+
+    .salary-text{
+
+        color: #198754;
+
+        font-weight: 700;
+
+        font-size: 18px;
+
+    }
+
+    .skills-box{
+
+        background: #f8f9fa;
+
+        border-radius: 12px;
+
+        padding: 12px;
+
+        font-size: 14px;
+
+        color: #495057;
+
+    }
+
+    .vacancy-box{
+
+        background: #eefaf0;
+
+        border: 1px solid #d1f0d8;
+
+        padding: 12px 15px;
+
+        border-radius: 14px;
+
+        color: #146c43;
+
+        font-size: 14px;
 
     }
 
     .deadline-box{
 
         background: #fff8f0;
+
         border: 1px solid #ffe2c2;
+
         padding: 12px 15px;
+
         border-radius: 14px;
+
         font-size: 14px;
+
         color: #5c3b00;
 
     }
@@ -244,6 +369,7 @@
         );
 
         border: none;
+
         transition: 0.3s ease;
 
     }

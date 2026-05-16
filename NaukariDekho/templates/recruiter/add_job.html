@@ -1,243 +1,609 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-9 col-md-11">
 
-            <!-- Clean Context-Aware Header -->
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10 col-md-11">
+
+            <!-- Header -->
             <div class="mb-4">
+
                 <h1 class="fw-bold text-dark-emphasis mb-1">
-                    {% if is_edit %}Update Job Listing{% else %}Create New Job{% endif %}
+
+                    {% if is_edit %}
+
+                        Update Job Listing
+
+                    {% else %}
+
+                        Create New Job
+
+                    {% endif %}
+
                 </h1>
+
                 <p class="text-muted">
-                    {% if is_edit %}Modify the details below to update your job post.{% else %}Fill out the details below to publish a new career opportunity.{% endif %}
+
+                    {% if is_edit %}
+
+                        Update and manage your hiring requirements.
+
+                    {% else %}
+
+                        Publish a professional job opportunity for candidates.
+
+                    {% endif %}
+
                 </p>
+
             </div>
 
-            <!-- Main Form Card -->
+            <!-- Form Card -->
             <div class="card border-0 custom-job-card p-4 p-md-5">
-                <form method="POST" novalidate>
+
+                <form method="POST"
+                      enctype="multipart/form-data"
+                      novalidate>
+
                     {% csrf_token %}
 
                     <div class="row g-4">
+
                         <!-- Job Title -->
                         <div class="col-md-6">
+
                             <label class="form-label fw-semibold">
-                                <i class="fa-solid fa-briefcase text-primary-accent me-2"></i>Job Title
+
+                                <i class="fa-solid fa-briefcase text-primary-accent me-2"></i>
+
+                                Job Title
+
                             </label>
+
                             {{ form.title }}
+
                             {% if form.title.errors %}
-                                <div class="text-danger small mt-2">{{ form.title.errors }}</div>
+                                <div class="text-danger small mt-2">
+                                    {{ form.title.errors }}
+                                </div>
                             {% endif %}
+
                         </div>
 
                         <!-- Job Role -->
                         <div class="col-md-6">
+
                             <label class="form-label fw-semibold">
-                                <i class="fa-solid fa-user-tie text-primary-accent me-2"></i>Job Role
+
+                                <i class="fa-solid fa-user-tie text-primary-accent me-2"></i>
+
+                                Job Role
+
                             </label>
+
                             {{ form.role }}
+
                             {% if form.role.errors %}
-                                <div class="text-danger small mt-2">{{ form.role.errors }}</div>
+                                <div class="text-danger small mt-2">
+                                    {{ form.role.errors }}
+                                </div>
                             {% endif %}
+
                         </div>
 
-                        <!-- Company Name -->
-                        <div class="col-12">
+                        <!-- Company -->
+                        <div class="col-md-6">
+
                             <label class="form-label fw-semibold">
-                                <i class="fa-solid fa-building text-primary-accent me-2"></i>Company Name
+
+                                <i class="fa-solid fa-building text-primary-accent me-2"></i>
+
+                                Company Name
+
                             </label>
+
                             {{ form.company }}
+
                             {% if form.company.errors %}
-                                <div class="text-danger small mt-2">{{ form.company.errors }}</div>
+                                <div class="text-danger small mt-2">
+                                    {{ form.company.errors }}
+                                </div>
                             {% endif %}
+
+                        </div>
+
+                        <!-- Company Logo -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-image text-primary-accent me-2"></i>
+
+                                Company Logo
+
+                            </label>
+
+                            {{ form.company_logo }}
+
+                            {% if form.company_logo.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.company_logo.errors }}
+                                </div>
+                            {% endif %}
+
+                            {% if is_edit and form.instance.company_logo %}
+
+                                <div class="mt-3">
+
+                                    <img src="{{ form.instance.company_logo.url }}"
+                                         class="logo-preview"
+                                         alt="Company Logo">
+
+                                </div>
+
+                            {% endif %}
+
                         </div>
 
                         <!-- Location -->
                         <div class="col-md-4">
+
                             <label class="form-label fw-semibold">
-                                <i class="fa-solid fa-location-dot text-primary-accent me-2"></i>Location
+
+                                <i class="fa-solid fa-location-dot text-primary-accent me-2"></i>
+
+                                Location
+
                             </label>
+
                             {{ form.location }}
+
                             {% if form.location.errors %}
-                                <div class="text-danger small mt-2">{{ form.location.errors }}</div>
+                                <div class="text-danger small mt-2">
+                                    {{ form.location.errors }}
+                                </div>
                             {% endif %}
+
                         </div>
 
                         <!-- Salary -->
                         <div class="col-md-4">
+
                             <label class="form-label fw-semibold">
-                                <i class="fa-solid fa-indian-rupee-sign text-primary-accent me-2"></i>Salary
+
+                                <i class="fa-solid fa-indian-rupee-sign text-primary-accent me-2"></i>
+
+                                Salary
+
                             </label>
+
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">₹</span>
+
+                                <span class="input-group-text bg-light border-end-0">
+
+                                    ₹
+
+                                </span>
+
                                 {{ form.salary }}
+
                             </div>
-                            <div class="form-text text-muted-sm">Monthly package</div>
+
+                            <div class="form-text text-muted-sm">
+
+                                Monthly salary package
+
+                            </div>
+
                             {% if form.salary.errors %}
-                                <div class="text-danger small mt-2">{{ form.salary.errors }}</div>
+                                <div class="text-danger small mt-2">
+                                    {{ form.salary.errors }}
+                                </div>
                             {% endif %}
+
                         </div>
 
-                        <!-- Application Deadline -->
+                        <!-- Job Type -->
                         <div class="col-md-4">
+
                             <label class="form-label fw-semibold">
-                                <i class="fa-solid fa-calendar-days text-primary-accent me-2"></i>Last Date to Apply
+
+                                <i class="fa-solid fa-briefcase-clock text-primary-accent me-2"></i>
+
+                                Job Type
+
                             </label>
-                            {{ form.application_deadline }}
-                            {% if form.application_deadline.errors %}
-                                <div class="text-danger small mt-2">{{ form.application_deadline.errors }}</div>
+
+                            {{ form.job_type }}
+
+                            {% if form.job_type.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.job_type.errors }}
+                                </div>
                             {% endif %}
+
+                        </div>
+
+                        <!-- Experience -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-user-graduate text-primary-accent me-2"></i>
+
+                                Experience Required
+
+                            </label>
+
+                            {{ form.experience_required }}
+
+                            {% if form.experience_required.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.experience_required.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Education -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-school text-primary-accent me-2"></i>
+
+                                Education Required
+
+                            </label>
+
+                            {{ form.education_required }}
+
+                            {% if form.education_required.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.education_required.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Vacancies -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-users text-primary-accent me-2"></i>
+
+                                Number of Vacancies
+
+                            </label>
+
+                            {{ form.vacancies }}
+
+                            {% if form.vacancies.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.vacancies.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Deadline -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-calendar-days text-primary-accent me-2"></i>
+
+                                Last Date to Apply
+
+                            </label>
+
+                            {{ form.application_deadline }}
+
+                            {% if form.application_deadline.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.application_deadline.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Skills -->
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-code text-primary-accent me-2"></i>
+
+                                Skills Required
+
+                            </label>
+
+                            {{ form.skills_required }}
+
+                            <div class="form-text text-muted-sm">
+
+                                Example: Python, Django, SQL, React
+
+                            </div>
+
+                            {% if form.skills_required.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.skills_required.errors }}
+                                </div>
+                            {% endif %}
+
                         </div>
 
                         <!-- Description -->
                         <div class="col-12">
+
                             <label class="form-label fw-semibold">
-                                <i class="fa-solid fa-file-lines text-primary-accent me-2"></i>Job Description
+
+                                <i class="fa-solid fa-file-lines text-primary-accent me-2"></i>
+
+                                Job Description
+
                             </label>
+
                             {{ form.description }}
-                            <div class="form-text text-muted-sm">Outline the core responsibilities, skills, and background required.</div>
+
+                            <div class="form-text text-muted-sm">
+
+                                Add responsibilities, requirements and expectations.
+
+                            </div>
+
                             {% if form.description.errors %}
-                                <div class="text-danger small mt-2">{{ form.description.errors }}</div>
+                                <div class="text-danger small mt-2">
+                                    {{ form.description.errors }}
+                                </div>
                             {% endif %}
+
                         </div>
+
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div class="d-flex align-items-center justify-content-end gap-3 mt-5 pt-3 border-top border-light-subtle">
-                        <a href="{% url 'recruiter_dashboard' %}" class="btn btn-cancel-custom px-4 py-2-5">
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
+
+                        <a href="{% url 'recruiter_dashboard' %}"
+                           class="btn btn-cancel-custom px-4 py-2">
+
                             Cancel
+
                         </a>
-                        <button type="submit" class="btn btn-submit-custom px-5 py-2-5 shadow-sm">
+
+                        <button type="submit"
+                                class="btn btn-submit-custom px-5 py-2 shadow-sm">
+
                             {% if is_edit %}
-                                <i class="fa-solid fa-pen-to-square me-2"></i>Save Changes
+
+                                <i class="fa-solid fa-pen-to-square me-2"></i>
+
+                                Save Changes
+
                             {% else %}
-                                <i class="fa-solid fa-paper-plane me-2"></i>Publish Job
+
+                                <i class="fa-solid fa-paper-plane me-2"></i>
+
+                                Publish Job
+
                             {% endif %}
+
                         </button>
+
                     </div>
 
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
+
 <style>
+
     body {
+
         background: #f8fafc;
+
     }
 
-    /* Card overhaul */
     .custom-job-card {
+
         background: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
-        border: 1px solid rgba(0, 0, 0, 0.03) !important;
+
+        border-radius: 22px;
+
+        box-shadow:
+            0 10px 30px rgba(15, 23, 42, 0.04),
+            0 1px 3px rgba(15, 23, 42, 0.02);
+
+        border:
+            1px solid rgba(0, 0, 0, 0.03) !important;
+
     }
 
     .text-primary-accent {
-        color: #3b82f6;
+
+        color: #2563eb;
+
     }
 
-    /* Smooth, uniform Form controls */
     .form-control,
     textarea,
     select {
+
         border-radius: 12px !important;
+
         padding: 12px 16px !important;
-        border: 1px solid #cbd5e1 !important;
+
+        border:
+            1px solid #cbd5e1 !important;
+
         font-size: 0.95rem;
+
         color: #334155;
+
         background-color: #ffffff;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+        transition: all 0.2s ease;
+
     }
 
     textarea {
+
         min-height: 160px;
+
         resize: none;
+
     }
 
-    /* Input focus styling matching premium blue accent */
     .form-control:focus,
     textarea:focus,
     select:focus {
-        border-color: #3b82f6 !important;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12) !important;
+
+        border-color: #2563eb !important;
+
+        box-shadow:
+            0 0 0 4px rgba(37, 99, 235, 0.12) !important;
+
         outline: 0;
+
     }
 
     .form-label {
+
         margin-bottom: 8px;
+
         color: #334155;
-        font-size: 0.9rem;
-        letter-spacing: 0.2px;
+
+        font-size: 0.92rem;
+
     }
 
     .input-group-text {
+
         border-radius: 12px 0 0 12px !important;
-        border: 1px solid #cbd5e1 !important;
+
+        border:
+            1px solid #cbd5e1 !important;
+
         color: #64748b;
+
         font-weight: 500;
+
     }
 
     .input-group > .form-control {
+
         border-radius: 0 12px 12px 0 !important;
+
     }
 
     .text-muted-sm {
+
         font-size: 0.82rem;
+
         color: #64748b;
+
         margin-top: 6px;
+
     }
 
-    /* Premium Custom Buttons */
     .btn-submit-custom {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+        background:
+            linear-gradient(135deg, #2563eb, #1d4ed8);
+
         color: white;
+
         border: none;
+
         border-radius: 12px;
+
         font-weight: 600;
-        font-size: 0.95rem;
-        transition: all 0.2s ease;
+
+        transition: 0.2s ease;
+
     }
 
     .btn-submit-custom:hover {
-        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+
+        background:
+            linear-gradient(135deg, #1d4ed8, #1e40af);
+
         color: white;
+
         transform: translateY(-1px);
-        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25) !important;
+
+        box-shadow:
+            0 8px 20px rgba(37, 99, 235, 0.25);
+
     }
 
     .btn-cancel-custom {
+
         background: #f1f5f9;
+
         color: #475569;
-        border: 1px solid #e2e8f0;
+
+        border:
+            1px solid #e2e8f0;
+
         border-radius: 12px;
+
         font-weight: 600;
-        font-size: 0.95rem;
-        transition: all 0.2s ease;
+
+        transition: 0.2s ease;
+
     }
 
     .btn-cancel-custom:hover {
+
         background: #e2e8f0;
+
         color: #334155;
+
     }
 
-    .py-2-5 {
-        padding-top: 11px;
-        padding-bottom: 11px;
+    .logo-preview {
+
+        width: 80px;
+        height: 80px;
+
+        object-fit: cover;
+
+        border-radius: 16px;
+
+        border: 1px solid #e2e8f0;
+
     }
 
-    /* Error wrapper cleanups */
     .text-danger {
+
         font-size: 0.85rem;
+
         font-weight: 500;
+
     }
+
     .text-danger ul {
+
         margin: 0;
+
         padding-left: 14px;
+
     }
+
 </style>
+
 {% endblock %}

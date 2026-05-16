@@ -1,68 +1,388 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="container-fluid py-4">
+
     <div class="row">
-        
-        <!-- Include your sidebar component here -->
+
+        <!-- Sidebar -->
         {% include 'user/user_sidebar.html' %}
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <div class="col-lg-9 col-md-8 px-md-4">
+
+            <!-- Heading -->
             <div class="mb-4">
-                <h2 class="fw-bold text-dark-emphasis mb-1">🎉 Selected Applications</h2>
-                <p class="text-muted">Track the applications where you have been successfully selected by recruiters.</p>
+
+                <h2 class="fw-bold text-dark-emphasis mb-1">
+
+                    🎉 Selected Applications
+
+                </h2>
+
+                <p class="text-muted">
+
+                    Track the jobs where recruiters have selected you.
+
+                </p>
+
             </div>
 
             {% if applications %}
-                <div class="row g-4">
-                    {% for app in applications %}
-                        <div class="col-12">
-                            <div class="card border-0 shadow-sm p-4 rounded-4 position-relative bg-white border-start border-success border-4">
-                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-                                    <div>
-                                        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill mb-2 fw-semibold">
-                                            <i class="bi bi-patch-check-fill me-1"></i> Selected
-                                        </span>
-                                        <h4 class="fw-bold text-dark mb-1">{{ app.job.title }}</h4>
-                                        <p class="text-secondary mb-2 fw-medium">
-                                            <i class="bi bi-building me-1"></i> {{ app.job.company }} 
-                                            <span class="mx-2">•</span> 
-                                            <i class="bi bi-location me-1"></i> {{ app.job.location }}
-                                        </p>
-                                        <div class="text-muted small">
-                                            <i class="bi bi-calendar-check me-1"></i> Applied on: {{ app.created_at|date:"d M Y" }}
+
+            <div class="row g-4">
+
+                {% for app in applications %}
+
+                <div class="col-12">
+
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden application-card">
+
+                        <div class="card-body p-4">
+
+                            <div class="row align-items-center">
+
+                                <!-- Left Section -->
+                                <div class="col-lg-8">
+
+                                    <div class="d-flex align-items-start">
+
+                                        <!-- Company Logo -->
+                                        <div class="company-logo me-4">
+
+                                            {% if app.job.company_logo %}
+
+                                                <img src="{{ app.job.company_logo.url }}"
+                                                     alt="{{ app.job.company }}">
+
+                                            {% else %}
+
+                                                <i class="bi bi-building-fill text-primary"></i>
+
+                                            {% endif %}
+
                                         </div>
+
+                                        <!-- Job Info -->
+                                        <div>
+
+                                            <!-- Status -->
+                                            <span class="badge success-badge mb-3">
+
+                                                <i class="bi bi-patch-check-fill me-1"></i>
+
+                                                Selected
+
+                                            </span>
+
+                                            <!-- Job Title -->
+                                            <h3 class="fw-bold mb-2">
+
+                                                {{ app.job.title }}
+
+                                            </h3>
+
+                                            <!-- Company -->
+                                            <p class="text-secondary fw-medium mb-2">
+
+                                                <i class="bi bi-building me-1"></i>
+
+                                                {{ app.job.company }}
+
+                                                <span class="mx-2">•</span>
+
+                                                <i class="bi bi-geo-alt me-1"></i>
+
+                                                {{ app.job.location }}
+
+                                            </p>
+
+                                            <!-- Job Type -->
+                                            <p class="text-muted small mb-2">
+
+                                                <i class="bi bi-briefcase-fill me-1"></i>
+
+                                                {{ app.job.get_job_type_display }}
+
+                                            </p>
+
+                                            <!-- Experience -->
+                                            <p class="text-muted small mb-2">
+
+                                                <i class="bi bi-person-workspace me-1"></i>
+
+                                                Experience Required:
+                                                {{ app.job.experience_required }}
+
+                                            </p>
+
+                                            <!-- Skills -->
+                                            <div class="skills-box mt-3">
+
+                                                <strong>
+
+                                                    Skills Required:
+
+                                                </strong>
+
+                                                {{ app.job.skills_required }}
+
+                                            </div>
+
+                                            <!-- Applied Date -->
+                                            <div class="text-muted small mt-3">
+
+                                                <i class="bi bi-calendar-check me-1"></i>
+
+                                                Applied on:
+
+                                                {{ app.applied_at|date:"d M Y" }}
+
+                                            </div>
+
+                                        </div>
+
                                     </div>
-                                    
-                                    <div class="text-md-end mt-2 mt-md-0">
-                                        <span class="d-block fw-bold text-primary fs-5 mb-2">₹{{ app.job.salary }} <small class="text-muted fs-6">/mo</small></span>
-                                        <a href="{% url 'job_detail' app.job.id %}" class="btn btn-outline-primary rounded-pill px-4 btn-sm">
-                                            View Details
-                                        </a>
-                                    </div>
+
                                 </div>
+
+                                <!-- Right Section -->
+                                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+                                    <!-- Salary -->
+                                    <div class="salary-box mb-3">
+
+                                        ₹ {{ app.job.salary }}
+
+                                        <small class="text-muted fs-6">
+
+                                            /month
+
+                                        </small>
+
+                                    </div>
+
+                                    <!-- Recruiter Message -->
+                                    {% if app.recruiter_message %}
+
+                                    <div class="recruiter-message mb-3">
+
+                                        <strong>
+
+                                            Recruiter Message:
+
+                                        </strong>
+
+                                        <p class="mb-0 small">
+
+                                            {{ app.recruiter_message }}
+
+                                        </p>
+
+                                    </div>
+
+                                    {% endif %}
+
+                                    <!-- Buttons -->
+                                    <div class="d-grid gap-2">
+
+                                        <!-- Resume -->
+                                        <a href="{{ app.resume.url }}"
+                                           class="btn btn-outline-success rounded-pill">
+
+                                            <i class="bi bi-download me-2"></i>
+
+                                            Download Resume
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
                             </div>
+
                         </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <!-- Empty State Layout -->
-                <div class="card border-0 shadow-sm text-center p-5 rounded-4 bg-white mt-4">
-                    <div class="py-4">
-                        <i class="bi bi-emoji-smile text-muted" style="font-size: 3.5rem;"></i>
-                        <h4 class="fw-bold text-dark-emphasis mt-3">No selections yet</h4>
-                        <p class="text-muted mx-auto" style="max-width: 400px;">
-                            Keep polishing your resume and exploring active opportunities. Your next big match is just around the corner!
-                        </p>
-                        <a href="{% url 'all_jobs' %}" class="btn btn-primary rounded-pill px-4 mt-2 shadow-sm">
-                            <i class="bi bi-search me-2"></i>Explore Active Jobs
-                        </a>
+
                     </div>
+
                 </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <!-- Empty State -->
+            <div class="card border-0 shadow-sm rounded-4 bg-white mt-4">
+
+                <div class="card-body text-center py-5">
+
+                    <i class="bi bi-emoji-smile display-1 text-muted"></i>
+
+                    <h3 class="fw-bold mt-4 text-dark-emphasis">
+
+                        No selections yet
+
+                    </h3>
+
+                    <p class="text-muted mx-auto"
+                       style="max-width: 500px;">
+
+                        Keep applying to active opportunities and improve your resume.
+                        Your next opportunity may be just one application away.
+
+                    </p>
+
+                    <a href="{% url 'all_jobs' %}"
+                       class="btn btn-primary rounded-pill px-4 mt-3">
+
+                        <i class="bi bi-search me-2"></i>
+
+                        Explore Jobs
+
+                    </a>
+
+                </div>
+
+            </div>
+
             {% endif %}
+
         </div>
 
     </div>
+
 </div>
+
+
+<style>
+
+    body{
+
+        background: #f5f7fb;
+
+    }
+
+    .application-card{
+
+        transition: 0.3s ease;
+
+    }
+
+    .application-card:hover{
+
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 12px 30px rgba(0,0,0,0.08) !important;
+
+    }
+
+    .company-logo{
+
+        width: 75px;
+        height: 75px;
+
+        border-radius: 50%;
+
+        overflow: hidden;
+
+        background: #eef3ff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        font-size: 28px;
+
+    }
+
+    .company-logo img{
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+    }
+
+    .success-badge{
+
+        background: #eafaf0;
+
+        color: #198754;
+
+        padding: 10px 16px;
+
+        border-radius: 30px;
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+    }
+
+    .salary-box{
+
+        font-size: 28px;
+
+        font-weight: 700;
+
+        color: #198754;
+
+    }
+
+    .skills-box{
+
+        background: #f8f9fa;
+
+        padding: 12px 15px;
+
+        border-radius: 14px;
+
+        font-size: 14px;
+
+        color: #495057;
+
+    }
+
+    .recruiter-message{
+
+        background: #fff8f0;
+
+        border: 1px solid #ffe2c2;
+
+        padding: 14px;
+
+        border-radius: 14px;
+
+        text-align: left;
+
+    }
+
+    .btn-primary{
+
+        background: linear-gradient(
+            135deg,
+            #0d6efd,
+            #0b5ed7
+        );
+
+        border: none;
+
+    }
+
+    .btn-primary:hover{
+
+        transform: translateY(-2px);
+
+    }
+
+</style>
+
 {% endblock %}
