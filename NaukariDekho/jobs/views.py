@@ -417,3 +417,18 @@ def update_application_status(
     return redirect(
         'recruiter_dashboard'
     )
+
+def about(request):
+
+    return render(
+        request,
+        'about.html'
+    )
+
+
+def contact(request):
+
+    return render(
+        request,
+        'contact.html'
+    )

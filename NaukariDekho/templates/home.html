@@ -14,14 +14,18 @@
 
         <p>Find Your Dream Job And Build Your Career</p>
 
-        <button class="hero-btn">Apply Now</button>
+        <a
+            href="{% url 'all_jobs' %}"
+            class="hero-btn text-decoration-none">
+            Apply Now
+        </a>
     </div>
 
 </div>
 
 <!-- STUDENTS SECTION -->
 
-<section class="students">
+<section class="students py-5 mb-5">
 
     <h2 class="animated-heading">
 
@@ -71,7 +75,7 @@
         </div>
 
         <div class="student-card">
-            <img src="https://randomuser.me/api/portraits/men/90.jpg">
+            <img src="https://randomuser.me/api/portraits/men/90.jpg"><br>
             <div class="company">TCS</div>
         </div>
 
@@ -83,203 +87,3 @@
 
 
 
-{% comment %} {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
- 
-    
-
-
-
-/* ================= HERO SECTION ================= */
-
-
-
-/* ================= FOOTER ================= */
-
-
-
-
-
-
-</style>
-
-<title>Naukri Dekho</title>
-
-<!-- Font Awesome -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
-
-
-</head>
-<body>
-
-<!-- HEADER -->
-
-<div class="top-header">
-
-    <!-- LOGO -->
-
-    <div class="logo">
-
-        {% comment %} <img src="{% static 'images/image.png' %}" class="custom-logo" style="width:110px; height: 100px; border-radius:50%;"> {% endcomment %}
-
-        {% comment %} <h2>Naukri Dekho</h2> {% endcomment %}
-
-    {% comment %} </div>
-
-    <!-- TITLE -->
-
-    <div class="title">
-
-        <span class="left-text">
-            Online Job
-        </span>
-
-        <span class="right-text">
-            Portal System
-        </span>
-
-    </div>
-
-    <!-- SOCIAL ICONS -->
-
-    <div class="social-icons">
-
-        <i class="fab fa-x-twitter"></i>
-        <i class="fab fa-linkedin"></i>
-        <i class="fab fa-instagram"></i>
-        <i class="fab fa-facebook"></i>
-
-    </div>
-
-</div>
-
-
-
-<!-- HERO SECTION -->
-
-<div class="hero">
-
-    <div class="hero-content">
-        <h1>GET THE <br> TOP JOBS <br> WITH US</h1>
-
-        <p>Find Your Dream Job And Build Your Career</p>
-
-        <button class="hero-btn">Apply Now</button>
-    </div>
-
-</div>
-
-<!-- STUDENTS SECTION -->
-
-<section class="students">
-
-    <h2 class="animated-heading">
-
-     <span class="top-text">OUR</span>
-
-     <span class="bottom-text">PLACED</span>
-
-     <span class="top-text2">STUDENTS</span>
-
-    </h2>
-
-    <div class="student-grid">
-
-        <div class="student-card">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg">
-            <div class="company">Facebook</div>
-        </div>
-
-        <div class="student-card">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg">
-            <div class="company">Google</div>
-        </div>
-
-        <div class="student-card">
-            <img src="https://randomuser.me/api/portraits/men/75.jpg">
-            <div class="company">Amazon</div>
-        </div>
-
-        <div class="student-card">
-            <img src="https://randomuser.me/api/portraits/women/68.jpg">
-            <div class="company">Microsoft</div>
-        </div>
-
-        
-
-    </div>
-
-</section>
-
-<!-- FOOTER -->
-
-<footer>
-
-    <div class="footer-container">
-
-        <div class="footer-box">
-
-            <h3>About Naukri Dekho</h3>
-
-            <p>
-                Naukri Dekho helps students and professionals
-                find the best jobs easily with trusted recruiters
-                and top companies.
-            </p>
-
-        </div>
-
-        <div class="footer-box">
-
-            <h3>Quick Links</h3>
-
-            <a href="#">Home</a>
-            <a href="#">Latest Jobs</a>
-            <a href="#">User Login</a>
-            <a href="#">Recruiter Login</a>
-            <a href="#">Contact Us</a>
-
-        </div>
-
-        <div class="footer-box">
-
-            <h3>Contact Info</h3>
-
-            <p><i class="fa fa-phone"></i> +91 9135385332</p>
-            <p><i class="fa fa-envelope"></i> gambhir@gmail.com</p>
-            <p><i class="fa fa-location-dot"></i> Muzaffarpur, Bihar, India</p>
-
-        </div>
-
-        <div class="footer-box">
-
-            <h3>Follow Us</h3>
-
-            <div class="footer-social">
-                <i class="fab fa-facebook"></i>
-                <i class="fab fa-instagram"></i>
-                <i class="fab fa-linkedin"></i>
-                <i class="fab fa-x-twitter"></i>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="copyright">
-        © 2026 Naukri Dekho | All Rights Reserved
-    </div>
-
-</footer>
-
-</body>
-</html> {% endcomment %} 

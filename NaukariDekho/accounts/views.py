@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect
+
 from django.contrib.auth.models import User
+
 from django.contrib.auth import authenticate, login, logout
+
 from django.contrib.auth.decorators import login_required
+
 from django.contrib import messages
 
 from .models import Profile
-from .forms import RegisterForm
-from jobs.models import Application
+
+from .forms import RegisterForm, ProfileForm
+
 from jobs.models import Application
 
 
@@ -21,54 +26,88 @@ def register(request):
         if form.is_valid():
 
             username = form.cleaned_data['username']
+
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+
             role = form.cleaned_data['role']
 
-            
-            
             # Check username already exists
-            username_exists = User.objects.filter(username=username).exists()
+            username_exists = User.objects.filter(
+                username=username
+            ).exists()
 
             # Check email already exists
-            email_exists = User.objects.filter(email=email).exists()
+            email_exists = User.objects.filter(
+                email=email
+            ).exists()
 
             if username_exists and email_exists:
-                messages.error(request, 'Username and Email already exist')
+
+                messages.error(
+                    request,
+                    'Username and Email already exist'
+                )
+
                 return redirect('register')
 
             elif username_exists:
-                messages.error(request, 'Username already exists')
+
+                messages.error(
+                    request,
+                    'Username already exists'
+                )
+
                 return redirect('register')
 
             elif email_exists:
-                messages.error(request, 'Email already exists')
+
+                messages.error(
+                    request,
+                    'Email already exists'
+                )
+
                 return redirect('register')
 
             # Create user
             user = User.objects.create_user(
 
                 first_name=form.cleaned_data['first_name'],
+
                 last_name=form.cleaned_data['last_name'],
+
                 username=form.cleaned_data['username'],
+
                 email=form.cleaned_data['email'],
+
                 password=form.cleaned_data['password']
 
             )
 
-            # Create profile
-            Profile.objects.create(
-                user=user,
-                role=role
+            # Update profile role
+            profile = user.profile
+
+            profile.role = role
+
+            profile.save()
+
+            messages.success(
+                request,
+                'Account created successfully'
             )
 
-            messages.success(request, 'Account created successfully')
             return redirect('login')
 
     else:
+
         form = RegisterForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(
+        request,
+        'register.html',
+        {
+            'form': form
+        }
+    )
 
 
 # ================= LOGIN =================
@@ -77,41 +116,64 @@ def login_view(request):
 
     if request.user.is_authenticated:
 
-        profile = Profile.objects.filter(user=request.user).first()
+        profile = Profile.objects.filter(
+            user=request.user
+        ).first()
 
         if profile.role == 'user':
+
             return redirect('user_dashboard')
 
         elif profile.role == 'recruiter':
+
             return redirect('recruiter_dashboard')
 
     if request.method == 'POST':
 
         username = request.POST.get('username')
+
         password = request.POST.get('password')
 
         user = authenticate(
+
             request,
+
             username=username,
+
             password=password
+
         )
 
         if user is not None:
 
-            login(request, user)
+            login(
+                request,
+                user
+            )
 
-            profile = Profile.objects.filter(user=user).first()
+            profile = Profile.objects.filter(
+                user=user
+            ).first()
 
             if profile and profile.role == 'user':
+
                 return redirect('user_dashboard')
 
             elif profile and profile.role == 'recruiter':
+
                 return redirect('recruiter_dashboard')
 
         else:
-            messages.error(request, 'Invalid Username or Password')
 
-    return render(request, 'login.html')
+            messages.error(
+                request,
+                'Invalid Username or Password'
+            )
+
+    return render(
+        request,
+        'login.html'
+    )
 
 
 # ================= USER DASHBOARD =================
@@ -148,12 +210,64 @@ def user_dashboard(request):
     )
 
 
+# ================= PROFILE =================
+
+@login_required(login_url='login')
+def profile(request):
+
+    profile = request.user.profile
+
+    if request.method == 'POST':
+
+        form = ProfileForm(
+
+            request.POST,
+
+            request.FILES,
+
+            instance=profile
+
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                'Profile Updated Successfully'
+            )
+
+            return redirect('profile')
+
+    else:
+
+        form = ProfileForm(
+            instance=profile
+        )
+
+    return render(
+
+        request,
+
+        'user/profile.html',
+
+        {
+            'form': form
+        }
+
+    )
+
+
 # ================= RECRUITER DASHBOARD =================
 
 @login_required(login_url='login')
 def recruiter_dashboard(request):
 
-    return render(request, 'recruiter/recruiter_dashboard.html')
+    return render(
+        request,
+        'recruiter/recruiter_dashboard.html'
+    )
 
 
 # ================= LOGOUT =================
@@ -161,6 +275,24 @@ def recruiter_dashboard(request):
 def logout_view(request):
 
     logout(request)
-    messages.success(request, 'Logged out successfully')
+
+    messages.success(
+        request,
+        'Logged out successfully'
+    )
 
     return redirect('home')
+
+# update recruiter profile img
+@login_required
+def update_profile_image(request):
+
+    profile = request.user.profile
+
+    if request.method == "POST" and request.FILES.get("profile_image"):
+
+        profile.profile_image = request.FILES["profile_image"]
+
+        profile.save()
+
+        return redirect(request.META.get("HTTP_REFERER", "user_dashboard"))

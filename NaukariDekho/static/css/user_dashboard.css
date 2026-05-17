@@ -1,3 +1,56 @@
+/* sidebar start */
+/* side bar  */
+.profile-img-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-img {
+    object-fit: cover;
+    transition: 0.3s ease;
+}
+
+.profile-img-label {
+    cursor: pointer;
+    position: relative;
+}
+
+/* HOVER OVERLAY */
+.profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: 0.3s ease;
+
+    font-size: 12px;
+}
+
+/* Hover effect */
+.profile-img-label:hover .profile-overlay {
+    opacity: 1;
+}
+
+.profile-img-label:hover .profile-img {
+    transform: scale(1.05);
+}
+
+/* side bar end */
+/* sidebar end */
 .sidebar {
     min-height: 100vh;
     padding: 20px;

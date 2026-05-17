@@ -73,4 +73,16 @@ urlpatterns = [
         views.update_application_status,
         name='update_application_status'
     ),
+
+    path(
+    'about/',
+    views.about,
+    name='about'
+),
+
+path(
+    'contact/',
+    views.contact,
+    name='contact'
+),
 ]

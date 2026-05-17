@@ -4,6 +4,41 @@
     min-height: 100vh;
 }
 
+/* sidebar start */
+.profile-img-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: 0.25s ease;
+
+    font-size: 12px;
+}
+
+.profile-img-wrapper:hover .profile-overlay {
+    opacity: 1;
+}
+
+/* sidebar end */
+
 /* Sidebar Outer Space */
 .sidebar {
     min-height: 100vh;
@@ -54,7 +89,8 @@
 }
 
 .dashboard-link {
-    color: #94a3b8; /* Elegant muted color for inactive links */
+    color: #94a3b8;
+    /* Elegant muted color for inactive links */
     padding: 14px 20px;
     border-radius: 12px;
     font-weight: 500;
@@ -88,7 +124,8 @@
 /* Premium Active State */
 .dashboard-link.active {
     background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.03) 100%);
-    color: #3b82f6 !important; /* Premium brand blue */
+    color: #3b82f6 !important;
+    /* Premium brand blue */
     font-weight: 600;
     border: 1px solid rgba(59, 130, 246, 0.25);
     box-shadow: inset 0 0 12px rgba(59, 130, 246, 0.1);

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-5">
+
+                    <h2 class="fw-bold text-center mb-4">
+                        Donate Us ❤️
+                    </h2>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            {{ form.first_name }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.last_name }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.email }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.phone }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.amount }}
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100 rounded-pill py-2"
+                        >
+                            Generate QR
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

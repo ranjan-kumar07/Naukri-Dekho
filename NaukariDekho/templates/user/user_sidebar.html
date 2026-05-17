@@ -1,60 +1,128 @@
 <div class="col-lg-3 col-md-4 sidebar p-0">
+
     <div class="sidebar-wrapper d-flex flex-column">
 
-        <!-- User Info Header -->
-        <div>
-            <div class="text-center sidebar-top">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                     width="90"
-                     class="rounded-circle shadow profile-img">
+        <!-- PROFILE IMAGE + UPLOAD -->
+        <div class="text-center sidebar-top">
 
-                <h4 class="fw-bold mt-3 text-white">
-                    {{ request.user.username }}
-                </h4>
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+                action="{% url 'update_profile_image' %}"
+                id="profileImageForm"
+            >
 
-                <p class="text-light small">
-                    Welcome Back 👋
-                </p>
-            </div>
+                {% csrf_token %}
 
-            <!-- User Navigation Links -->
-            <ul class="nav flex-column px-3 mt-4">
+                <div class="profile-img-wrapper">
 
-                <!-- Browse Jobs -->
-                <li class="nav-item mb-3">
-                    <a href="{% url 'all_jobs' %}" class="nav-link dashboard-link">
-                        <i class="bi bi-briefcase-fill me-2"></i>
-                        Browse Jobs
-                    </a>
-                </li>
+                    <label for="profileUpload" class="profile-img-label">
 
-                <!-- Selected Applications (Updated from "Applied Jobs") -->
-                <li class="nav-item mb-3">
-                    <a href="{% url 'selected_applications' %}" class="nav-link dashboard-link">
-                        <i class="bi bi-file-earmark-check-fill me-2"></i>
-                        Selected Applications
-                    </a>
-                </li>
+                        {% if request.user.profile.profile_image %}
 
-                <!-- Profile -->
-                <li class="nav-item mb-3">
-                    <a href="#" class="nav-link dashboard-link">
-                        <i class="bi bi-person-fill me-2"></i>
-                        Profile
-                    </a>
-                </li>
+                            <img
+                                src="{{ request.user.profile.profile_image.url }}"
+                                width="90"
+                                height="90"
+                                class="profile-img rounded-circle shadow"
+                            >
 
-            </ul>
+                        {% else %}
+
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                width="90"
+                                height="90"
+                                class="profile-img rounded-circle shadow"
+                            >
+
+                        {% endif %}
+
+                        <!-- HOVER OVERLAY -->
+                        <div class="profile-overlay">
+
+                            <i class="bi bi-camera-fill"></i>
+                            <small>Change</small>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+                <!-- Hidden File Input -->
+                <input
+                    type="file"
+                    name="profile_image"
+                    id="profileUpload"
+                    hidden
+                    onchange="document.getElementById('profileImageForm').submit();"
+                >
+
+            </form>
+
+            <!-- Username -->
+            <h4 class="fw-bold mt-3 text-white">
+                {{ request.user.username }}
+            </h4>
+
+            <p class="text-light small">
+                Welcome Back 👋
+            </p>
+
         </div>
 
-        <!-- Logout Action Button -->
-        <!-- Logout Action Button -->
+        <!-- NAVIGATION -->
+        <ul class="nav flex-column px-3 mt-4">
+
+            <li class="nav-item mb-3">
+
+                <a href="{% url 'all_jobs' %}" class="nav-link dashboard-link">
+
+                    <i class="bi bi-briefcase-fill me-2"></i>
+                    Browse Jobs
+
+                </a>
+
+            </li>
+
+            <li class="nav-item mb-3">
+
+                <a href="{% url 'selected_applications' %}" class="nav-link dashboard-link">
+
+                    <i class="bi bi-file-earmark-check-fill me-2"></i>
+                    Selected Applications
+
+                </a>
+
+            </li>
+
+            <li class="nav-item mb-3">
+
+                <a href="{% url 'profile' %}" class="nav-link dashboard-link">
+
+                    <i class="bi bi-person-fill me-2"></i>
+                    Profile
+
+                </a>
+
+            </li>
+
+        </ul>
+
+        <!-- LOGOUT -->
         <div class="p-3 mt-auto">
-            <a href="{% url 'logout' %}" class="btn btn-logout-custom w-100 rounded-pill py-2-5">
+
+            <a href="{% url 'logout' %}"
+               class="btn btn-logout-custom w-100 rounded-pill py-2-5">
+
                 <i class="bi bi-box-arrow-left me-2"></i>
                 Logout
+
             </a>
+
         </div>
 
     </div>
+
 </div>

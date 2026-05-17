@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Include Bootstrap Icons if not already in base.html -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-11">
+            
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: #ffffff;">
+                
+                <!-- HEADER BAND -->
+                <div class="p-4 p-md-5 text-white position-relative" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                    <div class="position-relative z-1">
+                        <h2 class="fw-bold mb-2 d-flex align-items-center gap-2">
+                            <i class="bi bi-person-gear text-info"></i> Edit Profile
+                        </h2>
+                        <p class="mb-0 opacity-75 max-w-md text-light">
+                            Keep your professional details updated to optimize your job matches and visibility.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+
+                        <!-- AVATAR & PHOTO UPLOAD SECTION -->
+                        <div class="row align-items-center pb-4 mb-4 border-bottom g-4">
+                            <div class="col-auto">
+                                <div class="position-relative">
+                                    {% if request.user.profile.profile_image %}
+                                        <img src="{{ request.user.profile.profile_image.url }}" width="120" height="120" class="rounded-circle border shadow-sm" style="object-fit: cover;">
+                                    {% else %}
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="120" height="120" class="rounded-circle border shadow-sm" style="object-fit: cover;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <h5 class="fw-bold mb-1">Profile Picture</h5>
+                                <p class="text-muted small mb-3">PNG or JPG. Recommended size: 400x400px.</p>
+                                <div class="custom-file-input-wrapper" style="max-width: 350px;">
+                                    {{ form.profile_image }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MAIN FORM GRID -->
+                        <div class="row g-4">
+                            <!-- Phone Number -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
+                                    <i class="bi bi-telephone text-muted"></i> Phone Number
+                                </label>
+                                <div class="input-group">
+                                    {{ form.phone }}
+                                </div>
+                            </div>
+
+                            <!-- LinkedIn Profile -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
+                                    <i class="bi bi-linkedin text-primary"></i> LinkedIn Profile URL
+                                </label>
+                                {{ form.linkedin }}
+                            </div>
+
+                            <!-- Skills Tagging -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
+                                    <i class="bi bi-braces-asterisk text-muted"></i> Core Skills
+                                </label>
+                                {{ form.skills }}
+                                <div class="form-text">Separate skills with commas (e.g. Python, UI Design, Django).</div>
+                            </div>
+
+                            <!-- Resume Upload -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
+                                    <i class="bi bi-file-earmark-pdf text-danger"></i> Resume / CV
+                                </label>
+                                {{ form.resume }}
+                                
+                                {% if request.user.profile.resume %}
+                                    <div class="mt-2 d-flex align-items-center gap-2 bg-light p-2 rounded-3 border">
+                                        <i class="bi bi-file-check-fill text-success fs-5"></i>
+                                        <span class="small text-truncate flex-grow-1 text-muted">Current file uploaded</span>
+                                        <a href="{{ request.user.profile.resume.url }}" target="_blank" class="btn btn-sm btn-light border text-nowrap rounded-2">
+                                            <i class="bi bi-eye"></i> View File
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Biography/Summary -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
+                                    <i class="bi bi-file-text text-muted"></i> Professional Summary / Bio
+                                </label>
+                                {{ form.bio }}
+                            </div>
+                        </div>
+
+                        <!-- FORM ACTION FOOTER -->
+                        <div class="d-flex flex-column-reverse flex-sm-row justify-content-end gap-3 mt-5 pt-4 border-top">
+                            <a href="{% url 'user_dashboard' %}" class="btn btn-light px-4 py-2.5 rounded-3 border fw-medium text-secondary">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-dark px-5 py-2.5 rounded-3 fw-medium shadow-sm" style="background-color: #0f172a;">
+                                Save Changes
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- AUTO-STYLING SCRIPT -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Automatically inject Bootstrap style classes to generic Django form fields
+        const textInputs = document.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"], textarea');
+        textInputs.forEach(input => {
+            input.classList.add('form-control', 'p-2.5');
+            // Give textareas a cleaner initial height
+            if (input.tagName.toLowerCase() === 'textarea') {
+                input.setAttribute('rows', '4');
+            }
+        });
+
+        // Clean up file fields to render well with Bootstrap
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+            input.classList.add('form-control');
+        });
+    });
+</script>
+{% endblock %}

@@ -9,4 +9,16 @@ urlpatterns = [
 
     path('logout/', views.logout_view, name='logout'),
     
+    path(
+    'profile/',
+    views.profile,
+    name='profile'
+),
+
+path(
+    'update-profile-image/',
+    views.update_profile_image,
+    name='update_profile_image'
+),
+    
 ]

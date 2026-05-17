@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+
 from .models import Profile
 
 
@@ -34,6 +35,7 @@ class RegisterForm(forms.ModelForm):
     )
 
     class Meta:
+
         model = User
 
         fields = [
@@ -54,6 +56,55 @@ class RegisterForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Email'
+            }),
+
+        }
+
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Profile
+
+        fields = [
+            'profile_image',
+            'phone',
+            'bio',
+            'skills',
+            'linkedin',
+            'resume'
+        ]
+
+        widgets = {
+
+            'profile_image': forms.FileInput(attrs={
+                'class': 'form-control'
+            }),
+
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Phone Number'
+            }),
+
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Write About Yourself',
+                'rows': 4
+            }),
+
+            'skills': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Python, Django, Java'
+            }),
+
+            'linkedin': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'LinkedIn Profile URL'
+            }),
+
+            'resume': forms.FileInput(attrs={
+                'class': 'form-control'
             }),
 
         }

@@ -2,17 +2,67 @@
     <div class="sidebar-wrapper d-flex flex-column">
 
         <!-- Recruiter Profile Section -->
-        <div class="text-center sidebar-top">
-            <div class="profile-img-container">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                     width="90"
-                     class="rounded-circle profile-img" 
-                     alt="Profile Picture">
-            </div>
-            <h4 class="fw-bold mt-3 text-white user-greeting">
-                {{ request.user.username }}
-            </h4>
+<div class="text-center sidebar-top">
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+        action="{% url 'update_profile_image' %}"
+        id="profileImageForm"
+    >
+        {% csrf_token %}
+
+        <div class="profile-img-wrapper">
+
+            <label for="profileUpload" style="cursor: pointer; position: relative; display: inline-block;">
+
+                {% if request.user.profile.profile_image %}
+
+                    <img
+                        src="{{ request.user.profile.profile_image.url }}"
+                        width="90"
+                        height="90"
+                        class="rounded-circle profile-img"
+                        style="object-fit: cover;"
+                    >
+
+                {% else %}
+
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                        width="90"
+                        height="90"
+                        class="rounded-circle profile-img"
+                        style="object-fit: cover;"
+                    >
+
+                {% endif %}
+
+                <!-- HOVER OVERLAY -->
+                <div class="profile-overlay">
+                    <i class="bi bi-camera-fill"></i>
+                    <small>Change</small>
+                </div>
+
+            </label>
+
         </div>
+
+        <input
+            type="file"
+            name="profile_image"
+            id="profileUpload"
+            hidden
+            onchange="document.getElementById('profileImageForm').submit();"
+        >
+
+    </form>
+
+    <h4 class="fw-bold mt-3 text-white user-greeting">
+        {{ request.user.username }}
+    </h4>
+
+</div>
 
         <!-- Navigation Menu -->
         <ul class="nav flex-column px-3 mt-2 sidebar-nav">
