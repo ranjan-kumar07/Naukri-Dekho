@@ -85,4 +85,21 @@ path(
     views.contact,
     name='contact'
 ),
+
+path(
+    'applicants/',
+    views.applicants,
+    name='applicants'
+),
+
+path(
+    'application-status/<int:application_id>/<str:status>/',
+    views.update_application_status,
+    name='update_application_status'
+),
+path(
+    'applicant-profile/<int:application_id>/',
+    views.applicant_profile,
+    name='applicant_profile'
+),
 ]

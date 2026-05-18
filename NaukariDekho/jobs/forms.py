@@ -49,7 +49,7 @@ class JobForm(forms.ModelForm):
             'company',
             'company_logo',
             'location',
-            'salary',
+            'salary_lpa',
             'description',
             'skills_required',
             'experience_required',
@@ -80,9 +80,9 @@ class JobForm(forms.ModelForm):
                 'placeholder': 'Example: Bangalore'
             }),
 
-            'salary': forms.NumberInput(attrs={
+            'salary_lpa': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Example: 50000'
+                'placeholder': 'Example: 6.5'
             }),
 
             'description': forms.Textarea(attrs={
@@ -163,25 +163,25 @@ class JobForm(forms.ModelForm):
         return title
 
     # Salary Validation
-    def clean_salary(self):
+    def clean_salary_lpa(self):
 
-        salary = self.cleaned_data.get('salary')
+        salary_lpa = self.cleaned_data.get('salary_lpa')
 
-        if salary is not None:
+        if salary_lpa is not None:
 
-            if salary <= 0:
+            if salary_lpa <= 0:
 
                 raise forms.ValidationError(
                     'Salary must be greater than 0.'
                 )
 
-            if salary < 5000:
+            if salary_lpa < 1:
 
                 raise forms.ValidationError(
                     'Salary looks too low.'
                 )
 
-        return salary
+        return salary_lpa
 
     # Description Validation
     def clean_description(self):

@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body p-4">
+
+            <!-- Header -->
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h3 class="fw-bold">
+
+                    Applicant Profile
+
+                </h3>
+
+                <a href="{% url 'applicants' %}"
+                   class="btn btn-outline-dark">
+
+                    Back
+
+                </a>
+
+            </div>
+
+            <hr>
+
+            <!-- Applicant Info -->
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <h6 class="text-muted">
+
+                        Username
+
+                    </h6>
+
+                    <p class="fw-semibold">
+
+                        {{ application.user.username }}
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h6 class="text-muted">
+
+                        Email
+
+                    </h6>
+
+                    <p class="fw-semibold">
+
+                        {{ application.user.email }}
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h6 class="text-muted">
+
+                        Applied For
+
+                    </h6>
+
+                    <p class="fw-semibold">
+
+                        {{ application.job.title }}
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h6 class="text-muted">
+
+                        Current Status
+
+                    </h6>
+
+                    <p>
+
+                        {% if application.status == 'applied' %}
+
+                            <span class="badge bg-secondary">
+
+                                Applied
+
+                            </span>
+
+                        {% elif application.status == 'reviewing' %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Reviewing
+
+                            </span>
+
+                        {% elif application.status == 'shortlisted' %}
+
+                            <span class="badge bg-info">
+
+                                Shortlisted
+
+                            </span>
+
+                        {% elif application.status == 'accepted' %}
+
+                            <span class="badge bg-success">
+
+                                Accepted
+
+                            </span>
+
+                        {% elif application.status == 'rejected' %}
+
+                            <span class="badge bg-danger">
+
+                                Rejected
+
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+                <!-- Cover Letter -->
+
+                <div class="col-12">
+
+                    <h6 class="text-muted">
+
+                        Cover Letter
+
+                    </h6>
+
+                    <div class="border rounded-3 p-3 bg-light">
+
+                        {{ application.cover_letter }}
+
+                    </div>
+
+                </div>
+
+                <!-- Resume -->
+
+                <div class="col-12">
+
+                    <a href="{{ application.resume.url }}"
+                       target="_blank"
+                       class="btn btn-dark">
+
+                        View Resume
+
+                    </a>
+
+                </div>
+
+                <!-- Actions -->
+
+                <div class="col-12 mt-4">
+
+                    <h5 class="fw-bold mb-3">
+
+                        Update Application Status
+
+                    </h5>
+
+                    <div class="d-flex flex-wrap gap-3">
+
+                        <a href="{% url 'update_application_status' application.id 'reviewing' %}"
+                           class="btn btn-warning">
+
+                            Mark Reviewing
+
+                        </a>
+
+                        <a href="{% url 'update_application_status' application.id 'shortlisted' %}"
+                           class="btn btn-info">
+
+                            Shortlist
+
+                        </a>
+
+                        <a href="{% url 'update_application_status' application.id 'accepted' %}"
+                           class="btn btn-success">
+
+                            Accept
+
+                        </a>
+
+                        <a href="{% url 'update_application_status' application.id 'rejected' %}"
+                           class="btn btn-danger">
+
+                            Reject
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

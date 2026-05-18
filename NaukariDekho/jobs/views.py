@@ -432,3 +432,108 @@ def contact(request):
         request,
         'contact.html'
     )
+
+@login_required
+def applicants(request):
+
+    recruiter_jobs = Job.objects.filter(
+        recruiter=request.user
+    )
+
+    applications = Application.objects.filter(
+        job__in=recruiter_jobs
+    ).select_related(
+        'user',
+        'job'
+    ).order_by('-applied_at')
+
+    # Search by username
+    search_query = request.GET.get('search')
+
+    if search_query:
+
+        applications = applications.filter(
+            user__username__icontains=search_query
+        )
+
+    # Filter by status
+    status_filter = request.GET.get('status')
+
+    if status_filter:
+
+        applications = applications.filter(
+            status=status_filter
+        )
+
+    # Filter by job
+    job_filter = request.GET.get('job')
+
+    if job_filter:
+
+        applications = applications.filter(
+            job__id=job_filter
+        )
+
+    context = {
+
+        'applications': applications,
+        'jobs': recruiter_jobs
+
+    }
+
+    return render(
+        request,
+        'recruiter/applicants.html',
+        context
+    )
+
+@login_required
+def update_application_status(
+    request,
+    application_id,
+    status
+):
+
+    application = get_object_or_404(
+        Application,
+        id=application_id
+    )
+
+    # Security Check
+    if application.job.recruiter != request.user:
+
+        return redirect('applicants')
+
+    application.status = status
+
+    application.save()
+
+    return redirect('applicants')
+
+@login_required
+def applicant_profile(
+    request,
+    application_id
+):
+
+    application = get_object_or_404(
+        Application,
+        id=application_id
+    )
+
+    # Security Check
+    if application.job.recruiter != request.user:
+
+        return redirect('applicants')
+
+    context = {
+
+        'application': application
+
+    }
+
+    return render(
+        request,
+        'recruiter/applicant_profile.html',
+        context
+    )

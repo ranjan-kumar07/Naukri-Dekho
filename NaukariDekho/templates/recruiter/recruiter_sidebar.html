@@ -1,109 +1,169 @@
 <div class="col-lg-3 col-md-4 sidebar p-0">
+
     <div class="sidebar-wrapper d-flex flex-column">
 
         <!-- Recruiter Profile Section -->
-<div class="text-center sidebar-top">
 
-    <form
-        method="POST"
-        enctype="multipart/form-data"
-        action="{% url 'update_profile_image' %}"
-        id="profileImageForm"
-    >
-        {% csrf_token %}
+        <div class="text-center sidebar-top">
 
-        <div class="profile-img-wrapper">
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+                action="{% url 'update_profile_image' %}"
+                id="profileImageForm"
+            >
 
-            <label for="profileUpload" style="cursor: pointer; position: relative; display: inline-block;">
+                {% csrf_token %}
 
-                {% if request.user.profile.profile_image %}
+                <div class="profile-img-wrapper">
 
-                    <img
-                        src="{{ request.user.profile.profile_image.url }}"
-                        width="90"
-                        height="90"
-                        class="rounded-circle profile-img"
-                        style="object-fit: cover;"
-                    >
+                    <label for="profileUpload"
+                           class="profile-img-label">
 
-                {% else %}
+                        <!-- Real Profile Image -->
 
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                        width="90"
-                        height="90"
-                        class="rounded-circle profile-img"
-                        style="object-fit: cover;"
-                    >
+                        {% if request.user.profile.profile_image %}
 
-                {% endif %}
+                            <img
+                                src="{{ request.user.profile.profile_image.url }}"
+                                class="profile-img shadow"
+                                alt="Profile Image"
+                            >
 
-                <!-- HOVER OVERLAY -->
-                <div class="profile-overlay">
-                    <i class="bi bi-camera-fill"></i>
-                    <small>Change</small>
+                        {% else %}
+
+                            <!-- Default Image -->
+
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                class="profile-img shadow"
+                                alt="Default Profile"
+                            >
+
+                        {% endif %}
+
+                        <!-- Hover Overlay -->
+
+                        <div class="profile-overlay">
+
+                            <i class="bi bi-camera-fill"></i>
+
+                            <small>Change</small>
+
+                        </div>
+
+                    </label>
+
                 </div>
 
-            </label>
+                <!-- Hidden File Input -->
+
+                <input
+                    type="file"
+                    name="profile_image"
+                    id="profileUpload"
+                    hidden
+                    onchange="document.getElementById('profileImageForm').submit();"
+                >
+
+            </form>
+
+            <!-- Username -->
+
+            <h4 class="fw-bold mt-3 text-white user-greeting">
+
+                {{ request.user.username }}
+
+            </h4>
+
+        
 
         </div>
 
-        <input
-            type="file"
-            name="profile_image"
-            id="profileUpload"
-            hidden
-            onchange="document.getElementById('profileImageForm').submit();"
-        >
-
-    </form>
-
-    <h4 class="fw-bold mt-3 text-white user-greeting">
-        {{ request.user.username }}
-    </h4>
-
-</div>
-
         <!-- Navigation Menu -->
-        <ul class="nav flex-column px-3 mt-2 sidebar-nav">
-            
-            <!-- Posted Jobs -->
+
+        <ul class="nav flex-column px-3 mt-4 sidebar-nav">
+
+            <!-- Home -->
+
             <li class="nav-item mb-2">
+
+                <a href="{% url 'recruiter_dashboard' %}"
+                   class="nav-link dashboard-link {% if request.resolver_match.url_name == 'recruiter_dashboard' %}active{% endif %}">
+
+                    <i class="bi bi-house-door-fill"></i>
+
+                    <span>Home</span>
+
+                </a>
+
+            </li>
+
+            <!-- Posted Jobs -->
+
+            <li class="nav-item mb-2">
+
                 <a href="{% url 'posted_jobs' %}"
                    class="nav-link dashboard-link {% if request.resolver_match.url_name == 'posted_jobs' %}active{% endif %}">
+
                     <i class="bi bi-briefcase-fill"></i>
+
                     <span>Posted Jobs</span>
+
                 </a>
+
             </li>
 
             <!-- Add Job -->
+
             <li class="nav-item mb-2">
+
                 <a href="{% url 'add_job' %}"
                    class="nav-link dashboard-link {% if request.resolver_match.url_name == 'add_job' %}active{% endif %}">
+
                     <i class="bi bi-plus-circle-fill"></i>
+
                     <span>Post New Job</span>
+
                 </a>
+
             </li>
 
             <!-- Applicants -->
+
             <li class="nav-item mb-2">
-                <a href="#"
+
+                <a href="{% url 'applicants' %}"
                    class="nav-link dashboard-link {% if request.resolver_match.url_name == 'applicants' %}active{% endif %}">
+
                     <i class="bi bi-people-fill"></i>
+
                     <span>Applicants</span>
+
                 </a>
+
             </li>
 
         </ul>
 
-        <!-- Logout Button -->
+        <!-- Logout -->
+
         <div class="p-3 mt-auto">
+
             <a href="{% url 'logout' %}"
                class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2">
+
                 <i class="bi bi-box-arrow-right"></i>
+
                 <span>Logout</span>
+
             </a>
+
         </div>
 
     </div>
+
 </div>
+
+
+

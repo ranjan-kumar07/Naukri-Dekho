@@ -1,1 +1,203 @@
-<h1>about </h1>
+{% extends "base.html" %}
+{% load static %} 
+
+  
+
+{% block content %}
+<!-- ================= ABOUT SECTION ================= -->
+
+<section class="hero">
+
+    <h1>About <span>Naukri Dekho</span></h1>
+
+    <p>
+        Naukri Dekho is a modern job portal website created
+        to help students, freshers, and professionals
+        discover the latest jobs and internships easily.
+
+        Our platform connects job seekers with trusted
+        companies and recruiters in a simple and fast way.
+    </p>
+
+    <button class="hero-btn">
+        Explore Jobs
+    </button>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
+
+    <h2 class="section-title">Why Choose Us</h2>
+
+    <div class="feature-container">
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-briefcase"></i>
+
+            <h3>Latest Jobs</h3>
+
+            <p>
+                Get updated daily with private jobs,
+                internships, and government jobs.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-user-graduate"></i>
+
+            <h3>For Freshers</h3>
+
+            <p>
+                Best platform for students and freshers
+                searching for their first opportunity.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-bolt"></i>
+
+            <h3>Fast & Easy</h3>
+
+            <p>
+                Apply for jobs quickly using our
+                modern and user-friendly interface.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= TEAM SECTION ================= -->
+
+<section class="team">
+
+    <h2 class="section-title">Meet Our Team</h2>
+
+    <div class="team-container">
+
+        <!-- MEMBER 1 -->
+
+        <div class="team-card">
+
+            <img src="{% static 'images/gam.jpeg' %}" alt="team">
+
+            <h3>Gambhir Jha</h3>
+
+            <p>Founder & FullStack Developer</p>
+
+            <div class="social-icons">
+
+                <a href="#">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- MEMBER 2 -->
+
+        <div class="team-card">
+
+            <img src="{% static 'images/ranjan.jpeg' %}" alt="team">
+
+            <h3>Ranjan Kumar</h3>
+
+            <p>Backend Developer</p>
+
+            <div class="social-icons">
+
+                <a href="#">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- MEMBER 3 -->
+
+        <div class="team-card">
+
+            <img src="{% static 'images/rahul.jpeg' %}" alt="team">
+
+            <h3>Rahul Kumar</h3>
+
+            <p>UI/UX Designer</p>
+
+            <div class="social-icons">
+
+                <a href="#">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- MEMBER 4 -->
+
+        <div class="team-card">
+
+            <img src="{% static 'images/sahil.jpeg' %}" alt="team">
+
+            <h3>Sahil Kumar</h3>
+
+            <p>Frontend Developer</p>
+
+            <div class="social-icons">
+
+                <a href="#">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock  %}

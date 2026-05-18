@@ -176,7 +176,7 @@
 
                                 <i class="fa-solid fa-indian-rupee-sign text-primary-accent me-2"></i>
 
-                                Salary
+                                Salary (LPA)
 
                             </label>
 
@@ -188,19 +188,19 @@
 
                                 </span>
 
-                                {{ form.salary }}
+                                {{ form.salary_lpa }}
 
                             </div>
 
                             <div class="form-text text-muted-sm">
 
-                                Monthly salary package
+                                Example: 6.5 LPA
 
                             </div>
 
-                            {% if form.salary.errors %}
+                            {% if form.salary_lpa.errors %}
                                 <div class="text-danger small mt-2">
-                                    {{ form.salary.errors }}
+                                    {{ form.salary_lpa.errors }}
                                 </div>
                             {% endif %}
 

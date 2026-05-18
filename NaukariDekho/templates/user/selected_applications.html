@@ -7,25 +7,46 @@
     <div class="row">
 
         <!-- Sidebar -->
+
         {% include 'user/user_sidebar.html' %}
 
         <!-- Main Content -->
+
         <div class="col-lg-9 col-md-8 px-md-4">
 
-            <!-- Heading -->
-            <div class="mb-4">
+            <!-- Header -->
 
-                <h2 class="fw-bold text-dark-emphasis mb-1">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
 
-                    🎉 Selected Applications
+                <div>
 
-                </h2>
+                    <h2 class="fw-bold text-dark mb-1">
 
-                <p class="text-muted">
+                        🎉 Selected Applications
 
-                    Track the jobs where recruiters have selected you.
+                    </h2>
 
-                </p>
+                    <p class="text-muted mb-0">
+
+                        Track the applications where recruiters selected you.
+
+                    </p>
+
+                </div>
+
+                <!-- Count -->
+
+                <div>
+
+                    <span class="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill">
+
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                        {{ applications|length }} Selected
+
+                    </span>
+
+                </div>
 
             </div>
 
@@ -37,19 +58,23 @@
 
                 <div class="col-12">
 
+                    <!-- Card -->
+
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden application-card">
 
                         <div class="card-body p-4">
 
-                            <div class="row align-items-center">
+                            <div class="row align-items-center g-4">
 
-                                <!-- Left Section -->
+                                <!-- Left Side -->
+
                                 <div class="col-lg-8">
 
-                                    <div class="d-flex align-items-start">
+                                    <div class="d-flex align-items-start gap-4">
 
                                         <!-- Company Logo -->
-                                        <div class="company-logo me-4">
+
+                                        <div class="company-logo shadow-sm">
 
                                             {% if app.job.company_logo %}
 
@@ -64,26 +89,30 @@
 
                                         </div>
 
-                                        <!-- Job Info -->
-                                        <div>
+                                        <!-- Details -->
 
-                                            <!-- Status -->
-                                            <span class="badge success-badge mb-3">
+                                        <div class="flex-grow-1">
+
+                                            <!-- Selected Badge -->
+
+                                            <span class="badge selected-badge mb-3">
 
                                                 <i class="bi bi-patch-check-fill me-1"></i>
 
-                                                Selected
+                                                Congratulations! You're Selected
 
                                             </span>
 
                                             <!-- Job Title -->
-                                            <h3 class="fw-bold mb-2">
+
+                                            <h3 class="fw-bold text-dark mb-2">
 
                                                 {{ app.job.title }}
 
                                             </h3>
 
-                                            <!-- Company -->
+                                            <!-- Company + Location -->
+
                                             <p class="text-secondary fw-medium mb-2">
 
                                                 <i class="bi bi-building me-1"></i>
@@ -98,8 +127,21 @@
 
                                             </p>
 
+                                            <!-- Recruiter -->
+
+                                            <p class="small text-muted mb-2">
+
+                                                <i class="bi bi-person-badge me-1"></i>
+
+                                                Recruiter:
+
+                                                {{ app.job.recruiter.username }}
+
+                                            </p>
+
                                             <!-- Job Type -->
-                                            <p class="text-muted small mb-2">
+
+                                            <p class="small text-muted mb-2">
 
                                                 <i class="bi bi-briefcase-fill me-1"></i>
 
@@ -108,30 +150,36 @@
                                             </p>
 
                                             <!-- Experience -->
-                                            <p class="text-muted small mb-2">
+
+                                            <p class="small text-muted mb-3">
 
                                                 <i class="bi bi-person-workspace me-1"></i>
 
                                                 Experience Required:
+
                                                 {{ app.job.experience_required }}
 
                                             </p>
 
                                             <!-- Skills -->
-                                            <div class="skills-box mt-3">
 
-                                                <strong>
+                                            <div class="d-flex flex-wrap gap-2 mb-3">
 
-                                                    Skills Required:
+                                                {% for skill in app.skills_list %}
 
-                                                </strong>
+                                                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
 
-                                                {{ app.job.skills_required }}
+                                                        {{ skill }}
+
+                                                    </span>
+
+                                                {% endfor %}
 
                                             </div>
 
                                             <!-- Applied Date -->
-                                            <div class="text-muted small mt-3">
+
+                                            <div class="small text-muted">
 
                                                 <i class="bi bi-calendar-check me-1"></i>
 
@@ -147,55 +195,76 @@
 
                                 </div>
 
-                                <!-- Right Section -->
-                                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                                <!-- Right Side -->
 
-                                    <!-- Salary -->
-                                    <div class="salary-box mb-3">
+                                <div class="col-lg-4">
 
-                                        ₹ {{ app.job.salary }}
+                                    <div class="text-lg-end">
 
-                                        <small class="text-muted fs-6">
+                                        <!-- Salary -->
 
-                                            /month
+                                        <div class="salary-box mb-3">
 
-                                        </small>
+                                            ₹ {{ app.job.salary_lpa }}
 
-                                    </div>
+                                            <small class="text-muted fs-6">
 
-                                    <!-- Recruiter Message -->
-                                    {% if app.recruiter_message %}
+                                                LPA
 
-                                    <div class="recruiter-message mb-3">
+                                            </small>
 
-                                        <strong>
+                                        </div>
 
-                                            Recruiter Message:
+                                        <!-- Recruiter Message -->
 
-                                        </strong>
+                                        {% if app.recruiter_message %}
 
-                                        <p class="mb-0 small">
+                                        <div class="recruiter-message mb-3 text-start">
 
-                                            {{ app.recruiter_message }}
+                                            <strong class="d-block mb-1">
 
-                                        </p>
+                                                Recruiter Message
 
-                                    </div>
+                                            </strong>
 
-                                    {% endif %}
+                                            <p class="mb-0 small">
 
-                                    <!-- Buttons -->
-                                    <div class="d-grid gap-2">
+                                                {{ app.recruiter_message }}
 
-                                        <!-- Resume -->
-                                        <a href="{{ app.resume.url }}"
-                                           class="btn btn-outline-success rounded-pill">
+                                            </p>
 
-                                            <i class="bi bi-download me-2"></i>
+                                        </div>
 
-                                            Download Resume
+                                        {% endif %}
 
-                                        </a>
+                                        <!-- Action Buttons -->
+
+                                        <div class="d-grid gap-2">
+
+                                            {% comment %} <!-- View Job -->
+
+                                            <a href="{% url 'job_detail' app.job.id %}"
+                                               class="btn btn-success rounded-pill">
+
+                                                <i class="bi bi-eye-fill me-2"></i>
+
+                                                View Job
+
+                                            </a> {% endcomment %}
+
+                                            <!-- Resume -->
+
+                                            <a href="{{ app.resume.url }}"
+                                               target="_blank"
+                                               class="btn btn-outline-dark rounded-pill">
+
+                                                <i class="bi bi-download me-2"></i>
+
+                                                Download Resume
+
+                                            </a>
+
+                                        </div>
 
                                     </div>
 
@@ -216,13 +285,14 @@
             {% else %}
 
             <!-- Empty State -->
+
             <div class="card border-0 shadow-sm rounded-4 bg-white mt-4">
 
                 <div class="card-body text-center py-5">
 
-                    <i class="bi bi-emoji-smile display-1 text-muted"></i>
+                    <i class="bi bi-emoji-smile display-1 text-muted opacity-50"></i>
 
-                    <h3 class="fw-bold mt-4 text-dark-emphasis">
+                    <h3 class="fw-bold mt-4 text-dark">
 
                         No selections yet
 
@@ -231,8 +301,8 @@
                     <p class="text-muted mx-auto"
                        style="max-width: 500px;">
 
-                        Keep applying to active opportunities and improve your resume.
-                        Your next opportunity may be just one application away.
+                        Keep applying to opportunities and improve your profile.
+                        Your next selection could be just one application away.
 
                     </p>
 
@@ -257,131 +327,147 @@
 
 </div>
 
-
 <style>
 
-    body{
+body {
 
-        background: #f5f7fb;
+    background: #f5f7fb;
+
+}
+
+/* Card */
+
+.application-card {
+
+    transition: 0.3s ease;
+
+    border-left: 4px solid transparent;
+
+}
+
+.application-card:hover {
+
+    transform: translateY(-5px);
+
+    border-left-color: #198754;
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08) !important;
+
+}
+
+/* Company Logo */
+
+.company-logo {
+
+    width: 78px;
+
+    height: 78px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    background: #eef3ff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 30px;
+
+}
+
+.company-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+/* Selected Badge */
+
+.selected-badge {
+
+    background: #eafaf0;
+
+    color: #198754;
+
+    border: 1px solid rgba(25,135,84,0.15);
+
+    padding: 10px 16px;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+/* Salary */
+
+.salary-box {
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: #198754;
+
+}
+
+/* Recruiter Message */
+
+.recruiter-message {
+
+    background: #fff8f0;
+
+    border: 1px solid #ffe2c2;
+
+    padding: 14px;
+
+    border-radius: 16px;
+
+}
+
+/* Buttons */
+
+.btn-primary {
+
+    background: linear-gradient(
+        135deg,
+        #0d6efd,
+        #0b5ed7
+    );
+
+    border: none;
+
+}
+
+.btn-primary:hover {
+
+    transform: translateY(-2px);
+
+}
+
+/* Responsive */
+
+@media(max-width: 768px){
+
+    .salary-box {
+
+        font-size: 24px;
 
     }
 
-    .application-card{
-
-        transition: 0.3s ease;
-
-    }
-
-    .application-card:hover{
-
-        transform: translateY(-5px);
-
-        box-shadow:
-            0 12px 30px rgba(0,0,0,0.08) !important;
-
-    }
-
-    .company-logo{
-
-        width: 75px;
-        height: 75px;
-
-        border-radius: 50%;
-
-        overflow: hidden;
-
-        background: #eef3ff;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        flex-shrink: 0;
-
-        font-size: 28px;
-
-    }
-
-    .company-logo img{
-
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-
-    }
-
-    .success-badge{
-
-        background: #eafaf0;
-
-        color: #198754;
-
-        padding: 10px 16px;
-
-        border-radius: 30px;
-
-        font-size: 13px;
-
-        font-weight: 600;
-
-    }
-
-    .salary-box{
-
-        font-size: 28px;
-
-        font-weight: 700;
-
-        color: #198754;
-
-    }
-
-    .skills-box{
-
-        background: #f8f9fa;
-
-        padding: 12px 15px;
-
-        border-radius: 14px;
-
-        font-size: 14px;
-
-        color: #495057;
-
-    }
-
-    .recruiter-message{
-
-        background: #fff8f0;
-
-        border: 1px solid #ffe2c2;
-
-        padding: 14px;
-
-        border-radius: 14px;
-
-        text-align: left;
-
-    }
-
-    .btn-primary{
-
-        background: linear-gradient(
-            135deg,
-            #0d6efd,
-            #0b5ed7
-        );
-
-        border: none;
-
-    }
-
-    .btn-primary:hover{
-
-        transform: translateY(-2px);
-
-    }
+}
 
 </style>
 
