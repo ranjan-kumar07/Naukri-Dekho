@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8 col-xl-7">
+
+            <!-- TOP BAR -->
+
+            <div
+                class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+
+                        Add Project
+
+                    </h2>
+
+                    <p class="text-muted mb-0">
+
+                        Showcase your projects and deployments
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'projects' %}"
+                    class="btn btn-light border rounded-pill px-4 shadow-sm">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div
+                class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- HEADER -->
+
+                <div
+                    class="text-white p-4"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div
+                        class="d-flex align-items-center">
+
+                        <div
+                            class="project-icon me-3">
+
+                            <i
+                               class="bi bi-rocket-takeoff-fill">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <h4
+                                class="fw-bold mb-1">
+
+                                Project Details
+
+                            </h4>
+
+                            <p
+                                class="mb-0 opacity-75">
+
+                                Add project information and deployment links
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- FORM -->
+
+                <div
+                    class="card-body p-4 p-lg-5">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <!-- TITLE -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Project Title
+
+                            </label>
+
+                            {{ form.title }}
+
+                        </div>
+
+                        <!-- TECH -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Technologies Used
+
+                            </label>
+
+                            {{ form.technologies_used }}
+
+                            <small class="text-muted">
+
+                                Example: Django, Bootstrap, PostgreSQL
+
+                            </small>
+
+                        </div>
+
+                        <!-- LINKS -->
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    GitHub Repository
+
+                                </label>
+
+                                {{ form.github_link }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    Live Project URL
+
+                                </label>
+
+                                {{ form.live_link }}
+
+                            </div>
+
+                        </div>
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Project Description
+
+                            </label>
+
+                            {{ form.description }}
+
+                        </div>
+
+                        <!-- BUTTONS -->
+
+                        <div
+                            class="d-flex gap-3 mt-4">
+
+                            <a
+                                href="{% url 'projects' %}"
+                                class="btn btn-light border flex-fill py-2">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary flex-fill py-2">
+
+                                Save Project
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.project-icon{
+
+width:60px;
+
+height:60px;
+
+border-radius:18px;
+
+background:
+
+rgba(
+255,
+255,
+255,
+0.15
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:28px;
+
+backdrop-filter:
+
+blur(
+10px
+);
+
+}
+
+input,
+textarea,
+select{
+
+border-radius:
+
+14px !important;
+
+padding:
+
+12px 14px !important;
+
+border:
+
+1px solid #dee2e6 !important;
+
+box-shadow:
+
+none !important;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+border-color:
+
+#4f46e5 !important;
+
+box-shadow:
+
+0 0 0 .2rem
+rgba(
+79,
+70,
+229,
+0.15
+)
+
+!important;
+
+}
+
+textarea{
+
+min-height:
+
+140px;
+
+}
+
+.card{
+
+transition:
+
+.3s;
+
+}
+
+.card:hover{
+
+transform:
+
+translateY(
+-3px
+);
+
+}
+
+</style>
+
+{% endblock %}

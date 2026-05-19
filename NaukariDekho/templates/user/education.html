@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-4 px-md-4">
+
+    <div class="row g-4">
+
+        <!-- SIDEBAR -->
+        <div class="col-12 col-md-4 col-lg-3">
+
+            {% include 'user/profile_sidebar.html' %}
+
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-12 col-md-8 col-lg-9">
+
+            <!-- HEADER -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+
+                <div
+                    class="p-4 p-lg-5 text-white"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+
+                            <h2 class="fw-bold mb-1">
+
+                                Education
+
+                            </h2>
+
+                            <p class="opacity-75 mb-0">
+
+                                Manage your academic background
+
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="{% url 'add_education' %}"
+                            class="btn btn-light rounded-pill px-4 fw-semibold shadow-sm">
+
+                            + Add Education
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- EDUCATION LIST -->
+            <div class="row g-4">
+
+                {% for edu in educations %}
+
+                <div class="col-md-6">
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4 h-100 education-card">
+
+                        <div class="card-body p-4">
+
+                            <!-- TOP -->
+                            <div
+                                class="d-flex justify-content-between align-items-start">
+
+                                <div>
+
+                                    <h5 class="fw-bold mb-2">
+
+                                        {{ edu.degree }}
+
+                                    </h5>
+
+                                    <p class="text-muted mb-1">
+
+                                        {{ edu.college_name }}
+
+                                    </p>
+
+                                </div>
+
+                                <div
+                                    class="bg-primary bg-opacity-10 rounded-circle p-3">
+
+                                    <i
+                                      class="bi bi-mortarboard text-primary">
+                                    </i>
+
+                                </div>
+
+                            </div>
+
+                            <!-- YEARS -->
+                            <div
+                              class="mt-3 small text-secondary">
+
+                                <i class="bi bi-calendar3 me-2"></i>
+
+                                {{ edu.start_year }}
+
+                                -
+
+                                {{ edu.end_year }}
+
+                            </div>
+
+                            <!-- ACTION -->
+                            <div class="mt-4 text-end">
+
+                                <a
+                                   href="{% url 'delete_education' edu.id %}"
+                                   class="btn btn-sm btn-outline-danger rounded-pill"
+                                   onclick="return confirm('Delete this education?')">
+
+                                    <i class="bi bi-trash"></i>
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-12">
+
+                    <div
+                      class="card border-0 shadow-sm rounded-4">
+
+                        <div class="card-body text-center py-5">
+
+                            <i
+                              class="bi bi-mortarboard fs-1 text-muted">
+                            </i>
+
+                            <h5 class="fw-bold mt-3">
+
+                                No Education Added
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                Add your academic qualifications.
+
+                            </p>
+
+                            <a
+                              href="{% url 'add_education' %}"
+                              class="btn btn-primary rounded-pill px-4">
+
+                                Add Education
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

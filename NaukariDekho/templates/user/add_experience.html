@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8 col-xl-7">
+
+            <!-- TOP BAR -->
+
+            <div
+                class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+
+                        Add Experience
+
+                    </h2>
+
+                    <p class="text-muted mb-0">
+
+                        Add your professional work history
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'experience' %}"
+                    class="btn btn-light border rounded-pill px-4 shadow-sm">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div
+                class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- HEADER -->
+
+                <div
+                    class="text-white p-4"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div
+                        class="d-flex align-items-center">
+
+                        <div
+                            class="experience-icon me-3">
+
+                            <i
+                               class="bi bi-briefcase-fill">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <h4
+                                class="fw-bold mb-1">
+
+                                Experience Details
+
+                            </h4>
+
+                            <p
+                                class="mb-0 opacity-75">
+
+                                Add company and role information
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- FORM -->
+
+                <div
+                    class="card-body p-4 p-lg-5">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <!-- COMPANY -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Company Name
+
+                            </label>
+
+                            {{ form.company_name }}
+
+                        </div>
+
+                        <!-- ROLE -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Job Role
+
+                            </label>
+
+                            {{ form.job_role }}
+
+                        </div>
+
+                        <!-- DATES -->
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    Start Date
+
+                                </label>
+
+                                {{ form.start_date }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    End Date
+
+                                </label>
+
+                                {{ form.end_date }}
+
+                            </div>
+
+                        </div>
+
+                        <!-- CURRENTLY WORKING -->
+
+                        <div
+                            class="working-box mb-4">
+
+                            <div
+                                class="form-check m-0">
+
+                                {{ form.currently_working }}
+
+                                <label
+                                    class="form-check-label ms-2 fw-medium">
+
+                                    Currently Working Here
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Work Description
+
+                            </label>
+
+                            {{ form.description }}
+
+                        </div>
+
+                        <!-- BUTTONS -->
+
+                        <div
+                            class="d-flex gap-3 mt-4">
+
+                            <a
+                                href="{% url 'experience' %}"
+                                class="btn btn-light border flex-fill py-2">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary flex-fill py-2">
+
+                                Save Experience
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.experience-icon{
+
+width:60px;
+
+height:60px;
+
+border-radius:18px;
+
+background:
+
+rgba(
+255,
+255,
+255,
+0.15
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:28px;
+
+backdrop-filter:
+
+blur(
+10px
+);
+
+}
+
+.working-box{
+
+background:
+
+#f8fafc;
+
+padding:
+
+14px 18px;
+
+border-radius:
+
+14px;
+
+border:
+
+1px solid #e5e7eb;
+
+}
+
+input,
+textarea,
+select{
+
+border-radius:
+
+14px !important;
+
+padding:
+
+12px 14px !important;
+
+border:
+
+1px solid #dee2e6 !important;
+
+box-shadow:
+
+none !important;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+border-color:
+
+#4f46e5 !important;
+
+box-shadow:
+
+0 0 0 .2rem
+rgba(
+79,
+70,
+229,
+0.15
+)
+
+!important;
+
+}
+
+textarea{
+
+min-height:
+
+120px;
+
+}
+
+.card{
+
+transition:
+
+.3s;
+
+}
+
+.card:hover{
+
+transform:
+
+translateY(
+-3px
+);
+
+}
+
+</style>
+
+{% endblock %}

@@ -1,298 +1,435 @@
-from django.shortcuts import render, redirect
-
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-
 from django.contrib.auth import authenticate, login, logout
-
 from django.contrib.auth.decorators import login_required
-
 from django.contrib import messages
 
-from .models import Profile
+from .models import (
+    Profile,
+    Skill,
+    Education,
+    Experience,
+    Project,
+    Certification
+)
 
-from .forms import RegisterForm, ProfileForm
+from .forms import (
+    RegisterForm,
+    ProfileForm,
+    SkillForm,
+    EducationForm,
+    ExperienceForm,
+    ProjectForm,
+    CertificationForm
+)
 
 from jobs.models import Application
+from .utils import calculate_profile_completion
 
 
-# ================= REGISTER =================
-
+# ==========================================
+# REGISTER
+# ==========================================
 def register(request):
 
     if request.method == 'POST':
-
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-
             username = form.cleaned_data['username']
-
             email = form.cleaned_data['email']
-
             role = form.cleaned_data['role']
 
-            # Check username already exists
-            username_exists = User.objects.filter(
-                username=username
-            ).exists()
-
-            # Check email already exists
-            email_exists = User.objects.filter(
-                email=email
-            ).exists()
-
-            if username_exists and email_exists:
-
-                messages.error(
-                    request,
-                    'Username and Email already exist'
-                )
-
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username already exists")
                 return redirect('register')
 
-            elif username_exists:
-
-                messages.error(
-                    request,
-                    'Username already exists'
-                )
-
+            if User.objects.filter(email=email).exists():
+                messages.error(request, "Email already exists")
                 return redirect('register')
 
-            elif email_exists:
-
-                messages.error(
-                    request,
-                    'Email already exists'
-                )
-
-                return redirect('register')
-
-            # Create user
             user = User.objects.create_user(
-
                 first_name=form.cleaned_data['first_name'],
-
                 last_name=form.cleaned_data['last_name'],
-
-                username=form.cleaned_data['username'],
-
-                email=form.cleaned_data['email'],
-
+                username=username,
+                email=email,
                 password=form.cleaned_data['password']
-
             )
 
-            # Update profile role
             profile = user.profile
-
             profile.role = role
-
             profile.save()
 
-            messages.success(
-                request,
-                'Account created successfully'
-            )
-
+            messages.success(request, "Account created successfully")
             return redirect('login')
 
     else:
-
         form = RegisterForm()
 
-    return render(
-        request,
-        'register.html',
-        {
-            'form': form
-        }
-    )
+    return render(request, 'register.html', {'form': form})
 
 
-# ================= LOGIN =================
-
+# ==========================================
+# LOGIN
+# ==========================================
 def login_view(request):
 
     if request.user.is_authenticated:
+        profile = Profile.objects.filter(user=request.user).first()
 
-        profile = Profile.objects.filter(
-            user=request.user
-        ).first()
-
-        if profile.role == 'user':
-
+        if profile and profile.role == 'user':
             return redirect('user_dashboard')
-
-        elif profile.role == 'recruiter':
-
+        elif profile and profile.role == 'recruiter':
             return redirect('recruiter_dashboard')
 
     if request.method == 'POST':
-
         username = request.POST.get('username')
-
         password = request.POST.get('password')
 
-        user = authenticate(
+        user = authenticate(request, username=username, password=password)
 
-            request,
+        if user:
+            login(request, user)
 
-            username=username,
-
-            password=password
-
-        )
-
-        if user is not None:
-
-            login(
-                request,
-                user
-            )
-
-            profile = Profile.objects.filter(
-                user=user
-            ).first()
+            profile = Profile.objects.filter(user=user).first()
 
             if profile and profile.role == 'user':
-
                 return redirect('user_dashboard')
-
             elif profile and profile.role == 'recruiter':
-
                 return redirect('recruiter_dashboard')
 
         else:
+            messages.error(request, "Invalid Username or Password")
 
-            messages.error(
-                request,
-                'Invalid Username or Password'
-            )
-
-    return render(
-        request,
-        'login.html'
-    )
+    return render(request, 'login.html')
 
 
-# ================= USER DASHBOARD =================
+# ==========================================
+# LOGOUT  ✅ (RESTORED)
+# ==========================================
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Logged out successfully")
+    return redirect('home')
 
+
+# ==========================================
+# USER DASHBOARD
+# ==========================================
 @login_required(login_url='login')
 def user_dashboard(request):
 
-    applications = Application.objects.filter(
-        user=request.user
-    )
+    applications = Application.objects.filter(user=request.user)
 
-    pending_count = applications.filter(
-        status='pending'
-    ).count()
-
-    interview_count = applications.filter(
-        status='accepted'
-    ).count()
-
-    context = {
-
+    return render(request, 'user/user_dashboard.html', {
         'applications': applications,
+        'pending_count': applications.filter(status='pending').count(),
+        'interview_count': applications.filter(status='accepted').count(),
+    })
 
-        'pending_count': pending_count,
+# ==========================================
+# RECRUITER DASHBOARD
+# ==========================================
+@login_required(login_url='login')
+def recruiter_dashboard(request):
+    return render(request, 'recruiter/recruiter_dashboard.html')
 
-        'interview_count': interview_count,
+# ==========================================
+# PROFILE VIEW (MAIN + FIXED COMPLETION)
+# ==========================================
+@login_required(login_url='login')
+def profile_view(request):
 
-    }
+    profile = request.user.profile
 
-    return render(
-        request,
-        'user/user_dashboard.html',
-        context
-    )
+    completion = calculate_profile_completion(profile)
+
+    return render(request, 'user/profile.html', {
+        'profile': profile,
+        'skills': profile.skills.all(),
+        'educations': profile.educations.all(),
+        'experiences': profile.experiences.all(),
+        'projects': profile.projects.all(),
+        'certifications': profile.certifications.all(),
+        'completion': completion,
+        'active_page': 'overview'
+    })
 
 
-# ================= PROFILE =================
+# ==========================================
+# EDIT PROFILE
+# ==========================================
+@login_required
+def edit_profile(request):
+
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'user/edit_profile.html', {
+        'form': form,
+        # ADD THIS
+        'active_page': 'edit_profile'
+    })
+
+
+# ==========================================
+# SKILLS
+# ==========================================
+@login_required(login_url='login')
+def skills_view(request):
+
+    profile = request.user.profile
+    skills = Skill.objects.filter(profile=profile)
+
+    return render(request, 'user/skills.html', {
+        'skills': skills,
+        'active_page': 'skills'
+    })
+
 
 @login_required(login_url='login')
-def profile(request):
+def add_skill(request):
 
     profile = request.user.profile
 
     if request.method == 'POST':
-
-        form = ProfileForm(
-
-            request.POST,
-
-            request.FILES,
-
-            instance=profile
-
-        )
+        form = SkillForm(request.POST)
 
         if form.is_valid():
-
-            form.save()
-
-            messages.success(
-                request,
-                'Profile Updated Successfully'
-            )
-
-            return redirect('profile')
+            skill = form.save(commit=False)
+            skill.profile = profile
+            skill.save()
+            return redirect('skills')
 
     else:
+        form = SkillForm()
 
-        form = ProfileForm(
-            instance=profile
-        )
-
-    return render(
-
-        request,
-
-        'user/profile.html',
-
-        {
-            'form': form
-        }
-
-    )
+    return render(request, 'user/add_skill.html', {
+        'form': form,
+        'active_page': 'skills'
+    })
 
 
-# ================= RECRUITER DASHBOARD =================
-
-@login_required(login_url='login')
-def recruiter_dashboard(request):
-
-    return render(
-        request,
-        'recruiter/recruiter_dashboard.html'
-    )
-
-
-# ================= LOGOUT =================
-
-def logout_view(request):
-
-    logout(request)
-
-    messages.success(
-        request,
-        'Logged out successfully'
-    )
-
-    return redirect('home')
-
-# update recruiter profile img
 @login_required
-def update_profile_image(request):
+def delete_skill(request, skill_id):
+    skill = get_object_or_404(Skill, id=skill_id, profile__user=request.user)
+    skill.delete()
+    return redirect('skills')
+
+
+# ==========================================
+# EDUCATION
+# ==========================================
+@login_required
+def education_view(request):
+
+    profile = request.user.profile
+    educations = Education.objects.filter(profile=profile)
+
+    return render(request, 'user/education.html', {
+        'educations': educations,
+        'active_page': 'education'
+    })
+
+
+@login_required
+def add_education(request):
 
     profile = request.user.profile
 
-    if request.method == "POST" and request.FILES.get("profile_image"):
+    if request.method == 'POST':
+        form = EducationForm(request.POST)
 
-        profile.profile_image = request.FILES["profile_image"]
+        if form.is_valid():
+            edu = form.save(commit=False)
+            edu.profile = profile
+            edu.save()
+            return redirect('education')
+
+    else:
+        form = EducationForm()
+
+    return render(request, 'user/add_education.html', {
+        'form': form,
+        'active_page': 'education'
+    })
+
+
+@login_required
+def delete_education(request, edu_id):
+    edu = get_object_or_404(Education, id=edu_id, profile__user=request.user)
+    edu.delete()
+    return redirect('education')
+
+
+# ==========================================
+# EXPERIENCE
+# ==========================================
+@login_required
+def experience_view(request):
+
+    profile = request.user.profile
+    experiences = Experience.objects.filter(profile=profile)
+
+    return render(request, 'user/experience.html', {
+        'experiences': experiences,
+        'active_page': 'experience'
+    })
+
+
+@login_required
+def add_experience(request):
+
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        form = ExperienceForm(request.POST)
+
+        if form.is_valid():
+            exp = form.save(commit=False)
+            exp.profile = profile
+
+            if exp.currently_working:
+                exp.end_date = None
+
+            exp.save()
+            return redirect('experience')
+
+    else:
+        form = ExperienceForm()
+
+    return render(request, 'user/add_experience.html', {
+        'form': form,
+        'active_page': 'experience'
+    })
+
+
+@login_required
+def delete_experience(request, exp_id):
+    exp = get_object_or_404(Experience, id=exp_id, profile__user=request.user)
+    exp.delete()
+    return redirect('experience')
+
+
+# ==========================================
+# PROJECTS
+# ==========================================
+@login_required
+def projects_view(request):
+
+    profile = request.user.profile
+    projects = Project.objects.filter(profile=profile)
+
+    return render(request, 'user/projects.html', {
+        'projects': projects,
+        'active_page': 'projects'
+    })
+
+
+@login_required
+def add_project(request):
+
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.profile = profile
+            project.save()
+            return redirect('projects')
+
+    else:
+        form = ProjectForm()
+
+    return render(request, 'user/add_project.html', {
+        'form': form,
+        'active_page': 'projects'
+    })
+
+
+@login_required
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id, profile__user=request.user)
+    project.delete()
+    return redirect('projects')
+
+
+# ==========================================
+# CERTIFICATIONS
+# ==========================================
+@login_required
+def certifications_view(request):
+
+    profile = request.user.profile
+    certifications = Certification.objects.filter(profile=profile)
+
+    return render(request, 'user/certifications.html', {
+        'certifications': certifications,
+        'active_page': 'certifications'
+    })
+
+
+@login_required
+def add_certification(request):
+
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        form = CertificationForm(request.POST)
+
+        if form.is_valid():
+            cert = form.save(commit=False)
+            cert.profile = profile
+            cert.save()
+            return redirect('certifications')
+
+    else:
+        form = CertificationForm()
+
+    return render(request, 'user/add_certification.html', {
+        'form': form,
+        'active_page': 'certifications'
+    })
+
+
+@login_required
+def delete_certification(request, cert_id):
+    cert = get_object_or_404(Certification, id=cert_id, profile__user=request.user)
+    cert.delete()
+    return redirect('certifications')
+
+
+# ==========================================
+# RESUME
+# ==========================================
+@login_required
+def resume_view(request):
+
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        profile.linkedin = request.POST.get('linkedin')
+        profile.github = request.POST.get('github')
+        profile.portfolio = request.POST.get('portfolio')
+
+        if request.FILES.get('resume'):
+            profile.resume = request.FILES['resume']
 
         profile.save()
+        return redirect('resume')
 
-        return redirect(request.META.get("HTTP_REFERER", "user_dashboard"))
+    return render(request, 'user/resume.html', {
+        'profile': profile,
+        'active_page': 'resume'
+    })

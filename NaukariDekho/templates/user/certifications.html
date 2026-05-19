@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-4 px-md-4">
+
+    <div class="row g-4">
+
+        <!-- SIDEBAR -->
+        <div class="col-12 col-md-4 col-lg-3">
+
+            {% include 'user/profile_sidebar.html' %}
+
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-12 col-md-8 col-lg-9">
+
+            <!-- HEADER -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+
+                <div
+                    class="p-4 p-lg-5 text-white"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div
+                        class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+
+                            <h2 class="fw-bold mb-1">
+
+                                Certifications
+
+                            </h2>
+
+                            <p class="opacity-75 mb-0">
+
+                                Showcase your professional certifications
+
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="{% url 'add_certification' %}"
+                            class="btn btn-light rounded-pill px-4 fw-semibold shadow-sm">
+
+                            + Add Certification
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CERTIFICATIONS GRID -->
+
+            <div class="row g-4">
+
+                {% for cert in certifications %}
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4 h-100 certification-card">
+
+                        <div class="card-body p-4">
+
+                            <!-- TOP -->
+
+                            <div
+                                class="d-flex justify-content-between align-items-start">
+
+                                <div>
+
+                                    <div
+                                        class="cert-icon mb-3">
+
+                                        <i
+                                          class="bi bi-patch-check-fill">
+                                        </i>
+
+                                    </div>
+
+                                    <h5
+                                      class="fw-bold mb-1">
+
+                                        {{ cert.title }}
+
+                                    </h5>
+
+                                    <p
+                                      class="text-primary fw-semibold mb-3">
+
+                                        {{ cert.organization }}
+
+                                    </p>
+
+                                </div>
+
+                                <a
+                                   href="{% url 'delete_certification' cert.id %}"
+                                   class="btn btn-light rounded-circle"
+                                   onclick="return confirm('Delete this certification?')">
+
+                                    <i
+                                       class="bi bi-trash text-danger">
+                                    </i>
+
+                                </a>
+
+                            </div>
+
+                            <!-- DATE -->
+
+                            <div
+                                class="issue-box mb-3">
+
+                                <i
+                                   class="bi bi-calendar-event me-2">
+                                </i>
+
+                                Issued:
+
+                                {{ cert.issue_date }}
+
+                            </div>
+
+                            <!-- CREDENTIAL -->
+
+                            {% if cert.credential_url %}
+
+                            <a
+                                href="{{ cert.credential_url }}"
+                                target="_blank"
+                                class="btn btn-outline-primary rounded-pill px-4">
+
+                                <i
+                                  class="bi bi-box-arrow-up-right me-2">
+                                </i>
+
+                                View Credential
+
+                            </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-12">
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4">
+
+                        <div
+                            class="card-body py-5 text-center">
+
+                            <i
+                              class="bi bi-patch-check fs-1 text-primary">
+                            </i>
+
+                            <h4
+                              class="fw-bold mt-3">
+
+                                No Certifications Added
+
+                            </h4>
+
+                            <p
+                              class="text-muted">
+
+                                Add certifications to strengthen your professional profile.
+
+                            </p>
+
+                            <a
+                               href="{% url 'add_certification' %}"
+                               class="btn btn-primary rounded-pill px-4">
+
+                                Add Certification
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.certification-card{
+
+    transition:.3s ease;
+
+}
+
+.certification-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+    0 18px 40px rgba(
+    79,
+    70,
+    229,
+    .12
+    ) !important;
+
+}
+
+.cert-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #4f46e5,
+    #7c3aed
+    );
+
+    color:white;
+
+    font-size:24px;
+
+}
+
+.issue-box{
+
+    background:#f8fafc;
+
+    padding:12px 14px;
+
+    border-radius:12px;
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+</style>
+
+{% endblock %}

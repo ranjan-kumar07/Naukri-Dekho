@@ -1,144 +1,186 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<!-- Include Bootstrap Icons if not already in base.html -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<div class="container-fluid py-4 px-md-4">
+    <div class="row g-4">
+        
+        <div class="col-12 col-md-4 col-lg-3">
+            {% include 'user/profile_sidebar.html' %}
+        </div>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-xl-10 col-lg-11">
-            
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: #ffffff;">
-                
-                <!-- HEADER BAND -->
-                <div class="p-4 p-md-5 text-white position-relative" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
-                    <div class="position-relative z-1">
-                        <h2 class="fw-bold mb-2 d-flex align-items-center gap-2">
-                            <i class="bi bi-person-gear text-info"></i> Edit Profile
-                        </h2>
-                        <p class="mb-0 opacity-75 max-w-md text-light">
-                            Keep your professional details updated to optimize your job matches and visibility.
-                        </p>
+        <div class="col-12 col-md-8 col-lg-9">
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                <div class="p-4 p-lg-5 profile-hero" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);">
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-8">
+                            <div class="d-flex align-items-center flex-wrap gap-3">
+                                {% if profile.profile_image %}
+                                    <img src="{{ profile.profile_image.url }}"
+                                         class="rounded-circle border border-4 border-white shadow-sm mb-3 mb-lg-0"
+                                         width="120"
+                                         height="120"
+                                         style="object-fit: cover;">
+                                {% else %}
+                                    <div class="rounded-circle border border-4 border-white shadow-sm mb-3 mb-lg-0 bg-light d-flex align-items-center justify-content-center"
+                                         style="width:120px; height:120px; flex-shrink: 0;">
+                                        <i class="bi bi-person-fill text-secondary" style="font-size: 3rem;"></i>
+                                    </div>
+                                {% endif %}
+
+                                <div class="text-white">
+                                    <h2 class="fw-bold mb-1">
+                                        {{ request.user.first_name }} {{ request.user.last_name }}
+                                    </h2>
+                                    <p class="opacity-75 mb-3">
+                                        {{ request.user.email }}
+                                    </p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="profile-badge px-3 py-1 bg-white bg-opacity-25 rounded-pill text-white small">
+                                            <i class="bi bi-geo-alt me-1"></i>
+                                            {{ profile.location|default:"Location Not Added" }}
+                                        </span>
+                                        <span class="profile-badge px-3 py-1 bg-white bg-opacity-25 rounded-pill text-white small">
+                                            <i class="bi bi-telephone me-1"></i>
+                                            {{ profile.phone|default:"Phone Not Added" }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                            <a href="{% url 'edit_profile' %}" class="btn btn-light rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                                Edit Profile
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border-0 shadow-sm rounded-4 stats-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="stats-label text-muted small mb-1">Profile Completion</p>
+                                    <h3 class="fw-bold mb-0">{{ completion }}%</h3>
+                                </div>
+                                <div class="stats-icon text-primary fs-3">
+                                    <i class="bi bi-pie-chart"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card-body p-4 p-md-5">
-                    <form method="POST" enctype="multipart/form-data" novalidate>
-                        {% csrf_token %}
-
-                        <!-- AVATAR & PHOTO UPLOAD SECTION -->
-                        <div class="row align-items-center pb-4 mb-4 border-bottom g-4">
-                            <div class="col-auto">
-                                <div class="position-relative">
-                                    {% if request.user.profile.profile_image %}
-                                        <img src="{{ request.user.profile.profile_image.url }}" width="120" height="120" class="rounded-circle border shadow-sm" style="object-fit: cover;">
-                                    {% else %}
-                                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="120" height="120" class="rounded-circle border shadow-sm" style="object-fit: cover;">
-                                    {% endif %}
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border-0 shadow-sm rounded-4 stats-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="stats-label text-muted small mb-1">Skills Added</p>
+                                    <h3 class="fw-bold mb-0">{{ skills.count }}</h3>
                                 </div>
-                            </div>
-                            <div class="col-md">
-                                <h5 class="fw-bold mb-1">Profile Picture</h5>
-                                <p class="text-muted small mb-3">PNG or JPG. Recommended size: 400x400px.</p>
-                                <div class="custom-file-input-wrapper" style="max-width: 350px;">
-                                    {{ form.profile_image }}
+                                <div class="stats-icon text-warning fs-3">
+                                    <i class="bi bi-lightning-charge"></i>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- MAIN FORM GRID -->
-                        <div class="row g-4">
-                            <!-- Phone Number -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
-                                    <i class="bi bi-telephone text-muted"></i> Phone Number
-                                </label>
-                                <div class="input-group">
-                                    {{ form.phone }}
-                                </div>
-                            </div>
-
-                            <!-- LinkedIn Profile -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
-                                    <i class="bi bi-linkedin text-primary"></i> LinkedIn Profile URL
-                                </label>
-                                {{ form.linkedin }}
-                            </div>
-
-                            <!-- Skills Tagging -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
-                                    <i class="bi bi-braces-asterisk text-muted"></i> Core Skills
-                                </label>
-                                {{ form.skills }}
-                                <div class="form-text">Separate skills with commas (e.g. Python, UI Design, Django).</div>
-                            </div>
-
-                            <!-- Resume Upload -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
-                                    <i class="bi bi-file-earmark-pdf text-danger"></i> Resume / CV
-                                </label>
-                                {{ form.resume }}
-                                
-                                {% if request.user.profile.resume %}
-                                    <div class="mt-2 d-flex align-items-center gap-2 bg-light p-2 rounded-3 border">
-                                        <i class="bi bi-file-check-fill text-success fs-5"></i>
-                                        <span class="small text-truncate flex-grow-1 text-muted">Current file uploaded</span>
-                                        <a href="{{ request.user.profile.resume.url }}" target="_blank" class="btn btn-sm btn-light border text-nowrap rounded-2">
-                                            <i class="bi bi-eye"></i> View File
-                                        </a>
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Biography/Summary -->
-                            <div class="col-12">
-                                <label class="form-label fw-semibold text-secondary d-flex align-items-center gap-2">
-                                    <i class="bi bi-file-text text-muted"></i> Professional Summary / Bio
-                                </label>
-                                {{ form.bio }}
-                            </div>
-                        </div>
-
-                        <!-- FORM ACTION FOOTER -->
-                        <div class="d-flex flex-column-reverse flex-sm-row justify-content-end gap-3 mt-5 pt-4 border-top">
-                            <a href="{% url 'user_dashboard' %}" class="btn btn-light px-4 py-2.5 rounded-3 border fw-medium text-secondary">
-                                Cancel
-                            </a>
-                            <button type="submit" class="btn btn-dark px-5 py-2.5 rounded-3 fw-medium shadow-sm" style="background-color: #0f172a;">
-                                Save Changes
-                            </button>
-                        </div>
-
-                    </form>
+                    </div>
                 </div>
 
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border-0 shadow-sm rounded-4 stats-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="stats-label text-muted small mb-1">Projects Added</p>
+                                    <h3 class="fw-bold mb-0">{{ projects.count }}</h3>
+                                </div>
+                                <div class="stats-icon text-success fs-3">
+                                    <i class="bi bi-rocket-takeoff"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card border-0 shadow-sm rounded-4 stats-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="stats-label text-muted small mb-1">Resume Status</p>
+                                    <h6 class="fw-bold mb-0 mt-2">
+                                        {% if profile.resume %}
+                                            <span class="badge bg-success-subtle text-success px-2 py-1 rounded">Uploaded</span>
+                                        {% else %}
+                                            <span class="badge bg-danger-subtle text-danger px-2 py-1 rounded">Missing</span>
+                                        {% endif %}
+                                    </h6>
+                                </div>
+                                <div class="stats-icon text-info fs-3">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        <h4 class="fw-bold mb-1">Quick Actions</h4>
+                        <p class="text-muted mb-0 small">Manage profile sections quickly</p>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-xl-4 col-md-6">
+                            <a href="{% url 'edit_profile' %}" class="text-decoration-none action-panel-card">
+                                <div class="card h-100 rounded-4 border p-2 transition-action">
+                                    <div class="card-body">
+                                        <div class="text-primary mb-2 fs-4"><i class="bi bi-person"></i></div>
+                                        <h6 class="fw-bold text-dark mb-1">Update Profile</h6>
+                                        <p class="text-muted small mb-0">Manage your profile information</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6">
+                            <a href="{% url 'skills' %}" class="text-decoration-none action-panel-card">
+                                <div class="card h-100 rounded-4 border p-2 transition-action">
+                                    <div class="card-body">
+                                        <div class="text-warning mb-2 fs-4"><i class="bi bi-lightning-charge"></i></div>
+                                        <h6 class="fw-bold text-dark mb-1">Add Skills</h6>
+                                        <p class="text-muted small mb-0">Add professional skills</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6">
+                            <a href="{% url 'resume' %}" class="text-decoration-none action-panel-card">
+                                <div class="card h-100 rounded-4 border p-2 transition-action">
+                                    <div class="card-body">
+                                        <div class="text-info mb-2 fs-4"><i class="bi bi-file-earmark-text"></i></div>
+                                        <h6 class="fw-bold text-dark mb-1">Upload Resume</h6>
+                                        <p class="text-muted small mb-0">Upload resume and portfolio links</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
 </div>
-
-<!-- AUTO-STYLING SCRIPT -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Automatically inject Bootstrap style classes to generic Django form fields
-        const textInputs = document.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"], textarea');
-        textInputs.forEach(input => {
-            input.classList.add('form-control', 'p-2.5');
-            // Give textareas a cleaner initial height
-            if (input.tagName.toLowerCase() === 'textarea') {
-                input.setAttribute('rows', '4');
-            }
-        });
-
-        // Clean up file fields to render well with Bootstrap
-        const fileInputs = document.querySelectorAll('input[type="file"]');
-        fileInputs.forEach(input => {
-            input.classList.add('form-control');
-        });
-    });
-</script>
 {% endblock %}

@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-xl-6">
+
+            <!-- TOP BAR -->
+
+            <div
+                class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+
+                        Add Education
+
+                    </h2>
+
+                    <p class="text-muted mb-0">
+
+                        Add your academic qualifications
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'education' %}"
+                    class="btn btn-light border rounded-pill px-4 shadow-sm">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+            <!-- FORM CARD -->
+
+            <div
+                class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- HEADER -->
+
+                <div
+                    class="text-white p-4"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div
+                        class="d-flex align-items-center">
+
+                        <div
+                            class="education-icon me-3">
+
+                            <i
+                               class="bi bi-mortarboard-fill">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <h4
+                               class="fw-bold mb-1">
+
+                                Education Details
+
+                            </h4>
+
+                            <p
+                               class="mb-0 opacity-75">
+
+                                Add your college and degree information
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- FORM -->
+
+                <div
+                    class="card-body p-4 p-lg-5">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                College / University
+
+                            </label>
+
+                            {{ form.college_name }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Degree
+
+                            </label>
+
+                            {{ form.degree }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Field of Study
+
+                            </label>
+
+                            {{ form.field_of_study }}
+
+                        </div>
+
+                        <div
+                            class="row">
+
+                            <div
+                                class="col-md-6 mb-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    Start Year
+
+                                </label>
+
+                                {{ form.start_year }}
+
+                            </div>
+
+                            <div
+                                class="col-md-6 mb-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    End Year
+
+                                </label>
+
+                                {{ form.end_year }}
+
+                            </div>
+
+                        </div>
+
+                        <!-- BUTTONS -->
+
+                        <div
+                            class="d-flex gap-3 mt-4">
+
+                            <a
+                               href="{% url 'education' %}"
+                               class="btn btn-light border flex-fill py-2">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary flex-fill py-2">
+
+                                Save Education
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.education-icon{
+
+width:60px;
+
+height:60px;
+
+border-radius:18px;
+
+background:
+
+rgba(
+255,
+255,
+255,
+0.15
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:28px;
+
+backdrop-filter:
+
+blur(
+10px
+);
+
+}
+
+input,
+select,
+textarea{
+
+border-radius:
+
+14px !important;
+
+padding:
+
+12px 14px !important;
+
+border:
+
+1px solid #dee2e6 !important;
+
+box-shadow:
+
+none !important;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border-color:
+
+#4f46e5 !important;
+
+box-shadow:
+
+0 0 0 .2rem
+rgba(
+79,
+70,
+229,
+0.15
+)
+
+!important;
+
+}
+
+.card{
+
+transition:
+
+.3s;
+
+}
+
+.card:hover{
+
+transform:
+
+translateY(
+-3px
+);
+
+}
+
+</style>
+
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-xl-6">
+
+            <!-- TOP BAR -->
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+
+                        Add Certification
+
+                    </h2>
+
+                    <p class="text-muted mb-0">
+
+                        Showcase your professional achievements
+
+                    </p>
+
+                </div>
+
+                <a
+                   href="{% url 'certifications' %}"
+                   class="btn btn-light border rounded-pill px-4 shadow-sm">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+            <!-- FORM CARD -->
+
+            <div
+                class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- HEADER -->
+
+                <div
+                    class="text-white p-4"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div class="d-flex align-items-center">
+
+                        <div
+                            class="cert-icon me-3">
+
+                            <i
+                              class="bi bi-patch-check-fill">
+                            </i>
+
+                        </div>
+
+                        <div>
+
+                            <h4 class="fw-bold mb-1">
+
+                                Certification Details
+
+                            </h4>
+
+                            <p class="mb-0 opacity-75">
+
+                                Add certification information
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- FORM -->
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Certification Title
+
+                            </label>
+
+                            {{ form.title }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Organization
+
+                            </label>
+
+                            {{ form.organization }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Issue Date
+
+                            </label>
+
+                            {{ form.issue_date }}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Credential URL
+
+                            </label>
+
+                            {{ form.credential_url }}
+
+                        </div>
+
+                        <!-- BUTTONS -->
+
+                        <div
+                            class="d-flex gap-3 mt-5">
+
+                            <a
+                               href="{% url 'certifications' %}"
+                               class="btn btn-light border flex-fill py-2">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary flex-fill py-2">
+
+                                Save Certification
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.cert-icon{
+
+width:60px;
+
+height:60px;
+
+border-radius:18px;
+
+background:rgba(
+255,
+255,
+255,
+0.15
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:26px;
+
+backdrop-filter:blur(
+10px
+);
+
+}
+
+input,
+select,
+textarea{
+
+border-radius:14px !important;
+
+padding:12px 14px !important;
+
+border:1px solid #dee2e6 !important;
+
+box-shadow:none !important;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border-color:#4f46e5 !important;
+
+box-shadow:
+0 0 0 .2rem
+rgba(
+79,
+70,
+229,
+0.15
+) !important;
+
+}
+
+.card{
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(
+-3px
+);
+
+}
+
+</style>
+
+{% endblock %}

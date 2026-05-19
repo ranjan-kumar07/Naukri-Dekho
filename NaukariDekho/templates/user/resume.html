@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-4 px-md-4">
+
+    <div class="row g-4">
+
+        <!-- SIDEBAR -->
+        <div class="col-12 col-md-4 col-lg-3">
+
+            {% include 'user/profile_sidebar.html' %}
+
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-12 col-md-8 col-lg-9">
+
+            <!-- HEADER -->
+            <div
+                class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+
+                <div
+                    class="p-4 p-lg-5 text-white"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <h2 class="fw-bold mb-1">
+
+                        Resume & Links
+
+                    </h2>
+
+                    <p class="opacity-75 mb-0">
+
+                        Upload resume and manage professional links
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- FORM CARD -->
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <!-- RESUME -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold">
+
+                                Resume
+
+                            </label>
+
+                            {% if profile.resume %}
+
+                            <div
+                                class="resume-box mb-3">
+
+                                <div>
+
+                                    <i
+                                      class="bi bi-file-earmark-pdf fs-4 text-danger">
+                                    </i>
+
+                                    <span class="ms-2">
+
+                                        Resume Uploaded
+
+                                    </span>
+
+                                </div>
+
+                                <a
+                                    href="{{ profile.resume.url }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-primary rounded-pill">
+
+                                    View Resume
+
+                                </a>
+
+                            </div>
+
+                            {% endif %}
+
+                            <input
+                                type="file"
+                                name="resume"
+                                class="form-control form-control-lg">
+
+                        </div>
+
+                        <!-- LINKS -->
+
+                        <div class="row g-4">
+
+                            <!-- LINKEDIN -->
+
+                            <div class="col-md-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    LinkedIn
+
+                                </label>
+
+                                <div
+                                    class="input-group">
+
+                                    <span
+                                        class="input-group-text">
+
+                                        <i
+                                          class="bi bi-linkedin">
+                                        </i>
+
+                                    </span>
+
+                                    <input
+                                        type="url"
+                                        name="linkedin"
+                                        value="{{ profile.linkedin }}"
+                                        class="form-control"
+                                        placeholder="LinkedIn URL">
+
+                                </div>
+
+                            </div>
+
+                            <!-- GITHUB -->
+
+                            <div class="col-md-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    GitHub
+
+                                </label>
+
+                                <div
+                                    class="input-group">
+
+                                    <span
+                                        class="input-group-text">
+
+                                        <i
+                                          class="bi bi-github">
+                                        </i>
+
+                                    </span>
+
+                                    <input
+                                        type="url"
+                                        name="github"
+                                        value="{{ profile.github }}"
+                                        class="form-control"
+                                        placeholder="GitHub URL">
+
+                                </div>
+
+                            </div>
+
+                            <!-- PORTFOLIO -->
+
+                            <div class="col-md-4">
+
+                                <label
+                                    class="form-label fw-semibold">
+
+                                    Portfolio
+
+                                </label>
+
+                                <div
+                                    class="input-group">
+
+                                    <span
+                                        class="input-group-text">
+
+                                        <i
+                                          class="bi bi-globe">
+                                        </i>
+
+                                    </span>
+
+                                    <input
+                                        type="url"
+                                        name="portfolio"
+                                        value="{{ profile.portfolio }}"
+                                        class="form-control"
+                                        placeholder="Portfolio URL">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- BUTTON -->
+
+                        <div class="mt-5">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary rounded-pill px-5 py-2 fw-semibold">
+
+                                Save Changes
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.resume-box{
+
+    background:#f8fafc;
+
+    border-radius:14px;
+
+    padding:16px 18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+}
+
+.form-control,
+.input-group-text{
+
+    border-radius:12px;
+
+}
+
+.form-control{
+
+    padding:12px;
+
+}
+
+.input-group-text{
+
+    background:#f8fafc;
+
+}
+
+</style>
+
+{% endblock %}

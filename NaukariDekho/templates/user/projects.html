@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-4 px-md-4">
+
+    <div class="row g-4">
+
+        <!-- SIDEBAR -->
+        <div class="col-12 col-md-4 col-lg-3">
+
+            {% include 'user/profile_sidebar.html' %}
+
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-12 col-md-8 col-lg-9">
+
+            <!-- HERO -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+
+                <div
+                    class="p-4 p-lg-5 text-white"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div
+                        class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+
+                            <h2 class="fw-bold mb-1">
+
+                                Projects
+
+                            </h2>
+
+                            <p class="opacity-75 mb-0">
+
+                                Showcase your work and deployments
+
+                            </p>
+
+                        </div>
+
+                        <a
+                           href="{% url 'add_project' %}"
+                           class="btn btn-light rounded-pill px-4 fw-semibold shadow-sm">
+
+                            + Add Project
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PROJECT GRID -->
+            <div class="row g-4">
+
+                {% for project in projects %}
+
+                <div class="col-xl-6">
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4 h-100 project-card">
+
+                        <div class="card-body p-4">
+
+                            <!-- TOP -->
+
+                            <div
+                                class="d-flex justify-content-between align-items-start mb-3">
+
+                                <div>
+
+                                    <div
+                                        class="project-icon mb-3">
+
+                                        <i
+                                           class="bi bi-rocket-takeoff-fill">
+                                        </i>
+
+                                    </div>
+
+                                    <h4
+                                       class="fw-bold mb-2">
+
+                                        {{ project.title }}
+
+                                    </h4>
+
+                                </div>
+
+                                <a
+                                   href="{% url 'delete_project' project.id %}"
+                                   class="btn btn-light rounded-circle"
+                                   onclick="return confirm('Delete this project?')">
+
+                                    <i
+                                      class="bi bi-trash text-danger">
+                                    </i>
+
+                                </a>
+
+                            </div>
+
+                            <!-- TECH STACK -->
+
+                            {% if project.technologies_used %}
+
+                            <div
+                                class="mb-3">
+
+                                {% for tech in project.technologies_used.split %}
+
+                                <span
+                                    class="badge tech-badge">
+
+                                    {{ tech }}
+
+                                </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                            {% endif %}
+
+                            <!-- DESCRIPTION -->
+
+                            <div
+                                class="project-description mb-4">
+
+                                {{ project.description }}
+
+                            </div>
+
+                            <!-- ACTIONS -->
+
+                            <div
+                                class="d-flex flex-wrap gap-2">
+
+                                {% if project.github_link %}
+
+                                <a
+                                   href="{{ project.github_link }}"
+                                   target="_blank"
+                                   class="btn btn-dark rounded-pill px-3">
+
+                                    <i
+                                      class="bi bi-github me-2">
+                                    </i>
+
+                                    GitHub
+
+                                </a>
+
+                                {% endif %}
+
+                                {% if project.live_link %}
+
+                                <a
+                                   href="{{ project.live_link }}"
+                                   target="_blank"
+                                   class="btn btn-success rounded-pill px-3">
+
+                                    <i
+                                      class="bi bi-box-arrow-up-right me-2">
+                                    </i>
+
+                                    Live Demo
+
+                                </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-12">
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4">
+
+                        <div
+                            class="card-body py-5 text-center">
+
+                            <i
+                               class="bi bi-rocket-takeoff fs-1 text-primary">
+                            </i>
+
+                            <h4
+                               class="fw-bold mt-3">
+
+                                No Projects Added
+
+                            </h4>
+
+                            <p
+                               class="text-muted">
+
+                                Add projects to showcase your skills and achievements.
+
+                            </p>
+
+                            <a
+                               href="{% url 'add_project' %}"
+                               class="btn btn-primary rounded-pill px-4">
+
+                                Add Project
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.project-card{
+
+    transition:.3s ease;
+
+}
+
+.project-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 18px 40px rgba(
+    79,
+    70,
+    229,
+    .12
+    ) !important;
+
+}
+
+.project-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #4f46e5,
+    #7c3aed
+    );
+
+    color:white;
+
+    font-size:24px;
+
+}
+
+.tech-badge{
+
+    background:#eef2ff;
+
+    color:#4f46e5;
+
+    font-weight:600;
+
+    padding:8px 12px;
+
+    border-radius:50px;
+
+    margin-right:6px;
+
+    margin-bottom:6px;
+
+}
+
+.project-description{
+
+    background:#f8fafc;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    color:#6b7280;
+
+    min-height:90px;
+
+}
+
+</style>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/profile_sidebar.css' %}">
+
+<div class="card border-0 shadow-sm rounded-4 navigation-sidebar">
+    <div class="card-body p-3 d-flex flex-column justify-content-between h-100">
+        
+        <div>
+            <p class="sidebar-heading">
+                Profile Management
+            </p>
+
+            <div class="nav flex-column gap-1">
+                <a href="{% url 'profile' %}"
+                   class="sidebar-link {% if active_page == 'overview' %}active{% endif %}">
+                    <i class="bi bi-grid-1x2"></i>
+                    <span>Overview</span>
+                </a>
+
+                <a href="{% url 'edit_profile' %}"
+                   class="sidebar-link {% if active_page == 'edit_profile' %}active{% endif %}">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+
+                <a href="{% url 'skills' %}"
+                   class="sidebar-link {% if active_page == 'skills' %}active{% endif %}">
+                    <i class="bi bi-lightning-charge"></i>
+                    <span>Skills</span>
+                </a>
+
+                <a href="{% url 'education' %}"
+                   class="sidebar-link {% if active_page == 'education' %}active{% endif %}">
+                    <i class="bi bi-mortarboard"></i>
+                    <span>Education</span>
+                </a>
+
+                <a href="{% url 'experience' %}"
+                   class="sidebar-link {% if active_page == 'experience' %}active{% endif %}">
+                    <i class="bi bi-briefcase"></i>
+                    <span>Experience</span>
+                </a>
+
+                <a href="{% url 'projects' %}"
+                   class="sidebar-link {% if active_page == 'projects' %}active{% endif %}">
+                    <i class="bi bi-rocket-takeoff"></i>
+                    <span>Projects</span>
+                </a>
+
+                <a href="{% url 'certifications' %}"
+                   class="sidebar-link {% if active_page == 'certifications' %}active{% endif %}">
+                    <i class="bi bi-award"></i>
+                    <span>Certifications</span>
+                </a>
+
+                <a href="{% url 'resume' %}"
+                   class="sidebar-link {% if active_page == 'resume' %}active{% endif %}">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Resume & Links</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="pt-3 mt-3 border-top">
+            <a href="{% url 'user_dashboard' %}" class="dashboard-btn">
+                <i class="bi bi-arrow-left-circle"></i>
+                <span>Back</span>
+            </a>
+        </div>
+
+    </div>
+</div>

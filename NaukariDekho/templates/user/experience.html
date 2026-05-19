@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid py-4 px-md-4">
+
+    <div class="row g-4">
+
+        <!-- SIDEBAR -->
+        <div class="col-12 col-md-4 col-lg-3">
+
+            {% include 'user/profile_sidebar.html' %}
+
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-12 col-md-8 col-lg-9">
+
+            <!-- HEADER -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+
+                <div
+                    class="p-4 p-lg-5 text-white"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+
+                    <div
+                        class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+
+                            <h2 class="fw-bold mb-1">
+
+                                Experience
+
+                            </h2>
+
+                            <p class="opacity-75 mb-0">
+
+                                Your professional work history
+
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="{% url 'add_experience' %}"
+                            class="btn btn-light rounded-pill px-4 fw-semibold shadow-sm">
+
+                            + Add Experience
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- EXPERIENCE LIST -->
+            <div class="row g-4">
+
+                {% for exp in experiences %}
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4 h-100 experience-card">
+
+                        <div class="card-body p-4">
+
+                            <!-- TOP -->
+
+                            <div
+                                class="d-flex justify-content-between align-items-start">
+
+                                <div>
+
+                                    <div
+                                        class="experience-icon mb-3">
+
+                                        <i
+                                          class="bi bi-briefcase-fill">
+                                        </i>
+
+                                    </div>
+
+                                    <h5 class="fw-bold mb-1">
+
+                                        {{ exp.job_role }}
+
+                                    </h5>
+
+                                    <p
+                                      class="text-primary fw-semibold mb-2">
+
+                                        {{ exp.company_name }}
+
+                                    </p>
+
+                                </div>
+
+                                <a
+                                   href="{% url 'delete_experience' exp.id %}"
+                                   class="btn btn-light rounded-circle"
+                                   onclick="return confirm('Delete this experience?')">
+
+                                    <i
+                                       class="bi bi-trash text-danger">
+                                    </i>
+
+                                </a>
+
+                            </div>
+
+                            <!-- DURATION -->
+
+                            <div
+                                class="small text-muted mb-3">
+
+                                <i
+                                  class="bi bi-calendar3 me-2">
+                                </i>
+
+                                {{ exp.start_date }}
+
+                                —
+
+                                {% if exp.currently_working %}
+
+                                    <span
+                                      class="badge bg-success-subtle text-success">
+
+                                        Present
+
+                                    </span>
+
+                                {% else %}
+
+                                    {{ exp.end_date }}
+
+                                {% endif %}
+
+                            </div>
+
+                            <!-- DESCRIPTION -->
+
+                            {% if exp.description %}
+
+                            <div
+                              class="description-box">
+
+                                {{ exp.description }}
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-12">
+
+                    <div
+                        class="card border-0 shadow-sm rounded-4">
+
+                        <div
+                            class="card-body py-5 text-center">
+
+                            <i
+                              class="bi bi-briefcase fs-1 text-primary">
+                            </i>
+
+                            <h5
+                              class="fw-bold mt-3">
+
+                                No Experience Added
+
+                            </h5>
+
+                            <p
+                              class="text-muted">
+
+                                Add your internships, jobs and professional experience.
+
+                            </p>
+
+                            <a
+                              href="{% url 'add_experience' %}"
+                              class="btn btn-primary rounded-pill px-4">
+
+                                Add Experience
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.experience-card{
+
+    transition:.25s ease;
+
+}
+
+.experience-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 15px 35px rgba(
+    79,
+    70,
+    229,
+    .12
+    ) !important;
+
+}
+
+.experience-icon{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #4f46e5,
+    #7c3aed
+    );
+
+    color:white;
+
+    font-size:22px;
+
+}
+
+.description-box{
+
+    background:#f8fafc;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    color:#6b7280;
+
+}
+
+</style>
+
+{% endblock %}
