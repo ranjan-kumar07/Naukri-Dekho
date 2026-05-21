@@ -1,205 +1,215 @@
 {% extends "base.html" %}
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/about.css' %}">
 {% block content %}
-
 <!-- ================= ABOUT HERO ================= -->
-
-<section class="about-hero">
-
-    <h1>About <span>Naukri Dekho</span></h1>
-
-    <p>
-        Naukri Dekho is a modern job portal website created
-        to help students, freshers, and professionals
-        discover the latest jobs and internships easily.
-
-        Our platform connects job seekers with trusted
-        companies and recruiters in a simple and fast way.
-    </p>
-    
-    <a href="{% url 'all_jobs' %}">
-      <button class="about-hero-btn">
-        Explore Jobs
-      </button>
-    </a>
-
+<section class="py-5 bg-light position-relative overflow-hidden border-bottom">
+    <div class="container py-5 position-relative z-1">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-center text-lg-start">
+                <span class="text-primary text-uppercase fw-bold tracking-wider small d-inline-block mb-2">Who We Are</span>
+                <h1 class="display-4 fw-extrabold text-dark mb-3">
+                    About <span class="text-primary">Naukri Dekho</span>
+                </h1>
+                <p class="lead text-muted mb-4 fs-5 lh-lg">
+                    Naukri Dekho is a modern job portal created to help students, freshers, and professionals discover the latest jobs and internships seamlessly. We bridge the gap between ambitious job seekers and trusted companies with absolute simplicity.
+                </p>
+                <div class="d-sm-flex justify-content-center justify-content-lg-start gap-3">
+                    <a href="{% url 'all_jobs' %}" class="btn btn-primary btn-lg rounded-pill px-4 py-3 shadow-sm fw-semibold transition">
+                        Explore Openings <i class="fa-solid fa-arrow-right ms-2 small"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block position-relative">
+                <!-- Decorative Modern Grid Graphic -->
+                <div class="position-absolute top-50 start-50 translate-middle bg-primary opacity-10 rounded-circle filter-blur" style="width: 400px; height: 400px; filter: blur(50px);"></div>
+                <div class="card bg-white p-4 rounded-4 shadow border-0 position-relative z-2 transform-hover">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="p-3 bg-success-subtle rounded-3 text-success"><i class="fa-solid fa-circle-check fa-xl"></i></div>
+                        <div>
+                            <h5 class="mb-0 fw-bold">Verified Employers Only</h5>
+                            <p class="text-muted small mb-0">No ghost jobs, no recruitment scams.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-3 bg-info-subtle rounded-3 text-info"><i class="fa-solid fa-chart-line fa-xl"></i></div>
+                        <div>
+                            <h5 class="mb-0 fw-bold">Direct Application Channels</h5>
+                            <p class="text-muted small mb-0">Fast tracked submissions straight to ATS portals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- ================= FEATURES ================= -->
-
-<section class="about-features">
-
-    <h2 class="about-section-title">Why Choose Us</h2>
-
-    <div class="about-feature-container">
-
-        <div class="about-feature-card">
-
-            <i class="fa-solid fa-briefcase"></i>
-
-            <h3>Latest Jobs</h3>
-
-            <p>
-                Get updated daily with private jobs,
-                internships, and government jobs.
-            </p>
-
+<section class="py-5 bg-white">
+    <div class="container py-4">
+        <div class="text-center max-w-2xl mx-auto mb-5">
+            <h2 class="fw-bold text-dark mb-2">Why Choose Our Platform</h2>
+            <p class="text-muted">Engineered from the ground up to solve the entry-level career hunt.</p>
         </div>
 
-        <div class="about-feature-card">
+        <div class="row g-4 justify-content-center">
+            <!-- Feature 1 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4 text-center rounded-4 transition-all hover-translate-y bg-light">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle mb-3 shadow-sm" style="width: 60px; height: 60px;">
+                        <i class="fa-solid fa-briefcase fa-lg"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2 fs-5">Latest Opportunities</h4>
+                    <p class="text-muted small mb-0 leading-relaxed">
+                        Stay updated daily with direct listings for private sectors, high-growth startups, internships, and key government notifications.
+                    </p>
+                </div>
+            </div>
 
-            <i class="fa-solid fa-user-graduate"></i>
+            <!-- Feature 2 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4 text-center rounded-4 transition-all hover-translate-y bg-light">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle mb-3 shadow-sm" style="width: 60px; height: 60px;">
+                        <i class="fa-solid fa-user-graduate fa-lg"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2 fs-5">Tailored for Freshers</h4>
+                    <p class="text-muted small mb-0 leading-relaxed">
+                        A dedicated launching pad built for college students and recent grads navigating their very first step into the global workforce.
+                    </p>
+                </div>
+            </div>
 
-            <h3>For Freshers</h3>
-
-            <p>
-                Best platform for students and freshers
-                searching for their first opportunity.
-            </p>
-
+            <!-- Feature 3 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4 text-center rounded-4 transition-all hover-translate-y bg-light">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-warning text-dark rounded-circle mb-3 shadow-sm" style="width: 60px; height: 60px;">
+                        <i class="fa-solid fa-bolt fa-lg"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2 fs-5">Fast & Seamless</h4>
+                    <p class="text-muted small mb-0 leading-relaxed">
+                        Skip tedious, long forms. Build a profile and send applications instantly through a minimalist, friction-free dashboard.
+                    </p>
+                </div>
+            </div>
         </div>
-
-        <div class="about-feature-card">
-
-            <i class="fa-solid fa-bolt"></i>
-
-            <h3>Fast & Easy</h3>
-
-            <p>
-                Apply for jobs quickly using our
-                modern and user-friendly interface.
-            </p>
-
-        </div>
-
     </div>
-
 </section>
 
 <!-- ================= TEAM SECTION ================= -->
-
-<section class="about-team">
-
-    <h2 class="about-section-title">Meet Our Team</h2>
-
-    <div class="about-team-container">
-
-        <!-- MEMBER 1 -->
-
-        <div class="about-team-card">
-
-            <img src="{% static 'images/gam.jpeg' %}" alt="team">
-
-            <h3>Gambhir Jha</h3>
-
-            <p>Founder & FullStack Developer</p>
-
-            <div class="about-social-icons">
-
-                <a href="https://www.linkedin.com/in/gambhir-jha-416931313">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-
-                <a href="https://github.com/gambhirjha38">
-                    <i class="fab fa-github"></i>
-                </a>
-
-                <a href="https://www.instagram.com/jha_gambhir">
-                    <i class="fab fa-instagram"></i>
-                </a>
-
-            </div>
-
+<section class="py-5 bg-light border-top">
+    <div class="container py-4">
+        <div class="text-center max-w-2xl mx-auto mb-5">
+            <h2 class="fw-bold text-dark mb-2">Meet Our Creators</h2>
+            <p class="text-muted">The core product engineers and designers scaling Naukri Dekho.</p>
         </div>
 
-        <!-- MEMBER 2 -->
-
-        <div class="about-team-card">
-
-            <img src="{% static 'images/ranjan.jpeg' %}" alt="team">
-
-            <h3>Ranjan Kumar</h3>
-
-            <p>Backend Developer</p>
-
-            <div class="about-social-icons">
-
-                <a href="#">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-
-                <a href="#">
-                    <i class="fab fa-github"></i>
-                </a>
-
-                <a href="#">
-                    <i class="fab fa-instagram"></i>
-                </a>
-
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+            <!-- MEMBER 1 -->
+            <div class="col">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white text-center p-3 transform-hover-container">
+                    <div class="overflow-hidden rounded-3 mb-3 aspect-square-box position-relative">
+                        <img src="{% static 'images/gam.jpeg' %}" alt="Gambhir Jha" class="img-fluid w-100 h-100 object-fit-cover transition-scale">
+                    </div>
+                    <h5 class="fw-bold text-dark mb-1 fs-6">Gambhir Jha</h5>
+                    <p class="text-muted small mb-3">FullStack Architect</p>
+                    <div class="d-flex justify-content-center gap-2 mt-auto pt-2 border-top-dashed">
+                        <a href="https://www.linkedin.com/in/gambhir-jha-416931313" class="btn btn-sm btn-light text-primary rounded-circle social-btn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/gambhirjha38" class="btn btn-sm btn-light text-dark rounded-circle social-btn" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.instagram.com/jha_gambhir" class="btn btn-sm btn-light text-danger rounded-circle social-btn" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
             </div>
 
-        </div>
-
-        <!-- MEMBER 3 -->
-
-        <div class="about-team-card">
-
-            <img src="{% static 'images/rahul.jpeg' %}" alt="team">
-
-            <h3>Rahul Kumar</h3>
-
-            <p>UI/UX Designer</p>
-
-            <div class="about-social-icons">
-
-                <a href="https://www.linkedin.com/in/rahul-kumar-1a92932a6">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-
-                <a href="https://github.com/iamrahulkyadav">
-                    <i class="fab fa-github"></i>
-                </a>
-
-                <a href="https://www.instagram.com/rahul_kyadav953">
-                    <i class="fab fa-instagram"></i>
-                </a>
-
+            <!-- MEMBER 2 -->
+            <div class="col">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white text-center p-3 transform-hover-container">
+                    <div class="overflow-hidden rounded-3 mb-3 aspect-square-box position-relative">
+                        <img src="{% static 'images/ranjan.jpeg' %}" alt="Ranjan Kumar" class="img-fluid w-100 h-100 object-fit-cover transition-scale">
+                    </div>
+                    <h5 class="fw-bold text-dark mb-1 fs-6">Ranjan Kumar</h5>
+                    <p class="text-muted small mb-3">Lead Backend Developer</p>
+                    <div class="d-flex justify-content-center gap-2 mt-auto pt-2 border-top-dashed">
+                        <a href="https://www.linkedin.com/in/ranjan-kumar-62215a1a7/" class="btn btn-sm btn-light text-primary rounded-circle social-btn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/ranjan-kumar07" class="btn btn-sm btn-light text-dark rounded-circle social-btn" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="#" class="btn btn-sm btn-light text-danger rounded-circle social-btn"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
             </div>
 
-        </div>
-
-        <!-- MEMBER 4 -->
-
-        <div class="about-team-card">
-
-            <img src="{% static 'images/sahil.jpeg' %}" alt="team">
-
-            <h3>Sahil Kumar</h3>
-
-            <p>Frontend Developer</p>
-
-            <div class="about-social-icons">
-
-                <a href="https://www.linkedin.com/in/sahil-kumar-896189340">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-
-                <a href="https://github.com/sahilkr2728">
-                    <i class="fab fa-github"></i>
-                </a>
-
-                <a href="https://www.instagram.com/sahil2728_">
-                    <i class="fab fa-instagram"></i>
-                </a>
-
+            <!-- MEMBER 3 -->
+            <div class="col">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white text-center p-3 transform-hover-container">
+                    <div class="overflow-hidden rounded-3 mb-3 aspect-square-box position-relative">
+                        <img src="{% static 'images/rahul.jpeg' %}" alt="Rahul Kumar" class="img-fluid w-100 h-100 object-fit-cover transition-scale">
+                    </div>
+                    <h5 class="fw-bold text-dark mb-1 fs-6">Rahul Kumar</h5>
+                    <p class="text-muted small mb-3">Head UI/UX Designer</p>
+                    <div class="d-flex justify-content-center gap-2 mt-auto pt-2 border-top-dashed">
+                        <a href="https://www.linkedin.com/in/rahul-kumar-1a92932a6" class="btn btn-sm btn-light text-primary rounded-circle social-btn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/iamrahulkyadav" class="btn btn-sm btn-light text-dark rounded-circle social-btn" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.instagram.com/rahul_kyadav953" class="btn btn-sm btn-light text-danger rounded-circle social-btn" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
             </div>
 
+            <!-- MEMBER 4 -->
+            <div class="col">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white text-center p-3 transform-hover-container">
+                    <div class="overflow-hidden rounded-3 mb-3 aspect-square-box position-relative">
+                        <img src="{% static 'images/sahil.jpeg' %}" alt="Sahil Kumar" class="img-fluid w-100 h-100 object-fit-cover transition-scale">
+                    </div>
+                    <h5 class="fw-bold text-dark mb-1 fs-6">Sahil Kumar</h5>
+                    <p class="text-muted small mb-3">Frontend Engineer</p>
+                    <div class="d-flex justify-content-center gap-2 mt-auto pt-2 border-top-dashed">
+                        <a href="https://www.linkedin.com/in/sahil-kumar-896189340" class="btn btn-sm btn-light text-primary rounded-circle social-btn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/sahilkr2728" class="btn btn-sm btn-light text-dark rounded-circle social-btn" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.instagram.com/sahil2728_" class="btn btn-sm btn-light text-danger rounded-circle social-btn" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
-
 </section>
 
+<!-- Embedded Styling Utilities for High-end CSS Tweaks -->
+<style>
+    .aspect-square-box {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* Perfect 1:1 Aspect Ratio */
+    }
+    .aspect-square-box img {
+        position: absolute;
+        top: 0; left: 0;
+    }
+    .hover-translate-y {
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .hover-translate-y:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.08)!important;
+    }
+    .transform-hover-container:hover .transition-scale {
+        transform: scale(1.05);
+    }
+    .transition-scale {
+        transition: transform 0.3s ease-in-out;
+    }
+    .border-top-dashed {
+        border-top: 1px dashed #e3e6f0;
+    }
+    .social-btn {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: all 0.2s ease;
+    }
+    .social-btn:hover {
+        background-color: #212529;
+        color: #fff !important;
+    }
+</style>
 {% endblock %}

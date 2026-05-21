@@ -209,3 +209,103 @@
     padding-top: 11px;
     padding-bottom: 11px;
 }
+
+
+.animated-dashboard-title{
+
+    font-size:2rem;
+
+    background:linear-gradient(
+        90deg,
+        #0d6efd,
+        #6f42c1,
+        #20c997
+    );
+
+    background-size:300% 300%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:
+        gradientMove 5s ease infinite,
+        floatText 3s ease-in-out infinite;
+
+    text-shadow:
+        0 0 15px rgba(13,110,253,.20);
+
+    transition:.3s;
+
+}
+
+.animated-dashboard-title:hover{
+
+    transform:scale(1.04);
+
+}
+
+.dashboard-subtitle{
+
+    color:#6c757d;
+    font-size:15px;
+
+    animation:
+        fadeInUp 1s ease;
+
+}
+
+@keyframes gradientMove{
+
+    0%{
+
+        background-position:0% 50%;
+
+    }
+
+    50%{
+
+        background-position:100% 50%;
+
+    }
+
+    100%{
+
+        background-position:0% 50%;
+
+    }
+
+}
+
+@keyframes floatText{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-4px);
+
+    }
+
+}
+
+@keyframes fadeInUp{
+
+    from{
+
+        opacity:0;
+        transform:translateY(12px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}

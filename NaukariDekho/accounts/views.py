@@ -56,9 +56,8 @@ def register(request):
                 password=form.cleaned_data['password']
             )
 
-            profile = user.profile
-            profile.role = role
-            profile.save()
+            # SAFE PROFILE CREATION (FIXED)
+            Profile.objects.create(user=user, role=role)
 
             messages.success(request, "Account created successfully")
             return redirect('login')
@@ -74,38 +73,48 @@ def register(request):
 # ==========================================
 def login_view(request):
 
+    # If already logged in
     if request.user.is_authenticated:
-        profile = Profile.objects.filter(user=request.user).first()
 
-        if profile and profile.role == 'user':
-            return redirect('user_dashboard')
-        elif profile and profile.role == 'recruiter':
+        if request.user.is_staff:
+            return redirect('/adminpanel/')
+
+        profile = getattr(request.user, 'profile', None)
+
+        if profile and profile.role == 'recruiter':
             return redirect('recruiter_dashboard')
 
+        return redirect('user_dashboard')
+
+    # LOGIN POST
     if request.method == 'POST':
+
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
 
-        if user:
+        if user is not None:
             login(request, user)
 
-            profile = Profile.objects.filter(user=user).first()
+            # ADMIN FIRST
+            if user.is_staff:
+                return redirect('admin_dashboard')
 
-            if profile and profile.role == 'user':
-                return redirect('user_dashboard')
-            elif profile and profile.role == 'recruiter':
+            profile = getattr(user, 'profile', None)
+
+            if profile and profile.role == 'recruiter':
                 return redirect('recruiter_dashboard')
 
-        else:
-            messages.error(request, "Invalid Username or Password")
+            return redirect('user_dashboard')
+
+        messages.error(request, "Invalid Username or Password")
 
     return render(request, 'login.html')
 
 
 # ==========================================
-# LOGOUT  ✅ (RESTORED)
+# LOGOUT
 # ==========================================
 def logout_view(request):
     logout(request)
@@ -127,6 +136,7 @@ def user_dashboard(request):
         'interview_count': applications.filter(status='accepted').count(),
     })
 
+
 # ==========================================
 # RECRUITER DASHBOARD
 # ==========================================
@@ -134,23 +144,24 @@ def user_dashboard(request):
 def recruiter_dashboard(request):
     return render(request, 'recruiter/recruiter_dashboard.html')
 
+
 # ==========================================
-# PROFILE VIEW (MAIN + FIXED COMPLETION)
+# PROFILE VIEW
 # ==========================================
 @login_required(login_url='login')
 def profile_view(request):
 
-    profile = request.user.profile
+    profile = getattr(request.user, 'profile', None)
 
     completion = calculate_profile_completion(profile)
 
     return render(request, 'user/profile.html', {
         'profile': profile,
-        'skills': profile.skills.all(),
-        'educations': profile.educations.all(),
-        'experiences': profile.experiences.all(),
-        'projects': profile.projects.all(),
-        'certifications': profile.certifications.all(),
+        'skills': profile.skills.all() if profile else [],
+        'educations': profile.educations.all() if profile else [],
+        'experiences': profile.experiences.all() if profile else [],
+        'projects': profile.projects.all() if profile else [],
+        'certifications': profile.certifications.all() if profile else [],
         'completion': completion,
         'active_page': 'overview'
     })
@@ -176,7 +187,6 @@ def edit_profile(request):
 
     return render(request, 'user/edit_profile.html', {
         'form': form,
-        # ADD THIS
         'active_page': 'edit_profile'
     })
 

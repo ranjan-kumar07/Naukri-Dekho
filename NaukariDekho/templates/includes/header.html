@@ -1,160 +1,26 @@
-{% comment %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-  <div class="container">
-
-    <a class="navbar-brand fw-bold" href="{% url 'home' %}">💼 Naukari Dekho</a>
-
-    {% if user.is_authenticated %}
-        <span class="text-white ms-3 username-animate">
-            👋 {{ user.username }}
-        </span>
-    {% endif %}
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-
-      <ul class="navbar-nav align-items-center">
-
-        <li class="nav-item me-3">
-          <a class="nav-link text-white" href="{% url 'home' %}">Home</a>
-        </li>
-
-        <li class="nav-item me-3">
-          <a class="nav-link text-white" href="#">Jobs</a>
-        </li>
-
-        {% if user.is_authenticated %}
-
-            <li class="nav-item me-2">
-                {% if user.profile.role == 'user' %}
-                    <a href="{% url 'user_dashboard' %}" class="btn btn-success btn-sm">Dashboard</a>
-                {% else %}
-                    <a href="{% url 'recruiter_dashboard' %}" class="btn btn-success btn-sm">Dashboard</a>
-                {% endif %}
-            </li>
-
-            <li class="nav-item">
-                <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
-            </li>
-
-        {% else %}
-
-            <li class="nav-item me-2">
-                <a href="{% url 'register' %}" class="btn btn-outline-light btn-sm">Register</a>
-            </li>
-
-            <li class="nav-item me-2">
-                <a href="{% url 'login' %}" class="btn btn-outline-info btn-sm">Login</a>
-            </li>
-
-        {% endif %}
-
-        <li class="nav-item">
-          <a href="/admin/" class="btn btn-warning btn-sm">Admin</a>
-        </li>
-
-      </ul>
-
-    </div>
-
-  </div>
-</nav> {% endcomment %}
-
-
-
-
-
-{% comment %} <!-- HEADER -->
-
-<div class="top-header">
-
-    <div class="title">
-
-        <span class="left-text">
-            Online Job
-        </span>
-
-        <span class="right-text">
-            Portal System
-        </span>
-
-    </div>
-
-    <div class="social-icons">
-
-        <i class="fab fa-x-twitter"></i>
-        <i class="fab fa-linkedin"></i>
-        <i class="fab fa-instagram"></i>
-        <i class="fab fa-facebook"></i>
-
-    </div>
-
-</div>
-
-<!-- NAVBAR -->
-
-<div class="navbar">
-
-    <div class="nav-left">
-        <i class="fa fa-briefcase"></i> Naukri Dekho
-    </div>
-
-    <div class="nav-links">
-        <a href="#" class="active"><i class="fa fa-home"></i> Home</a>
-        <a href="#"><i class="fa fa-briefcase"></i> Latest Jobs</a>
-        <a href="#"><i class="fa fa-user"></i> User Login</a>
-        <a href="#"><i class="fa fa-building"></i> Recruiter Login</a>
-        <a href="#"><i class="fa fa-lock"></i> Admin Login</a>
-        <a href="#"><i class="fa fa-phone"></i> Contact</a>
-    </div>
-
-</div> {% endcomment %}
-
-
-
-
-{% comment %} ------------------------------------- {% endcomment %}
-
 {% load static %}
 
 <!-- TOP HEADER -->
-
 <div class="top-header">
 
     <div class="title">
-
-        <span class="left-text">
-            Online Job
-        </span>
-
-        <span class="right-text">
-            Portal System
-        </span>
-
+        <span class="left-text">Online Job</span>
+        <span class="right-text">Portal System</span>
     </div>
 
     <div class="social-icons">
-
         <i class="fab fa-x-twitter"></i>
         <i class="fab fa-linkedin"></i>
         <i class="fab fa-instagram"></i>
         <i class="fab fa-facebook"></i>
-
     </div>
 
 </div>
 
 <!-- NAVBAR -->
-
 <div class="navbar">
 
     <!-- LEFT LOGO -->
-
     <div class="nav-left">
         <a href="{% url 'home' %}">
             <i class="fa fa-briefcase"></i> Naukri Dekho
@@ -162,60 +28,62 @@
     </div>
 
     <!-- RIGHT LINKS -->
-
     <div class="nav-links">
 
-        <a href="{% url 'home' %}" 
-            class="{% if request.path == '/' %}active{% endif %}">
+        <a href="{% url 'home' %}"
+           class="{% if request.path == '/' %}active{% endif %}">
             <i class="fa fa-home"></i> Home
         </a>
 
         <a href="{% url 'all_jobs' %}"
-        class="{% if request.path == '/jobs/' %}active{% endif %}">
-
+           class="{% if 'jobs' in request.path %}active{% endif %}">
             <i class="fa fa-briefcase"></i> Jobs
-
         </a>
 
         {% if user.is_authenticated %}
 
-            {% if user.profile.role == 'user' %}
+            {% if user.is_staff %}
 
-              <a href="{% url 'user_dashboard' %}"
-                class="{% if request.path == '/user-dashboard/' %}active{% endif %}">
-                <i class="fa fa-user"></i> Dashboard
-              </a>
+                <a href="{% url 'admin_dashboard' %}"
+                   class="{% if 'adminpanel' in request.path %}active{% endif %}">
+                    <i class="fa fa-shield"></i> Admin Panel
+                </a>
 
-            {% else %}
+            {% elif user.profile and user.profile.role == 'user' %}
 
-              <a href="{% url 'recruiter_dashboard' %}"
-                class="{% if request.path == '/recruiter_dashboard/' %}active{% endif %}"> 
-                <i class="fa fa-building"></i> Dashboard
-              </a>
+                <a href="{% url 'user_dashboard' %}"
+                   class="{% if 'user-dashboard' in request.path %}active{% endif %}">
+                    <i class="fa fa-user"></i> Dashboard
+                </a>
+
+            {% elif user.profile and user.profile.role == 'recruiter' %}
+
+                <a href="{% url 'recruiter_dashboard' %}"
+                   class="{% if 'recruiter' in request.path %}active{% endif %}">
+                    <i class="fa fa-building"></i> Dashboard
+                </a>
 
             {% endif %}
 
             <a href="{% url 'logout' %}">
-                <i class="fa fa-right-from-bracket"></i> Logout
+                <i class="fas fa-sign-out-alt"></i> Logout
             </a>
 
         {% else %}
 
-          <a href="{% url 'register' %}"
-            class="{% if request.path == '/register/' %}active{% endif %}">
-            <i class="fa fa-user-plus"></i> Register
-          </a>
+            <a href="{% url 'register' %}"
+               class="{% if 'register' in request.path %}active{% endif %}">
+                <i class="fa fa-user-plus"></i> Register
+            </a>
 
-          <a href="{% url 'login' %}"
-            class="{% if request.path == '/login/' %}active{% endif %}">
-            <i class="fa fa-right-to-bracket"></i> Login
-          </a>
+            <a href="{% url 'login' %}"
+               class="{% if 'login' in request.path %}active{% endif %}">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+
+            
 
         {% endif %}
-
-        <a href="/admin/">
-            <i class="fa fa-lock"></i> Admin
-        </a>
 
     </div>
 

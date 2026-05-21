@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- HEADER NAVIGATION -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h2 class="fw-bold tracking-tight text-dark mb-1">Jobs Management</h2>
+            <p class="text-secondary small mb-0">Monitor platform job listings, track user interaction metrics, and manage live inventory.</p>
+        </div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-white btn-sm border shadow-sm px-3 py-2 rounded-3 text-secondary hover-dark">
+            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+
+    <!-- MAIN DATA CONTROL & WORKSPACE CARD -->
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+        
+        <!-- INTEGRATED FILTERS & CONTROLS -->
+        <div class="card-header bg-white border-bottom p-4">
+            <form method="GET">
+                <div class="row g-3">
+                    <div class="col-12 col-lg-7">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-secondary pe-2">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text"
+                                   name="q"
+                                   value="{{ query }}"
+                                   class="form-control bg-light border-start-0 ps-1"
+                                   placeholder="Search title, recruiter, company, or location...">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8 col-lg-3">
+                        <select name="status" class="form-select bg-light">
+                            <option value="">All Statuses</option>
+                            <option value="active" {% if status == 'active' %}selected{% endif %}>Active Listings</option>
+                            <option value="expired" {% if status == 'expired' %}selected{% endif %}>Expired Listings</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2">
+                        <button type="submit" class="btn btn-primary w-100 fw-medium shadow-sm">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- RESPONSIVE TABLE LAYER -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 custom-table">
+                <thead class="table-light text-uppercase tracking-wider small fw-bold text-secondary">
+                    <tr>
+                        <th class="ps-4" style="width: 70px;">#</th>
+                        <th>Job Summary</th>
+                        <th>Organization & Venue</th>
+                        <th>Posted By</th>
+                        <th class="text-center">Applicants</th>
+                        <th>Status</th>
+                        <th>Closing Date</th>
+                        <th class="text-end pe-4" style="width: 130px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <!-- INDEX COUNTER -->
+                        <td class="ps-4 text-secondary font-monospace">{{ forloop.counter }}</td>
+
+                        <!-- JOB META SUMMARY -->
+                        <td>
+                            <div>
+                                <h6 class="mb-0 fw-semibold text-dark">{{ job.job.title }}</h6>
+                                <span class="text-secondary opacity-75 small">Posted {{ job.job.created_at|date:"d M Y" }}</span>
+                            </div>
+                        </td>
+
+                        <!-- ENTERPRISE / LOCATION -->
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span class="text-dark fw-medium fs-7.5">{{ job.job.company }}</span>
+                                <span class="text-muted small d-inline-flex align-items-center gap-1">
+                                    <i class="bi bi-geo-alt opacity-75"></i>{{ job.job.location }}
+                                </span>
+                            </div>
+                        </td>
+
+                        <!-- RECRUITER ASSIGNMENT -->
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-sm-placeholder bg-light rounded-circle text-secondary d-none d-sm-flex align-items-center justify-content-center border">
+                                    <i class="bi bi-person small"></i>
+                                </div>
+                                <span class="text-secondary small fw-medium">{{ job.job.recruiter.username }}</span>
+                            </div>
+                        </td>
+
+                        <!-- METRIC METERS -->
+                        <td class="text-center">
+                            <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-1.5 fw-semibold border border-primary-subtle fs-7">
+                                {{ job.applications }}
+                            </span>
+                        </td>
+
+                        <!-- LIFE STATE STATS -->
+                        <td>
+                            {% if job.expired %}
+                            <span class="badge bg-danger-subtle text-danger px-2.5 py-1.5 rounded-2 fw-medium border border-danger-subtle d-inline-flex align-items-center gap-1.5">
+                                <span class="status-dot bg-danger"></span> Expired
+                            </span>
+                            {% else %}
+                            <span class="badge bg-success-subtle text-success px-2.5 py-1.5 rounded-2 fw-medium border border-success-subtle d-inline-flex align-items-center gap-1.5">
+                                <span class="status-dot bg-success"></span> Active
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- TARGET CLOSING TIMEFRAME -->
+                        <td>
+                            <span class="text-secondary small font-monospace fw-medium">
+                                {{ job.job.application_deadline|date:"d M Y" }}
+                            </span>
+                        </td>
+
+                        <!-- CONTEXTUAL DIRECT DELETION -->
+                        <td class="text-end pe-4">
+                            <a href="{% url 'delete_job' job.job.id %}"
+                               class="btn btn-sm btn-outline-danger px-2.5 py-1.5 rounded-2 d-inline-flex align-items-center gap-1"
+                               onclick="return confirm('Are you sure you want to permanently delete this job listing?')">
+                                <i class="bi bi-trash3 small"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-5">
+                            <div class="text-secondary mb-2">
+                                <i class="bi bi-briefcase-dash display-6 opacity-50"></i>
+                            </div>
+                            <p class="text-muted mb-0">No job roles match your current search configuration or filter scope.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- COMPONENT ISOLATED LAYER ARCHITECTURE OVERRIDES -->
+<style>
+    .tracking-tight { letter-spacing: -0.025em; }
+    .tracking-wider { letter-spacing: 0.04em; }
+    .fs-7 { font-size: 0.75rem; }
+    .fs-7.5 { font-size: 0.825rem; }
+    
+    .btn-white {
+        background-color: #ffffff;
+        color: #495057;
+    }
+    .btn-white:hover {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+    
+    .avatar-sm-placeholder {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+    }
+
+    .custom-table th {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        border-bottom-width: 1px;
+    }
+    .custom-table td {
+        padding-top: 1.15rem;
+        padding-bottom: 1.15rem;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    
+    .badge {
+        font-size: 0.8rem;
+    }
+</style>
+{% endblock %}

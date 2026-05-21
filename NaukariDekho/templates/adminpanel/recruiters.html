@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- HEADER NAVIGATION -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h2 class="fw-bold tracking-tight text-dark mb-1">Recruiter Management</h2>
+            <p class="text-secondary small mb-0">Monitor recruiter performance, manage platform status, and track historical conversions.</p>
+        </div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-white btn-sm border shadow-sm px-3 py-2 rounded-3 text-secondary hover-dark">
+            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+
+    <!-- MAIN DATA CONTROL & TABLE CARD -->
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+        
+        <!-- INTEGRATED SEARCH & FILTERS -->
+        <div class="card-header bg-white border-bottom p-4">
+            <form method="GET">
+                <div class="row g-3">
+                    <div class="col-12 col-md-10">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-secondary pe-2">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text"
+                                   name="q"
+                                   value="{{ query }}"
+                                   class="form-control bg-light border-start-0 ps-1"
+                                   placeholder="Search recruiters by name, enterprise name, or email...">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <button type="submit" class="btn btn-primary w-100 fw-medium shadow-sm">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- RESPONSIVE TABLE LAYER -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 custom-table">
+                <thead class="table-light text-uppercase tracking-wider small fw-bold text-secondary">
+                    <tr>
+                        <th class="ps-4" style="width: 70px;">#</th>
+                        <th>Recruiter Profile</th>
+                        <th>Email Address</th>
+                        <th class="text-center">Active Jobs</th>
+                        <th class="text-center">Applicants</th>
+                        <th class="text-center">Hired</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4" style="width: 140px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recruiter in recruiters %}
+                    <tr>
+                        <!-- SERIAL INDEX -->
+                        <td class="ps-4 text-secondary font-monospace">{{ forloop.counter }}</td>
+
+                        <!-- IDENTIFIER -->
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="avatar-placeholder bg-light rounded-circle text-primary fw-semibold d-none d-sm-flex align-items-center justify-content-center">
+                                    {{ recruiter.profile.user.username|slice:":1"|upper }}
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-semibold text-dark">{{ recruiter.profile.user.username }}</h6>
+                                    <span class="text-secondary opacity-75 small">Joined {{ recruiter.profile.user.date_joined|date:"d M Y" }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- EMAIL -->
+                        <td class="text-secondary small">{{ recruiter.profile.user.email }}</td>
+
+                        <!-- DATA POINTS -->
+                        <td class="text-center">
+                            <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-1.5 fw-semibold border border-primary-subtle fs-7">
+                                {{ recruiter.jobs }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge rounded-pill bg-info-subtle text-info px-3 py-1.5 fw-semibold border border-info-subtle fs-7">
+                                {{ recruiter.applications }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge rounded-pill bg-success-subtle text-success px-3 py-1.5 fw-semibold border border-success-subtle fs-7">
+                                {{ recruiter.accepted }}
+                            </span>
+                        </td>
+
+                        <!-- STATUS STATE -->
+                        <td>
+                            {% if recruiter.active %}
+                            <span class="badge bg-success-subtle text-success px-2.5 py-1.5 rounded-2 fw-medium border border-success-subtle d-inline-flex align-items-center gap-1.5">
+                                <span class="status-dot bg-success"></span> Active
+                            </span>
+                            {% else %}
+                            <span class="badge bg-danger-subtle text-danger px-2.5 py-1.5 rounded-2 fw-medium border border-danger-subtle d-inline-flex align-items-center gap-1.5">
+                                <span class="status-dot bg-danger"></span> Disabled
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- CONTEXTUAL CONTROLS -->
+                        <td class="text-end pe-4">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-white border rounded-2 px-2.5 py-1.5 text-secondary dropdown-toggle dropdown-nocaret"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    Manage <i class="bi bi-chevron-down ms-1 small opacity-75"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-light rounded-3 mt-1">
+                                    <li>
+                                        <a class="dropdown-item py-2" href="{% url 'change_role' recruiter.profile.id 'user' %}">
+                                            <i class="bi bi-person me-2 text-primary"></i> Demote to Regular User
+                                        </a>
+                                    </li>
+                                    
+                                    {% if not recruiter.admin %}
+                                    <li>
+                                        <a class="dropdown-item py-2" href="{% url 'make_admin' recruiter.profile.user.id %}">
+                                            <i class="bi bi-shield-lock me-2 text-dark"></i> Upgrade to Admin
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% if recruiter.admin %}
+                                    <li>
+                                        <a class="dropdown-item py-2 text-warning" href="{% url 'remove_admin' recruiter.profile.user.id %}">
+                                            <i class="bi bi-shield-slash me-2"></i> Strip Admin Rights
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item py-2 text-danger" 
+                                           href="{% url 'delete_user' recruiter.profile.user.id %}"
+                                           onclick="return confirm('Are you sure you want to permanently purge this recruiter account?')">
+                                            <i class="bi bi-trash3 me-2"></i> Delete Recruiter
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-5">
+                            <div class="text-secondary mb-2">
+                                <i class="bi bi-building-dash display-6 opacity-50"></i>
+                            </div>
+                            <p class="text-muted mb-0">No recruiters match your current search query parameters.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- STYLESHEET LAYOVER OVERRIDES -->
+<style>
+    .tracking-tight { letter-spacing: -0.025em; }
+    .tracking-wider { letter-spacing: 0.04em; }
+    .fs-7 { font-size: 0.75rem; }
+    
+    .btn-white {
+        background-color: #ffffff;
+        color: #495057;
+    }
+    .btn-white:hover {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+    
+    .avatar-placeholder {
+        width: 38px;
+        height: 38px;
+        font-size: 0.875rem;
+        flex-shrink: 0;
+    }
+
+    .custom-table th {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        border-bottom-width: 1px;
+    }
+    .custom-table td {
+        padding-top: 1.15rem;
+        padding-bottom: 1.15rem;
+    }
+
+    .dropdown-nocaret::after {
+        display: none !important;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    
+    .badge {
+        font-size: 0.8rem;
+    }
+</style>
+{% endblock %}

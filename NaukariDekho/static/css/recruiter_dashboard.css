@@ -30,11 +30,9 @@
 
     min-height: calc(100vh - 48px);
 
-    background: linear-gradient(
-        185deg,
-        #1e293b 0%,
-        #0f172a 100%
-    );
+    background: linear-gradient(185deg,
+            #1e293b 0%,
+            #0f172a 100%);
 
     border-radius: 24px;
 
@@ -42,7 +40,7 @@
 
     box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
 
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 
 }
 
@@ -54,7 +52,7 @@
 
     padding: 10px 24px 24px;
 
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
 }
 
@@ -98,9 +96,9 @@
 
     object-fit: cover;
 
-    border: 3px solid rgba(255,255,255,0.15);
+    border: 3px solid rgba(255, 255, 255, 0.15);
 
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 
     transition: all 0.3s ease;
 
@@ -124,7 +122,7 @@
 
     inset: 0;
 
-    background: rgba(0,0,0,0.55);
+    background: rgba(0, 0, 0, 0.55);
 
     border-radius: 50%;
 
@@ -211,7 +209,7 @@
     color: #64748b;
 
     transition: transform 0.3s ease,
-                color 0.3s ease;
+        color 0.3s ease;
 
 }
 
@@ -219,7 +217,7 @@
 
 .dashboard-link:hover:not(.active) {
 
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
 
     color: #f8fafc;
 
@@ -239,19 +237,17 @@
 
 .dashboard-link.active {
 
-    background: linear-gradient(
-        90deg,
-        rgba(59,130,246,0.15) 0%,
-        rgba(59,130,246,0.03) 100%
-    );
+    background: linear-gradient(90deg,
+            rgba(59, 130, 246, 0.15) 0%,
+            rgba(59, 130, 246, 0.03) 100%);
 
     color: #3b82f6 !important;
 
     font-weight: 600;
 
-    border: 1px solid rgba(59,130,246,0.25);
+    border: 1px solid rgba(59, 130, 246, 0.25);
 
-    box-shadow: inset 0 0 12px rgba(59,130,246,0.1);
+    box-shadow: inset 0 0 12px rgba(59, 130, 246, 0.1);
 
 }
 
@@ -293,9 +289,9 @@
 
 .btn-logout {
 
-    background: rgba(239,68,68,0.1);
+    background: rgba(239, 68, 68, 0.1);
 
-    border: 1px solid rgba(239,68,68,0.2);
+    border: 1px solid rgba(239, 68, 68, 0.2);
 
     color: #ef4444;
 
@@ -319,7 +315,7 @@
 
     transform: translateY(-2px);
 
-    box-shadow: 0 8px 20px rgba(239,68,68,0.3);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
 
 }
 
@@ -329,15 +325,15 @@
 
 .dashboard-card {
 
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 
     border-radius: 16px;
 
     background: #ffffff;
 
     box-shadow:
-        0 4px 6px -1px rgba(0,0,0,0.05),
-        0 2px 4px -1px rgba(0,0,0,0.03);
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 2px 4px -1px rgba(0, 0, 0, 0.03);
 
     transition: all 0.3s ease;
 
@@ -348,8 +344,8 @@
     transform: translateY(-4px);
 
     box-shadow:
-        0 20px 25px -5px rgba(0,0,0,0.1),
-        0 10px 10px -5px rgba(0,0,0,0.04);
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -357,7 +353,7 @@
    RESPONSIVE
 ================================ */
 
-@media(max-width: 768px){
+@media(max-width: 768px) {
 
     .sidebar {
 
@@ -369,6 +365,61 @@
 
         min-height: auto;
 
+    }
+
+}
+
+.animated-name {
+    font-size: 2rem;
+    background: linear-gradient(90deg,
+            #0d6efd,
+            #6f42c1,
+            #20c997);
+
+    background-size: 300% 300%;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation:
+        gradientMove 5s ease infinite,
+        floatText 3s ease-in-out infinite;
+
+    text-shadow:
+        0 0 15px rgba(13, 110, 253, .25);
+
+    transition: transform .3s ease;
+}
+
+.animated-name:hover {
+    transform: scale(1.05);
+}
+
+@keyframes gradientMove {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+
+}
+
+@keyframes floatText {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-4px);
     }
 
 }
