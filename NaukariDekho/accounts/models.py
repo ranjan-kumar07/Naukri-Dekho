@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 # ==========================================
 # PROFILE MODEL
 # ==========================================
-
 class Profile(models.Model):
 
     ROLE_CHOICES = (

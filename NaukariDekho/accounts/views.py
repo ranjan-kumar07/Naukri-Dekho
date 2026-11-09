@@ -27,6 +27,7 @@ from jobs.models import Application
 from .utils import calculate_profile_completion
 
 
+
 # ==========================================
 # REGISTER
 # ==========================================
@@ -56,8 +57,10 @@ def register(request):
                 password=form.cleaned_data['password']
             )
 
-            # SAFE PROFILE CREATION (FIXED)
-            Profile.objects.create(user=user, role=role)
+            # Update profile created by signal
+            profile = user.profile
+            profile.role = role
+            profile.save()
 
             messages.success(request, "Account created successfully")
             return redirect('login')

@@ -11,6 +11,85 @@
 
 {% block content %}
 
+
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h2 class="login-title">
+            Welcome Back
+        </h2>
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert alert-danger alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Username
+                </label>
+
+                <input type="text"
+                       name="username"
+                       class="form-control"
+                       placeholder="Enter Username">
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Password
+                </label>
+
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Enter Password">
+
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
 <style>
 
     body{
@@ -140,82 +219,4 @@
     }
 
 </style>
-
-<div class="login-container">
-
-    <div class="login-card">
-
-        <h2 class="login-title">
-            Welcome Back
-        </h2>
-
-        {% if messages %}
-
-            {% for message in messages %}
-
-                <div class="alert alert-danger alert-dismissible fade show">
-
-                    {{ message }}
-
-                    <button type="button"
-                            class="btn-close btn-close-white"
-                            data-bs-dismiss="alert">
-                    </button>
-
-                </div>
-
-            {% endfor %}
-
-        {% endif %}
-
-        <form method="POST">
-
-            {% csrf_token %}
-
-            <div class="mb-3">
-
-                <label class="form-label">
-                    Username
-                </label>
-
-                <input type="text"
-                       name="username"
-                       class="form-control"
-                       placeholder="Enter Username">
-
-            </div>
-
-            <div class="mb-4">
-
-                <label class="form-label">
-                    Password
-                </label>
-
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Enter Password">
-
-            </div>
-
-            <button type="submit" class="login-btn">
-                Login
-            </button>
-
-        </form>
-
-        <p class="bottom-text">
-
-            Don't have an account?
-
-            <a href="{% url 'register' %}">
-                Register
-            </a>
-
-        </p>
-
-    </div>
-
-</div>
-
 {% endblock %}
