@@ -1,0 +1,133 @@
+/* STICKY CONFIGURATION WITH EXPLICIT COLUMN SCALE FORSIDEBAR ELEMENTS */
+.navigation-sidebar {
+    position: sticky !important;
+    top: 2rem;
+    z-index: 1010;
+}
+
+/* SIDEBAR TITLE HEADING CAPTION LOGIC */
+.sidebar-heading {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+    padding-left: 10px;
+}
+
+/* SIDEBAR ITEM SELECTION ANIMATION TRACK TRANSITIONS */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    color: #4b5563 !important;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+
+.sidebar-link i {
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+/* HOVER FEEDBACK ACCENTS CONTROLLER DECORATIONS */
+.sidebar-link:hover {
+    background: #f5f7ff;
+    color: #4f46e5 !important;
+}
+
+/* ACTIVE HIGHLIGHT STATE ENGINE GRADIENTS */
+.sidebar-link.active {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #ffffff !important;
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.22);
+    font-weight: 600;
+}
+
+/* BACK NAVIGATION LINK SELECTIONS BUTTONS CSS ENGINE rules */
+
+/* BACK BUTTON / DASHBOARD NAVIGATION */
+
+.dashboard-btn {
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 16px;
+
+    border-radius: 14px;
+
+    text-decoration: none !important;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: all .25s ease;
+
+    background: #ffffff;
+
+    border: 1px solid #eef2f7;
+
+}
+
+.dashboard-btn i {
+
+    font-size: 18px;
+
+    transition: .25s ease;
+
+}
+
+/* HOVER */
+
+.dashboard-btn:hover {
+
+    background: linear-gradient(135deg,
+            #4f46e5,
+            #7c3aed);
+
+    color: #ffffff !important;
+
+    border-color: transparent;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(79, 70, 229, .22);
+
+}
+
+/* ICON ANIMATION */
+
+.dashboard-btn:hover i {
+
+    transform: translateX(-3px);
+
+}
+
+/* CLICK EFFECT */
+
+.dashboard-btn:active {
+
+    transform: scale(.98);
+
+}
+
+/* ACTION CARD HOVER SCALING TWEAKS */
+.transition-action {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-panel-card:hover .transition-action {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: #4f46e5 !important;
+}

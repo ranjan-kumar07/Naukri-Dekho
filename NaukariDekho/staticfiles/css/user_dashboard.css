@@ -1,0 +1,311 @@
+/* sidebar start */
+/* side bar  */
+.profile-img-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-img {
+    object-fit: cover;
+    transition: 0.3s ease;
+}
+
+.profile-img-label {
+    cursor: pointer;
+    position: relative;
+}
+
+/* HOVER OVERLAY */
+.profile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: 0.3s ease;
+
+    font-size: 12px;
+}
+
+/* Hover effect */
+.profile-img-label:hover .profile-overlay {
+    opacity: 1;
+}
+
+.profile-img-label:hover .profile-img {
+    transform: scale(1.05);
+}
+
+/* side bar end */
+/* sidebar end */
+.sidebar {
+    min-height: 100vh;
+    padding: 20px;
+    background: #f4f7fc;
+}
+
+.sidebar-wrapper {
+    min-height: calc(100vh - 40px);
+    background: linear-gradient(180deg, #1e293b, #0f172a);
+    border-radius: 30px;
+    padding: 20px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-top {
+    padding: 30px 20px;
+}
+
+/* <!-- PROFILE IMAGE FIX --> */
+.profile-img-wrapper {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.profile-img-label {
+
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+}
+
+.profile-img {
+
+    width: 95px;
+    height: 95px;
+    min-width: 95px;
+    min-height: 95px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 3px solid rgba(255, 255, 255, 0.15);
+
+    transition: 0.3s ease;
+
+}
+
+/* Prevent oval/stretch issue */
+
+.profile-img img {
+
+    object-fit: cover;
+
+}
+
+.profile-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    border-radius: 50%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    opacity: 0;
+
+    transition: 0.3s ease;
+
+    font-size: 0.8rem;
+
+}
+
+.profile-img-label:hover .profile-overlay {
+
+    opacity: 1;
+
+}
+
+.profile-img-label:hover .profile-img {
+
+    transform: scale(1.04);
+
+}
+
+
+.dashboard-link {
+    color: white;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    text-decoration: none;
+    /* Removes any browser default link underlines */
+}
+
+.dashboard-link i {
+    font-size: 18px;
+    color: white;
+}
+
+.dashboard-link:hover {
+    background: #0d6efd;
+    color: white;
+    transform: translateX(5px);
+}
+
+.dashboard-link:hover i {
+    color: white;
+}
+
+/* Premium Logout Button Styling */
+.btn-logout-custom {
+    background: rgba(239, 68, 68, 0.15);
+    /* Soft semi-transparent red */
+    color: #fca5a5 !important;
+    /* Muted pastel red text */
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-logout-custom:hover {
+    background: #ef4444;
+    /* Solid premium red on hover */
+    color: white !important;
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Matching form layout vertical button paddings */
+.py-2-5 {
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
+
+.animated-dashboard-title{
+
+    font-size:2rem;
+
+    background:linear-gradient(
+        90deg,
+        #0d6efd,
+        #6f42c1,
+        #20c997
+    );
+
+    background-size:300% 300%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:
+        gradientMove 5s ease infinite,
+        floatText 3s ease-in-out infinite;
+
+    text-shadow:
+        0 0 15px rgba(13,110,253,.20);
+
+    transition:.3s;
+
+}
+
+.animated-dashboard-title:hover{
+
+    transform:scale(1.04);
+
+}
+
+.dashboard-subtitle{
+
+    color:#6c757d;
+    font-size:15px;
+
+    animation:
+        fadeInUp 1s ease;
+
+}
+
+@keyframes gradientMove{
+
+    0%{
+
+        background-position:0% 50%;
+
+    }
+
+    50%{
+
+        background-position:100% 50%;
+
+    }
+
+    100%{
+
+        background-position:0% 50%;
+
+    }
+
+}
+
+@keyframes floatText{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-4px);
+
+    }
+
+}
+
+@keyframes fadeInUp{
+
+    from{
+
+        opacity:0;
+        transform:translateY(12px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}

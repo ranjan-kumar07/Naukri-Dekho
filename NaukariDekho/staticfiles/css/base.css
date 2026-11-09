@@ -1,0 +1,177 @@
+/* ================= GLOBAL RESET ================= */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+/* ================= GLOBAL BODY THEME ================= */
+
+body {
+
+    font-family: 'Segoe UI', sans-serif;
+
+    background:
+
+        radial-gradient(circle at top left,
+            rgba(123, 47, 247, 0.10),
+            transparent 25%),
+
+        radial-gradient(circle at bottom right,
+            rgba(0, 198, 255, 0.10),
+            transparent 25%),
+
+        linear-gradient(135deg,
+            #f8fafc,
+            #eef2ff,
+            #dbeafe);
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    color: #111827;
+
+    position: relative;
+
+}
+
+/* ================= PREMIUM GLOW EFFECTS ================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    width: 350px;
+
+    height: 350px;
+
+    background: #7b2ff7;
+
+    top: -120px;
+
+    left: -120px;
+
+    border-radius: 50%;
+
+    opacity: 0.08;
+
+    filter: blur(90px);
+
+    z-index: -1;
+
+}
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+
+    width: 350px;
+
+    height: 350px;
+
+    background: #00c6ff;
+
+    bottom: -120px;
+
+    right: -120px;
+
+    border-radius: 50%;
+
+    opacity: 0.08;
+
+    filter: blur(90px);
+
+    z-index: -1;
+
+}
+
+/* ================= IMAGE RESPONSIVE ================= */
+
+img {
+
+    max-width: 100%;
+
+    height: auto;
+
+}
+
+/* ================= SMOOTH SCROLL ================= */
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+/* ================= GLOBAL CARD STYLE ================= */
+
+.card {
+
+    border: none;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    overflow: hidden;
+
+}
+
+/* ================= GLOBAL BUTTON TRANSITIONS ================= */
+
+button,
+.btn {
+
+    transition: all 0.3s ease;
+
+}
+
+/* ================= GLOBAL INPUT DESIGN ================= */
+
+input,
+textarea,
+select {
+
+    border-radius: 14px !important;
+
+    padding: 12px 16px !important;
+
+    border: 1px solid #dbeafe !important;
+
+    box-shadow: none !important;
+
+}
+
+/* INPUT FOCUS */
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color: #7b2ff7 !important;
+
+    box-shadow:
+        0 0 0 4px rgba(123, 47, 247, 0.12) !important;
+
+}
+
+/* ================= SECTION SPACING ================= */
+
+section {
+
+    position: relative;
+
+    z-index: 1;
+
+}
